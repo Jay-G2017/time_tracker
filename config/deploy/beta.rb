@@ -1,4 +1,4 @@
-server '192.168.50.184', user: 'ec2-user', roles: [:app], :primary => true
+server "time_tracker", roles: [:app], :primary => true
 set :deploy_to, "/var/www/time_tracker_beta/"
 set :rails_env, 'development'
 set :branch, 'beta'
@@ -8,7 +8,6 @@ set :listen_port, 12600
 
 set :pid_file, "#{deploy_to}/current/tmp/pids/unicorn.pid"
 set :unicorn_config_file, "#{current_path}/config/unicorn.rb"
-
 
 # server-based syntax
 # ======================
