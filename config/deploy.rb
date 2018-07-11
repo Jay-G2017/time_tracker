@@ -5,9 +5,10 @@ set :application, "time_tracker"
 set :repo_url, "git@github.com:Jay-G2017/time_tracker.git"
 
 set :rvm_ruby_version, '2.4.1'
+set :rvm_custom_path, '/usr/share/rvm'
 
-append :linked_files, "config/database.yml", "config/secrets.yml"
-append :linked_dirs, "log", "tmp/pids", "tmp/cache"
+append :linked_files, 'config/database.yml', 'config/secrets.yml'
+append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache'
 
 namespace :deploy do
   task :start do

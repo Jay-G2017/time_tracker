@@ -8,7 +8,9 @@ gem 'rails', '~> 5.2.0'
 # Use mysql as the database for Active Record
 gem 'mysql2', '>= 0.4.4', '< 0.6.0'
 # Use Puma as the app server
-gem 'puma', '~> 3.11'
+gem 'unicorn'
+gem 'unicorn-worker-killer'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -55,6 +57,10 @@ group :development do
   gem 'pry'
   gem "capistrano", "~> 3.11", require: false
   gem "capistrano-rails", "~> 1.4", require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano-rvm', require: false
+  gem 'capistrano-git-copy', '1.2.0', require: false
+  gem 'capistrano-sidekiq', github: 'seuros/capistrano-sidekiq'
 end
 
 group :test do
