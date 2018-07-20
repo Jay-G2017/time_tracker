@@ -1,0 +1,17 @@
+.sidebar
+  .pinned-projects
+    %p 置顶的项目
+    %ul 
+      %li
+        = link_to @active_show_project.name, project_path(@active_show_project)
+
+  .category-zone
+    %p 所有的分类
+    %ul
+      - @categories.each do |category|
+        %li
+          = link_to category.name
+          - category.projects.each do |project|
+            %ol
+              %li
+                = link_to project.name

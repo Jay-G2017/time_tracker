@@ -1,6 +1,7 @@
 class ProjectsController < ApplicationController
   def index
-    @projects = Project.all
+    @categories = Category.includes(:projects).all
+    @active_show_project = Project.first
   end
 
   def show

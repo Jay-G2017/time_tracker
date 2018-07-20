@@ -1,16 +1,5 @@
-%h2 All Projects
-.search-todo
-  = text_field_tag 'search-todo'
-  %button#search-todo-button search todo
-%ul
-  - @projects.each do |project|
-    %li
-      = link_to project.name, project_path(project)
+.project-container
+  = render 'sidebar'
+  = render 'project', project: @active_show_project
 
-:javascript
-  $(function() {
-    $('#search-todo-button').on('click', function() {
-      var todo = $(this).parent().find('input#search-todo').val();
-      alert(todo);
-    });
-  });
+
