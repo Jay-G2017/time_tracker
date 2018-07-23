@@ -1,9 +1,11 @@
 class ProjectsController < ApplicationController
   def index
-    @projects = Project.all
+    @categories = Category.includes(:projects).all
+    @active_show_project = Project.first
   end
 
   def show
-    @project = Project.find params[:id]
+    project = Project.find params[:id]
+    render partial: 'project', locals: { project: project }
   end
 end
