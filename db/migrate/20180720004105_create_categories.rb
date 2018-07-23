@@ -5,9 +5,7 @@ class CreateCategories < ActiveRecord::Migration[5.2]
 
       t.timestamps
     end
-  end
 
-  def change
-    add_reference :projects, :category
+    add_column :projects, :category_id, :integer
   end
 end
