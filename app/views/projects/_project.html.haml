@@ -1,9 +1,8 @@
-.project-zone
-  %h3= project.name
-  .title-content
-    - project.titles.each do |title|
-      .title-area
-        .title-name= title.name
-        %ul
-          - title.todos.each do |todo|
-            %li.todo-list= todo.name
+%h3= project.name
+.title-content
+  - project.titles.each do |title|
+    .title-area
+      .title-name= title.name
+      %ul
+        - title.todos.each do |todo|
+          %li.todo-list= todo.name

@@ -1,5 +1,20 @@
 .project-container
-  = render 'sidebar'
-  = render 'project', project: @active_show_project
+  .sidebar
+    = render 'sidebar'
+  .project-zone
+    = render 'project', project: @active_show_project
+
+:javascript
+  $(function() {
+    $('a.project-link').on('click', function(e) {
+      e.preventDefault();
+      var project_id = $(this).attr('id');
+
+      var url = "/projects/" + project_id;
+      $.get(url, function(project_partial) {
+        $('.project-zone').html(project_partial);
+      });
+    });
+  })
 
 
