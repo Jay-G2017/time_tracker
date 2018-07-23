@@ -4,13 +4,17 @@
 
 .project-container {
   display: flex;
-  justify-content: space-around;
 
   .project-zone {
-    border: 1px solid green;
+    padding: 20px;
   }
 
   .sidebar {
-    border: 1px solid green;
+    padding: 20px;
+    border-right: 1px solid green;
+  }
+
+  .category-zone {
+    margin-top: 50px;
   }
 }
