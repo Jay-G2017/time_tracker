@@ -4,12 +4,14 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.authenticate(params[:email], params[:password])
-    if user
+    user = User.find_by_email(params[:email])
+    if user && user.authenticate(params[:password])
       session[:user_id] = user.id
+      # 可否跳到相应的url, 而不是写死的.
       redirect_to root_url, :notice => 'Logged in!'
     else
-      redirect_to sign_up_url
+      flash.now.alert = "帐户或密码错误!"
+      render 'new'
     end
   end
 
