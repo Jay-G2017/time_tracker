@@ -7,8 +7,10 @@ class SessionsController < ApplicationController
     user = User.find_by_email(params[:email])
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
-      # 可否跳到相应的url, 而不是写死的.
-      redirect_to root_url, :notice => 'Logged in!'
+      user.update(login_at: Time.now)
+      to_url = session[:to_url] ? session[:to_url] : root_url
+      redirect_to to_url, :notice => 'Logged in!'
+      session[:to_url] = nil
     else
       flash.now.alert = "帐户或密码错误!"
       render 'new'
