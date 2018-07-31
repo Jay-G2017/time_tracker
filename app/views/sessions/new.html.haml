@@ -1,0 +1,11 @@
+%h2 Log in
+
+= form_tag('/sessions', method: 'post') do 
+  .field
+    = label_tag(:email, 'Email:')
+    = text_field_tag(:email, params[:email])
+  .field
+    = label_tag(:password, 'Password:')
+    = password_field_tag(:password)
+  .actions
+    = submit_tag("Sign in")
