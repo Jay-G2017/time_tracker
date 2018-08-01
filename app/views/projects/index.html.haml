@@ -1,8 +1,10 @@
 .project-container
   .sidebar
     = render 'sidebar'
-  .project-zone
-    = render 'project', project: @pinned_projects.first
+  .project-show-area
+    .content
+      = render 'project', project: @pinned_projects.first if @pinned_projects.present?
+    = render 'action_bar'
 
 :javascript
   $(function() {
@@ -12,7 +14,17 @@
 
       var url = "/projects/" + project_id;
       $.get(url, function(project_partial) {
-        $('.project-zone').html(project_partial);
+        $('.project-show-area .content').html(project_partial);
+      });
+    });
+
+    // 新建title
+    $('#add-title-link').on('click', function(e) {
+      e.preventDefault();
+      var projectId = $('#project-id').attr('value');
+      url = 'projects/' + projectId + '/titles/new';
+      $.get(url, function(data) {
+        $('.title-content').append(data);
       });
     });
   })
