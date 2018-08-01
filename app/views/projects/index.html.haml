@@ -2,7 +2,7 @@
   .sidebar
     = render 'sidebar'
   .project-zone
-    = render 'project', project: @active_show_project
+    = render 'project', project: @pinned_projects.first
 
 :javascript
   $(function() {
