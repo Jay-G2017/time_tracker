@@ -3,7 +3,8 @@
   .title-content
     - project.titles.each do |title|
       .title-area
-        .title-name= title.name
+        - name = title.name.present? ? title.name : '默认标题'
+        .title-name= name
         %ul
           - title.todos.each do |todo|
             %li.todo-list= todo.name

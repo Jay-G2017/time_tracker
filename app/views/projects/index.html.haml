@@ -19,11 +19,31 @@
     });
 
     // 新建title
-    $('#add-title-link').on('click', function(e) {
+    $('#add-title-button').on('click', function(e) {
       e.preventDefault();
+      $(this).attr('disabled', true);
       var projectId = $('#project-id').attr('value');
-      url = 'projects/' + projectId + '/titles/new';
+      var url = 'projects/' + projectId + '/titles/new';
       $.get(url, function(data) {
+        $('.title-content').append(data);
+      });
+    });
+
+    // cancel create title
+    $('.title-content').on('click', '#cancel-title-button', function() {
+      $('form#new_title').remove();
+      $('#add-title-button').attr('disabled', false);
+    });
+
+
+    // create title
+    $('.title-content').on('click', '#create-title-button', function(e) {
+      e.preventDefault();
+      var newTitleForm = $('form#new_title')
+      var url = newTitleForm.attr('action');
+      $.post(url, newTitleForm.serialize(), function(data) {
+        newTitleForm.remove();
+        $('#add-title-button').attr('disabled', false);
         $('.title-content').append(data);
       });
     });
