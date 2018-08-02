@@ -1,9 +1,8 @@
-.project-container
+.container
   .sidebar
     = render 'sidebar'
-  .project-show-area
-    .content
-      = render 'project', project: @pinned_projects.first if @pinned_projects.present?
+  .project-container
+    = render 'project', project: @pinned_projects.first if @pinned_projects.present?
     = render 'action_bar'
 
 :javascript
@@ -14,7 +13,7 @@
 
       var url = "/projects/" + project_id;
       $.get(url, function(project_partial) {
-        $('.project-show-area .content').html(project_partial);
+        $('.project-content').html(project_partial);
       });
     });
 
@@ -25,28 +24,44 @@
       var projectId = $('#project-id').attr('value');
       var url = 'projects/' + projectId + '/titles/new';
       $.get(url, function(data) {
-        $('.title-content').append(data);
+        $('.project-content').append(data);
       });
     });
 
     // cancel create title
-    $('.title-content').on('click', '#cancel-title-button', function() {
+    $('.project-content').on('click', '#cancel-title-button', function() {
       $('form#new_title').remove();
       $('#add-title-button').attr('disabled', false);
     });
 
 
     // create title
-    $('.title-content').on('click', '#create-title-button', function(e) {
+    $('.project-content').on('click', '#create-title-button', function(e) {
       e.preventDefault();
       var newTitleForm = $('form#new_title')
       var url = newTitleForm.attr('action');
       $.post(url, newTitleForm.serialize(), function(data) {
         newTitleForm.remove();
         $('#add-title-button').attr('disabled', false);
-        $('.title-content').append(data);
+        $('.project-content').append(data);
       });
     });
+
+    // delete title
+    $('.project-content').on('click', '.delete-title-button', function() {
+      if(confirm('确定删除?')) {
+        var url = $(this).attr('url');
+        var titleContainer = $(this).parent();
+        $.ajax({
+          url: url,
+          type: 'delete'
+        }).done(function() {
+          titleContainer.remove();
+        });
+      }
+    });
+
+    // next
   })
 
 

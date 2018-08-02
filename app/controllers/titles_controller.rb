@@ -11,6 +11,12 @@ class TitlesController < ApplicationController
     render partial: 'show'
   end
 
+  def destroy
+    title = Title.find params[:id]
+    title.destroy!
+    render json: { success: true }
+  end
+
   private
   def title_params
     params.require(:title).permit(:name)
