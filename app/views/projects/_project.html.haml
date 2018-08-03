@@ -1,10 +1,7 @@
 .project-content#project-id{ value: project.id }
   %h3= project.name
   - project.titles.each do |title|
-    .title-container
-      - name = title.name.present? ? title.name : '默认标题'
-      .title-content= name
-      = button_tag '删除', { class: 'delete-title-button', value: title.id, url: project_title_path(project, title) }
+    = render 'shared/title_show', project: project, title: title
 
     %ul
       - title.todos.each do |todo|

@@ -17,8 +17,8 @@
       });
     });
 
-    // 新建title
-    $('#add-title-button').on('click', function(e) {
+    // new title
+    $('#new-title-button').on('click', function(e) {
       e.preventDefault();
       $(this).attr('disabled', true);
       var projectId = $('#project-id').attr('value');
@@ -29,11 +29,33 @@
     });
 
     // cancel create title
-    $('.project-content').on('click', '#cancel-title-button', function() {
+    $('.project-content').on('click', '#cancel-create-title-button', function() {
       $('form#new_title').remove();
-      $('#add-title-button').attr('disabled', false);
+      $('#new-title-button').attr('disabled', false);
     });
 
+    // cancel update title
+    $('.project-content').on('click', '#cancel-update-title-button', function() {
+      $('form.edit_title').remove();
+      var titleId = $(this).val();
+      $('#title-container-' + titleId).show();
+    });
+
+    // update title
+    $('.project-content').on('click', '#update-title-button', function() {
+      var editTitleForm = $('form.edit_title');
+      var url = editTitleForm.attr('action');
+      var titleId = $(this).val();
+
+      $.ajax({
+        type: 'patch',
+        url: url,
+        data: editTitleForm.serialize()
+      }).done(function(data) {
+        editTitleForm.remove();
+        $('#title-container-' + titleId).replaceWith(data);
+      });
+    });
 
     // create title
     $('.project-content').on('click', '#create-title-button', function(e) {
@@ -42,7 +64,7 @@
       var url = newTitleForm.attr('action');
       $.post(url, newTitleForm.serialize(), function(data) {
         newTitleForm.remove();
-        $('#add-title-button').attr('disabled', false);
+        $('#new-title-button').attr('disabled', false);
         $('.project-content').append(data);
       });
     });
@@ -59,6 +81,15 @@
           titleContainer.remove();
         });
       }
+    });
+
+    // edit title
+    $('.project-content').on('click', '.edit-title-button', function() {
+      var that = $(this);
+      var url = $(this).attr('url');
+      $.get(url, function(data) {
+        that.parent().hide().after(data);
+      });
     });
 
     // next
