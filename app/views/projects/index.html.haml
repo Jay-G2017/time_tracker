@@ -85,6 +85,10 @@
 
     // edit title
     $('.project-content').on('click', '.edit-title-button', function() {
+      // 移掉其它的编辑框
+      $('form.edit_title').remove();
+      $('.title-container').show();
+
       var that = $(this);
       var url = $(this).attr('url');
       $.get(url, function(data) {
