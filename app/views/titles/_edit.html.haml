@@ -1,4 +1,4 @@
 = form_for [@project, @title] do |f|
-  = f.text_field :name
+  = f.text_field :name, { id: 'update-title-input' }
   = f.button('更新', { id: 'update-title-button', value: @title.id, type: 'button' })
   = f.button('取消', { id: 'cancel-update-title-button', value: @title.id, type: 'button' })

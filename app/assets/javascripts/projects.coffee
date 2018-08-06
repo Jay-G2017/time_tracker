@@ -76,4 +76,16 @@ $ ->
       .done ->
         title_container.remove()
 
+  # bind enter key for update title
+  $('.project-content').on 'keypress', '#update-title-input', (e) ->
+    if e.which == 13
+      e.preventDefault()
+      $('#update-title-button').click() 
+
+# bind enter key for create title
+  $('.project-content').on 'keypress', '#create-title-input', (e) ->
+    if e.which == 13
+      e.preventDefault()
+      $('#create-title-button').click()
+
 
