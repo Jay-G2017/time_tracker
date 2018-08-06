@@ -47,7 +47,6 @@ $ ->
     edit_title_form = $('form.edit_title')
     url = edit_title_form.attr 'action'
     title_id = $(this).val()
-
     $.ajax
       type: 'patch'
       url: url
@@ -55,5 +54,26 @@ $ ->
      .done (data) ->
        edit_title_form.remove()
        $('#title-container-' + title_id).replaceWith(data)
+
+  # create title
+  $('.project-content').on 'click', '#create-title-button', (e) ->
+    e.preventDefault()
+    new_title_form = $('form#new_title')
+    url = new_title_form.attr 'action'
+    $.post url, new_title_form.serialize(), (data) ->
+      new_title_form.remove()
+      $('#new-title-button').attr 'disabled', false
+      $('.project-content .body').append(data)
+
+  # delete title
+  $('.project-content').on 'click', '.delete-title-button', ->
+    if confirm('确定删除吗?')
+      url = $(this).attr 'url'
+      title_container = $(this).parent()
+      $.ajax
+        url: url
+        type: 'delete'
+      .done ->
+        title_container.remove()
 
 
