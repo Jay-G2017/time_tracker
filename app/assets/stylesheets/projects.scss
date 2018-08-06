@@ -2,10 +2,10 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.project-container {
+.container {
   display: flex;
 
-  .project-zone {
+  .project-container {
     padding: 20px;
   }
 
@@ -16,5 +16,13 @@
 
   .category-zone {
     margin-top: 50px;
+  }
+}
+
+.title-container {
+  display: flex;
+
+  .title-content {
+    margin-right: 16px;
   }
 }

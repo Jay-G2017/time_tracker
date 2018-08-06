@@ -7,9 +7,15 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 #
 
+# 创建一个admin user
+admin = User.find_by_email('admin')
+
 # 创建一个work分类和下面的todos
 ca_work = Category.find_or_create_by(name: 'Work')
-project_work = ca_work.projects.create(name: '学习编程')
+ca_work.user = admin
+ca_work.save!
+
+project_work = ca_work.projects.create!(name: '学习编程')
 
 title1_work = project_work.titles.create(name: '前端Front-end')
 todos = ['学习html', '学习css', '学习javascript']
@@ -21,6 +27,9 @@ backend_todos.each { |todo_name| title2_work.todos.create(name: todo_name, proje
 
 # 创建一个home分类和下面的todos
 ca_home = Category.find_or_create_by(name: 'Home')
+ca_home.user = admin
+ca_home.save!
+
 project_home = ca_home.projects.create({ name: '学习烧菜' })
 title1_home = project_home.titles.create(name: '红烧肉')
 meat_todos = ['将五花肉切成2厘米见方的大块', '倒入刚才煸炒的肉，倒入老抽生抽调好的汁，一碗热水，改小火慢炖', '改大火收汁，迅速翻炒使得每一块红烧肉身上都裹满了浓汁']

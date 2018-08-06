@@ -1,8 +1,9 @@
 .pinned-projects
   %h3 置顶的项目
   %ul 
-    %li
-      %a.project-link{id: @active_show_project.id, href: '#'}= @active_show_project.name
+    - @pinned_projects.each do |pinned_project|
+      %li
+        %a.project-link{id: pinned_project.id, href: '#'}= pinned_project.name
 
 .category-zone
   %h3 所有的分类
