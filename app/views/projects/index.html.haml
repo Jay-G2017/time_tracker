@@ -3,10 +3,10 @@
     = render 'sidebar'
   .project-container
     = render 'project', project: @pinned_projects.first if @pinned_projects.present?
-    = render 'action_bar'
 
 :javascript
   $(function() {
+  /*
     $('a.project-link').on('click', function(e) {
       e.preventDefault();
       var project_id = $(this).attr('id');
@@ -56,6 +56,7 @@
         $('#title-container-' + titleId).replaceWith(data);
       });
     });
+    */
 
     // create title
     $('.project-content').on('click', '#create-title-button', function(e) {
@@ -83,6 +84,7 @@
       }
     });
 
+    /*
     // edit title
     $('.project-content').on('click', '.edit-title-button', function() {
       // 移掉其它的编辑框
@@ -95,6 +97,7 @@
         that.parent().hide().after(data);
       });
     });
+    */
 
     // next
   })
