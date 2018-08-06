@@ -1,0 +1,17 @@
+.pinned-projects
+  %h3 置顶的项目
+  %ul 
+    - @pinned_projects.each do |pinned_project|
+      %li
+        %a.project-link{id: pinned_project.id, href: '#'}= pinned_project.name
+
+.category-zone
+  %h3 所有的分类
+  %ul
+    - @categories.each do |category|
+      %li
+        = category.name
+        - category.projects.each do |project|
+          %ol
+            %li
+              %a.project-link{id: project.id, href: '#'}= project.name
