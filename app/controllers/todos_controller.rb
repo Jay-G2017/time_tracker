@@ -1,5 +1,8 @@
 class TodosController < ApplicationController
-  def index
-    @todos = Todo.all
+  def new
+    @title = Title.find params[:title_id]
+    @todo = Todo.new
+    render partial: 'new'
   end
+
 end

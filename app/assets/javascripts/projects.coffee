@@ -18,14 +18,14 @@ $ ->
     $(this).attr 'disabled', true
     url = $(this).attr 'url'
     $.get url, (data) ->
-      $('.project-content .body').append(data)
+      $('.project-body').append(data)
       $('#create-title-input').focus()
 
   # edit title
   $('.project-container').on 'click', '.edit-title-button', ->
     # 移掉其它的编辑框
     $('form.edit_title').remove()
-    $('.title-container').show()
+    $('.title-content').show()
 
     that = $(this)
     url = $(this).attr 'url'
@@ -44,7 +44,7 @@ $ ->
   $('.project-container').on 'click', '#cancel-update-title-button', ->
     $('form.edit_title').remove()
     title_id = $(this).val()
-    $('#title-container-' + title_id).show()
+    $('#title-container-' + title_id).find('.title-content').show()
 
   # update title
   $('.project-container').on 'click', '#update-title-button', ->
@@ -68,7 +68,7 @@ $ ->
     $.post url, new_title_form.serialize(), (data) ->
       new_title_form.remove()
       $('#new-title-button').attr 'disabled', false
-      $('.project-content .body').append(data)
+      $('.project-body').append(data)
 
   # delete title
   $('.project-container').on 'click', '.delete-title-button', ->
@@ -87,10 +87,19 @@ $ ->
       e.preventDefault()
       $('#update-title-button').click() 
 
-# bind enter key for create title
+  # bind enter key for create title
   $('.project-container').on 'keypress', '#create-title-input', (e) ->
     if e.which == 13
       e.preventDefault()
       $('#create-title-button').click()
+
+
+  # new todo
+  $('.project-container').on 'click', '#new-todo-button', ->
+    url = $(this).attr 'url'
+    title_id = $(this).val()
+    $.get url, (data) ->
+      $('#title-container-' + title_id).find('.todo-content').append(data)
+
 
 
