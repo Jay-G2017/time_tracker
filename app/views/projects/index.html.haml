@@ -1,20 +1,5 @@
-.project-container
+.container
   .sidebar
     = render 'sidebar'
-  .project-zone
-    = render 'project', project: @active_show_project
-
-:javascript
-  $(function() {
-    $('a.project-link').on('click', function(e) {
-      e.preventDefault();
-      var project_id = $(this).attr('id');
-
-      var url = "/projects/" + project_id;
-      $.get(url, function(project_partial) {
-        $('.project-zone').html(project_partial);
-      });
-    });
-  })
-
-
+  .project-container
+    = render 'project', project: @pinned_projects.first if @pinned_projects.present?
