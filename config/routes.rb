@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   resources :users
   resources :sessions
 
-  resources :projects, only: [:index] do
+  resources :projects, only: [:index, :show] do
     resources :titles
   end
 

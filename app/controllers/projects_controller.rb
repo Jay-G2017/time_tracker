@@ -7,7 +7,7 @@ class ProjectsController < ApplicationController
   end
 
   def show
-    project = Project.find params[:id]
+    project = Project.includes(titles: :todos).find params[:id]
     render partial: 'project', locals: { project: project }
   end
 

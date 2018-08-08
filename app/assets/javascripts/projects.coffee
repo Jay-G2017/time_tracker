@@ -27,10 +27,10 @@ $ ->
     $('form.edit_title').remove()
     $('.title-content').show()
 
-    that = $(this)
+    title_content = $(this).parent()
     url = $(this).attr 'url'
     $.get url, (data) ->
-      that.parent().hide().after(data)
+      title_content.hide().after(data)
       # 下面两段代码是让他自动激活, 并且光标移到最后
       val = $('#update-title-input').val()
       $('#update-title-input').focus().val('').val(val)
@@ -43,12 +43,10 @@ $ ->
   # cancel update title
   $('.project-container').on 'click', '#cancel-update-title-button', ->
     $('form.edit_title').remove()
-    title_id = $(this).val()
-    $('#title-container-' + title_id).find('.title-content').show()
+    $('.title-content').show()
 
   # update title
   $('.project-container').on 'click', '#update-title-button', ->
-    # alert 'hi'
     edit_title_form = $('form.edit_title')
     url = edit_title_form.attr 'action'
     title_id = $(this).val()
@@ -58,7 +56,8 @@ $ ->
       data: edit_title_form.serialize()
      .done (data) ->
        edit_title_form.remove()
-       $('#title-container-' + title_id).replaceWith(data)
+       $('#title-content-' + title_id).find('.title-body').text(data.name)
+       $('#title-content-' + title_id).show()
 
   # create title
   $('.project-container').on 'click', '#create-title-button', (e) ->

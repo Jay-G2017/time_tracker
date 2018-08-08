@@ -2,9 +2,6 @@
   .header
     %h3= project.name
   .project-body
-    - project.titles.each do |title|
-      = render 'shared/title_show', project: project, title: title
-
+    = render partial: 'title', collection: project.titles, as: :title, locals: { project: project }
   .action-bar
     = button_tag '新建标题', { class: 'btn', id: 'new-title-button', url: new_project_title_path(project.id) }
-    = button_tag '新建todo', { class: 'btn', id: 'new-todo-button', url: new_title_todo_path(project.titles.first.id), value: project.titles.first.id }
