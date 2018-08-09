@@ -93,12 +93,57 @@ $ ->
       $('#create-title-button').click()
 
 
-  # new todo
-  $('.project-container').on 'click', '#new-todo-button', ->
+  # create todo
+  $('.project-container').on 'click', '.create-todo-button', ->
     url = $(this).attr 'url'
     title_id = $(this).val()
-    $.get url, (data) ->
-      $('#title-container-' + title_id).find('.todo-content').append(data)
+    new_todo_form = $(this).parent()
+    create_todo_input = $(this).siblings('.create-todo-input')
 
+    $.post url, new_todo_form.serialize(), (data) ->
+      $('#todo-content-' + title_id).append(data)
+      create_todo_input.val('')
+
+  # bind enter key for create todo
+  $('.project-container').on 'keypress', '.create-todo-input', (e) ->
+    if e.which == 13
+      e.preventDefault()
+      $(this).siblings('.create-todo-button').click()
+
+  # delete todo
+  $('.project-container').on 'click', '.delete-todo-button', ->
+    url = $(this).attr 'url'
+    todo_id = $(this).val()
+
+    $.ajax
+      url: url
+      type: 'delete'
+    .done ->
+      $('#todo-list-' + todo_id).remove()
+
+  # edit todo
+  $('.project-container').on 'click', '.edit-todo-button', ->
+    url = $(this).attr 'url'
+    todo_id = $(this).val()
+    $.get url, (data) ->
+      $('#todo-list-' + todo_id).hide().after(data)
+
+  # cancel update todo button
+  $('.project-container').on 'click', '#cancel-update-todo-button', ->
+    todo_id = $(this).val()
+    $('form.edit_todo').remove()
+    $('#todo-list-' + todo_id).show()
+
+
+  # update todo
+  $('.project-container').on 'click', '.update-todo-button', ->
+    url = $(this).attr 'url'
+    todo_id = $(this).val()
+
+    $.ajax
+      url: url
+      type: 'patch'
+    .done ->
+      $('#todo-list-' + todo_id).remove()
 
 
