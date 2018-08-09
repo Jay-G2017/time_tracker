@@ -9,8 +9,12 @@ Rails.application.routes.draw do
   resources :users
   resources :sessions
 
-  resources :projects do
+  resources :projects, only: [:index, :show] do
     resources :titles
+  end
+
+  resources :titles, only: [] do
+    resources :todos
   end
 
 end

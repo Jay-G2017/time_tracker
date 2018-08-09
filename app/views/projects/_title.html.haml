@@ -1,0 +1,16 @@
+.title-container{id: "title-container-#{title.id}"}
+  - name = title.name.present? ? title.name : '默认标题'
+  .title-content{ id: "title-content-#{title.id}" }
+    .title-body= name
+    = button_tag '删除', { class: 'delete-title-button', value: title.id, url: project_title_path(project, title) }
+    = button_tag '编辑', { class: 'edit-title-button', value: title.id, url: edit_project_title_path(project, title) }
+  .new-todo-content
+    = form_tag do
+      = text_field_tag 'todo[name]', nil, class: 'create-todo-input', placeholder: 'add todo'
+      = button_tag 'add', class: 'create-todo-button', url: title_todos_path(title), value: title.id, type: 'button'
+  .todo-content{id: "todo-content-#{title.id}"}
+    - title.todos.each do |todo|
+      .todo-list{id: "todo-list-#{todo.id}"}
+        .todo-body= todo.name
+        = button_tag '删除', class: 'delete-todo-button', url: title_todo_path(title, todo), value: todo.id
+        = button_tag '编辑', class: 'edit-todo-button', url: edit_title_todo_path(title, todo), value: todo.id

@@ -20,9 +20,21 @@
 }
 
 .title-container {
+  margin-bottom: 16px;
+}
+
+.title-content {
   display: flex;
 
-  .title-content {
+  .body {
     margin-right: 16px;
   }
+}
+
+.todo-content {
+  margin-left: 16px;
+}
+
+.todo-list {
+  display: flex;
 }
