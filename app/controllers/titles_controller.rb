@@ -12,16 +12,15 @@ class TitlesController < ApplicationController
   end
 
   def update
-    project = Project.find params[:project_id]
     title = Title.find params[:id]
     title.update!(title_params)
-    render partial: 'shared/title_show', locals: { project: project, title: title }
+    render json: title
   end
 
   def create
     project = Project.find params[:project_id]
     title = project.titles.create!(title_params)
-    render partial: 'shared/title_show', locals: { project: project, title: title }
+    render partial: 'show', locals: { project: project, title: title }
   end
 
   def destroy

@@ -18,19 +18,19 @@ $ ->
     $(this).attr 'disabled', true
     url = $(this).attr 'url'
     $.get url, (data) ->
-      $('.project-content .body').append(data)
+      $('.project-body').append(data)
       $('#create-title-input').focus()
 
   # edit title
   $('.project-container').on 'click', '.edit-title-button', ->
     # 移掉其它的编辑框
     $('form.edit_title').remove()
-    $('.title-container').show()
+    $('.title-content').show()
 
-    that = $(this)
+    title_content = $(this).parent()
     url = $(this).attr 'url'
     $.get url, (data) ->
-      that.parent().hide().after(data)
+      title_content.hide().after(data)
       # 下面两段代码是让他自动激活, 并且光标移到最后
       val = $('#update-title-input').val()
       $('#update-title-input').focus().val('').val(val)
@@ -43,12 +43,10 @@ $ ->
   # cancel update title
   $('.project-container').on 'click', '#cancel-update-title-button', ->
     $('form.edit_title').remove()
-    title_id = $(this).val()
-    $('#title-container-' + title_id).show()
+    $('.title-content').show()
 
   # update title
   $('.project-container').on 'click', '#update-title-button', ->
-    # alert 'hi'
     edit_title_form = $('form.edit_title')
     url = edit_title_form.attr 'action'
     title_id = $(this).val()
@@ -58,7 +56,8 @@ $ ->
       data: edit_title_form.serialize()
      .done (data) ->
        edit_title_form.remove()
-       $('#title-container-' + title_id).replaceWith(data)
+       $('#title-content-' + title_id).find('.title-body').text(data.name)
+       $('#title-content-' + title_id).show()
 
   # create title
   $('.project-container').on 'click', '#create-title-button', (e) ->
@@ -68,18 +67,18 @@ $ ->
     $.post url, new_title_form.serialize(), (data) ->
       new_title_form.remove()
       $('#new-title-button').attr 'disabled', false
-      $('.project-content .body').append(data)
+      $('.project-body').append(data)
 
   # delete title
   $('.project-container').on 'click', '.delete-title-button', ->
     if confirm('确定删除吗?')
       url = $(this).attr 'url'
-      title_container = $(this).parent()
+      title_id = $(this).val()
       $.ajax
         url: url
         type: 'delete'
       .done ->
-        title_container.remove()
+        $('#title-container-' + title_id).remove()
 
   # bind enter key for update title
   $('.project-container').on 'keypress', '#update-title-input', (e) ->
@@ -87,10 +86,81 @@ $ ->
       e.preventDefault()
       $('#update-title-button').click() 
 
-# bind enter key for create title
+  # bind enter key for create title
   $('.project-container').on 'keypress', '#create-title-input', (e) ->
     if e.which == 13
       e.preventDefault()
       $('#create-title-button').click()
+
+
+  # create todo
+  $('.project-container').on 'click', '.create-todo-button', ->
+    url = $(this).attr 'url'
+    title_id = $(this).val()
+    new_todo_form = $(this).parent()
+    create_todo_input = $(this).siblings('.create-todo-input')
+
+    $.post url, new_todo_form.serialize(), (data) ->
+      $('#todo-content-' + title_id).append(data)
+      create_todo_input.val('')
+
+  # bind enter key for create todo
+  $('.project-container').on 'keypress', '.create-todo-input', (e) ->
+    if e.which == 13
+      e.preventDefault()
+      $(this).siblings('.create-todo-button').click()
+
+  # delete todo
+  $('.project-container').on 'click', '.delete-todo-button', ->
+    if confirm('确定要删除吗')
+      url = $(this).attr 'url'
+      todo_id = $(this).val()
+
+      $.ajax
+        url: url
+        type: 'delete'
+      .done ->
+        $('#todo-list-' + todo_id).remove()
+
+  # edit todo
+  $('.project-container').on 'click', '.edit-todo-button', ->
+    # 先删除其它的edit todo form
+    $('form.edit_todo').remove()
+    $('.todo-list').show()
+
+    url = $(this).attr 'url'
+    todo_id = $(this).val()
+    $.get url, (data) ->
+      $('#todo-list-' + todo_id).hide().after(data)
+      val = $('.update-todo-input').val()
+      $('.update-todo-input').val('').focus().val(val)
+
+  # cancel update todo button
+  $('.project-container').on 'click', '#cancel-update-todo-button', ->
+    todo_id = $(this).val()
+    $('form.edit_todo').remove()
+    $('#todo-list-' + todo_id).show()
+
+
+  # update todo
+  $('.project-container').on 'click', '#update-todo-button', ->
+    todo_id = $(this).val()
+    edit_todo_form = $('form.edit_todo')
+    url = edit_todo_form.attr 'action'
+
+    $.ajax
+      url: url
+      type: 'patch'
+      data: edit_todo_form.serialize()
+    .done (data) ->
+      edit_todo_form.remove()
+      $('#todo-list-' + todo_id).find('.todo-body').text(data['name'])
+      $('#todo-list-' + todo_id).show()
+
+  # bind enter key for update todo
+  $('.project-container').on 'keypress', '.update-todo-input', (e) ->
+    if (e.which == 13)
+      e.preventDefault()
+      $('#update-todo-button').click()
 
 

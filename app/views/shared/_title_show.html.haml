@@ -1,5 +1,0 @@
-.title-container{ id: "title-container-#{title.id}" }
-  - name = title.name.present? ? title.name : '默认标题'
-  .title-content= name
-  = button_tag '删除', { class: 'delete-title-button', value: title.id, url: project_title_path(project, title) }
-  = button_tag '编辑', { class: 'edit-title-button', value: title.id, url: edit_project_title_path(project, title) }

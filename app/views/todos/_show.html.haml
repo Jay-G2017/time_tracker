@@ -1,0 +1,4 @@
+.todo-list{id: "todo-list-#{todo.id}"}
+  .todo-list= todo.name
+  = button_tag '删除', class: 'delete-todo-button', url: title_todo_path(title, todo), value: todo.id
+  = button_tag '编辑', class: 'edit-todo-button', url: edit_title_todo_path(title, todo), value: todo.id

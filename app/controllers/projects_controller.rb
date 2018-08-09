@@ -3,11 +3,11 @@ class ProjectsController < ApplicationController
 
   def index
     @categories = current_user.categories.includes(:projects)
-    @pinned_projects = current_user.pinned_projects
+    @pinned_projects = current_user.pinned_projects.includes(titles: :todos)
   end
 
   def show
-    project = Project.find params[:id]
+    project = Project.includes(titles: :todos).find params[:id]
     render partial: 'project', locals: { project: project }
   end
 
