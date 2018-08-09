@@ -1,4 +1,4 @@
 = form_for [title, todo]  do |f|
-  = f.text_field :name
-  = f.button 'update', value: todo.id
+  = f.text_field :name, class: 'update-todo-input'
+  = f.button 'update', id: 'update-todo-button', value: todo.id, type: 'button'
   = f.button 'cancel', id: 'cancel-update-todo-button', value: todo.id, type: 'button'

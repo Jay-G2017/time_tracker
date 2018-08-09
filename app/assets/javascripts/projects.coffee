@@ -73,12 +73,12 @@ $ ->
   $('.project-container').on 'click', '.delete-title-button', ->
     if confirm('确定删除吗?')
       url = $(this).attr 'url'
-      title_container = $(this).parent()
+      title_id = $(this).val()
       $.ajax
         url: url
         type: 'delete'
       .done ->
-        title_container.remove()
+        $('#title-container-' + title_id).remove()
 
   # bind enter key for update title
   $('.project-container').on 'keypress', '#update-title-input', (e) ->
@@ -112,21 +112,28 @@ $ ->
 
   # delete todo
   $('.project-container').on 'click', '.delete-todo-button', ->
-    url = $(this).attr 'url'
-    todo_id = $(this).val()
+    if confirm('确定要删除吗')
+      url = $(this).attr 'url'
+      todo_id = $(this).val()
 
-    $.ajax
-      url: url
-      type: 'delete'
-    .done ->
-      $('#todo-list-' + todo_id).remove()
+      $.ajax
+        url: url
+        type: 'delete'
+      .done ->
+        $('#todo-list-' + todo_id).remove()
 
   # edit todo
   $('.project-container').on 'click', '.edit-todo-button', ->
+    # 先删除其它的edit todo form
+    $('form.edit_todo').remove()
+    $('.todo-list').show()
+
     url = $(this).attr 'url'
     todo_id = $(this).val()
     $.get url, (data) ->
       $('#todo-list-' + todo_id).hide().after(data)
+      val = $('.update-todo-input').val()
+      $('.update-todo-input').val('').focus().val(val)
 
   # cancel update todo button
   $('.project-container').on 'click', '#cancel-update-todo-button', ->
@@ -136,14 +143,24 @@ $ ->
 
 
   # update todo
-  $('.project-container').on 'click', '.update-todo-button', ->
-    url = $(this).attr 'url'
+  $('.project-container').on 'click', '#update-todo-button', ->
     todo_id = $(this).val()
+    edit_todo_form = $('form.edit_todo')
+    url = edit_todo_form.attr 'action'
 
     $.ajax
       url: url
       type: 'patch'
-    .done ->
-      $('#todo-list-' + todo_id).remove()
+      data: edit_todo_form.serialize()
+    .done (data) ->
+      edit_todo_form.remove()
+      $('#todo-list-' + todo_id).find('.todo-body').text(data['name'])
+      $('#todo-list-' + todo_id).show()
+
+  # bind enter key for update todo
+  $('.project-container').on 'keypress', '.update-todo-input', (e) ->
+    if (e.which == 13)
+      e.preventDefault()
+      $('#update-todo-button').click()
 
 
