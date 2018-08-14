@@ -163,4 +163,33 @@ $ ->
       e.preventDefault()
       $('#update-todo-button').click()
 
+  # for start tomato timer
+  $('.start-tomato-button').on 'click', ->
+    $('#cancel-tomato-button').show()
+    $(this).hide().after("<div id= 'todo-timer' class='timer-show'>25:00</div>")
+    startTomatoTimer(1)
+
+  # cancel tomato timer
+  $('#cancel-tomato-button').on 'click', ->
+    clearInterval tt
+    $(this).hide()
+    $('.start-tomato-button').show()
+    $('#todo-timer').remove()
+    $('.timer-show').text('25:00')
+
+startTomatoTimer = (minutes) ->
+  final_time = (new Date).getTime() + minutes * 60 * 1000
+  window.tt = setInterval ->
+    showTime(final_time)
+  , 500
+
+showTime = (final_time) ->
+  now = (new Date).getTime()
+  distance = final_time - now
+  if distance >= 0
+    minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, 0)
+    seconds = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, 0)
+    $('.timer-show').text(minutes + ':' + seconds)
+  else
+    clearInterval tt
 

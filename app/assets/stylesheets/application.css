@@ -22,3 +22,7 @@
 .field input {
   display: block;
 }
+
+.hide {
+  display: none;
+}
