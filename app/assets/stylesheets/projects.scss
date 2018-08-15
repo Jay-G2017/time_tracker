@@ -25,18 +25,28 @@
 
 .title-content {
   display: flex;
+  justify-content: space-between;
+  padding: 3px;
+  background: lightgreen;
 
   .body {
     margin-right: 16px;
   }
 }
 
+.new-todo-content {
+  margin-left: 16px;
+  margin-top: 5px;
+}
+
 .todo-content {
   margin-left: 16px;
+  margin-top: 5px;
 }
 
 .todo-list {
   display: flex;
+  justify-content: space-between;
 
   .todo-body {
     margin-right: 100px;
