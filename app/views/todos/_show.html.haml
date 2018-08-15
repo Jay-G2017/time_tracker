@@ -3,6 +3,6 @@
     = check_box_tag 'hi'
     .todo-name= todo.name
   .button-group
-    = button_tag 'start tomato', class: 'start-tomato-button'
+    = button_tag 'start tomato', class: 'start-tomato-button', url: todo_tomatoes_path(todo)
     = button_tag '删除', class: 'delete-todo-button', url: title_todo_path(title, todo), value: todo.id
     = button_tag '编辑', class: 'edit-todo-button', url: edit_title_todo_path(title, todo), value: todo.id

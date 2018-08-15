@@ -17,4 +17,8 @@ Rails.application.routes.draw do
     resources :todos
   end
 
+  resources :todos, only: [] do
+    resources :tomatoes, only: [:create]
+  end
+
 end

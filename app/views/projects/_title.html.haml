@@ -2,7 +2,7 @@
   - name = title.name.present? ? title.name : '默认标题'
   .title-content{ id: "title-content-#{title.id}" }
     .title-body= name
-    .button-group
+    .button-group.flex
       = button_tag '删除', { class: 'delete-title-button', value: title.id, url: project_title_path(project, title) }
       = button_tag '编辑', { class: 'edit-title-button', value: title.id, url: edit_project_title_path(project, title) }
   .new-todo-content
@@ -15,7 +15,7 @@
         .todo-body.flex
           = check_box_tag 'hi'
           .todo-name= todo.name
-        .button-group
-          = button_tag 'start tomato', class: 'start-tomato-button'
+        .button-group.flex
+          = button_tag 'start tomato', class: 'start-tomato-button', url: todo_tomatoes_path(todo)
           = button_tag '删除', class: 'delete-todo-button', url: title_todo_path(title, todo), value: todo.id
           = button_tag '编辑', class: 'edit-todo-button', url: edit_title_todo_path(title, todo), value: todo.id
