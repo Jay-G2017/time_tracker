@@ -163,6 +163,25 @@ $ ->
       e.preventDefault()
       $('#update-todo-button').click()
 
+  # new category
+  $('#new-category-button').on 'click', ->
+    $(this).attr 'disabled', true
+    url = $(this).attr 'url'
+    $.get url, (data) ->
+      $('.category-zone').append(data)
+      $('#create-category-input').focus()
+
+  # create category
+  $('.category-zone').on 'click', '#create-category-button', (e) ->
+    e.preventDefault()
+    new_category_form = $('form#new_category')
+    url = new_category_form.attr 'action'
+    $.post url, new_category_form.serialize(), (data) ->
+      new_category_form.remove()
+      $('#new-category-button').attr 'disabled', false
+      $('.category-zone').append(data)
+
+
   # start tomato timer
   $('.start-tomato-button').on 'click', ->
     $('#cancel-tomato-button').show()

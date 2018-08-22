@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   resources :users
   resources :sessions
 
-  resources :projects, only: [:index, :show] do
+  resources :projects, only: [:index, :show, :edit, :update, :destroy] do
     resources :titles
   end
 
@@ -19,6 +19,10 @@ Rails.application.routes.draw do
 
   resources :todos, only: [] do
     resources :tomatoes, only: [:create]
+  end
+
+  resources :categories do
+    resources :projects, only: [:new, :create]
   end
 
 end
