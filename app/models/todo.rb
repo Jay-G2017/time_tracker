@@ -6,6 +6,10 @@ class Todo < ApplicationRecord
 
   has_many :tomatoes
 
+  def today_tomatoes
+    tomatoes.where(created_at: Time.zone.now.beginning_of_day..Time.zone.now.end_of_day)
+  end
+
   private
   def set_project
     self.project = title.project

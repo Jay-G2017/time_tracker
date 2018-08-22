@@ -3,7 +3,7 @@ class TomatoesController < ApplicationController
     todo = Todo.find params[:todo_id]
     todo.tomatoes.create!(tomato_params)
 
-    render json: { success: true }
+    render json: { id: todo.id }
   end
 
   private

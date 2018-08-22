@@ -1,6 +1,10 @@
 .daily-dashboard
   .daily-info
-    %h2 你今日完成了几个蕃茄
+    -# %h2= "你今日完成了<span id=today-tomatoes-num #{current_user.today_tomatoes_num}>个蕃茄"
+    %h2
+      你今日完成了
+      %span#today-tomatoes-num= current_user.today_tomato_size
+      个蕃茄
   .tomato-timer
     %h2.timer-show 25:00
     = button_tag '取消蕃茄', id: 'cancel-tomato-button', class: 'hide'

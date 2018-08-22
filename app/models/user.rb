@@ -7,8 +7,18 @@ class User < ApplicationRecord
   has_many :categories
   has_many :projects
 
-  def pinned_projects 
+  def pinned_projects
     projects.where(pin: true)
+  end
+
+  def today_tomato_size
+    num = 0
+    projects.each do |project|
+      project.todos.each do |todo|
+        num += todo.today_tomatoes.size
+      end
+    end
+    num
   end
 
 end

@@ -47,9 +47,27 @@
 .todo-list {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 6px;
+}
 
-  .todo-body {
-    margin-right: 100px;
+.todo-body {
+  margin-right: 100px;
+
+  .todo-name {
+    margin-right: 20px;
+  }
+
+  .todo-total-tomato {
+    margin-right: 20px;
+  }
+
+  .todo-today-tomato {
+    border: 1px solid green;
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    text-align: center;
+    line-height: 18px;
   }
 }
 

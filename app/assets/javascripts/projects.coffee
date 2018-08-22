@@ -197,6 +197,20 @@ showTime = (final_time, minutes, url) ->
 
 createTomato = (minutes, url) ->
   url = url + '?minutes=' + minutes
-  $.post url, ->
-    alert 'success'
+  $.post url, (data) ->
+    $('#cancel-tomato-button').hide()
+    $('#todo-timer').remove()
+    $('.start-tomato-button').show()
+
+    todayTomato = parseInt($('#today-tomatoes-num').text(), 10) + 1
+    $('#today-tomatoes-num').text(todayTomato)
+
+    todoTotalTomato = $('#todo-'+ data['id'] + '-total-tomato')
+    todoTotalTomatoNum = parseInt(todoTotalTomato.text(), 10) + 1
+    todoTotalTomato.text(todoTotalTomatoNum)
+
+    todoTodayTomato = $('#todo-'+ data['id'] + '-today-tomato')
+    todoTodayTomatoNum = parseInt(todoTodayTomato.text(), 10) + 1
+    todoTodayTomato.text(todoTodayTomatoNum)
+
 
