@@ -181,6 +181,84 @@ $ ->
       $('#new-category-button').attr 'disabled', false
       $('.category-zone').append(data)
 
+  # cancel create category
+  $('.category-zone').on 'click', '#cancel-create-category-button', ->
+    $('form#new_category').remove()
+    $('#new-category-button').attr 'disabled', false
+
+  # edit category
+  $('.category-zone').on 'click', '.edit-category-button', ->
+    # 移掉其它的编辑框
+    $('form.edit_category').remove()
+    $('.category-content').show()
+
+    category_id = $(this).val()
+    category_content = $('#category-content-' + category_id)
+    url = $(this).attr 'url'
+    $.get url, (data) ->
+      category_content.hide().after(data)
+      # 下面两段代码是让他自动激活, 并且光标移到最后
+      val = $('#update-category-input').val()
+      $('#update-category-input').focus().val('').val(val)
+
+  # cancel update category
+  $('.category-zone').on 'click', '#cancel-update-category-button', ->
+    $('form.edit_category').parent().remove()
+    $('.category-content').show()
+
+  # update category
+  $('.category-zone').on 'click', '#update-category-button', ->
+    edit_category_form = $('form.edit_category')
+    url = edit_category_form.attr 'action'
+    category_id = $(this).val()
+    $.ajax
+      type: 'patch'
+      url: url
+      data: edit_category_form.serialize()
+     .done (data) ->
+       edit_category_form.parent().remove()
+       $('#category-content-' + category_id).find('.category-body').text(data.name)
+       $('#category-content-' + category_id).show()
+
+  # delete category
+  $('.category-zone').on 'click', '.delete-category-button', ->
+    if confirm('确定删除吗?')
+      url = $(this).attr 'url'
+      category_id = $(this).val()
+      $.ajax
+        url: url
+        type: 'delete'
+      .done ->
+        $('#category-container-' + category_id).remove()
+
+  # bind enter key for create category
+  $('.category-zone').on 'keypress', '#create-category-input', (e) ->
+    if e.which == 13
+      e.preventDefault()
+      $('#create-category-button').click()
+
+  # bind enter key for update category
+  $('.category-zone').on 'keypress', '#update-category-input', (e) ->
+    if e.which == 13
+      e.preventDefault()
+      $('#update-category-button').click()
+
+  # create project
+  $('.category-zone').on 'click', '.create-project-button', ->
+    url = $(this).attr 'url'
+    category_id = $(this).val()
+    new_project_form = $(this).parent()
+    create_project_input = $(this).siblings('.create-project-input')
+
+    $.post url, new_project_form.serialize(), (data) ->
+      $('#project-content-' + category_id).append(data)
+      create_project_input.val('')
+
+  # bind enter key for create project
+  $('.category-zone').on 'keypress', '.create-project-input', (e) ->
+    if e.which == 13
+      e.preventDefault()
+      $(this).siblings('.create-project-button').click()
 
   # start tomato timer
   $('.start-tomato-button').on 'click', ->

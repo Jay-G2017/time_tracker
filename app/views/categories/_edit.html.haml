@@ -1,0 +1,5 @@
+.category-content.flex-between
+  = form_for @category do |f|
+    = f.text_field :name, { id: 'update-category-input' }
+    = f.button('更新', { id: 'update-category-button', value: @category.id, type: 'button' })
+    = f.button('取消', { id: 'cancel-update-category-button', value: @category.id, type: 'button' })
