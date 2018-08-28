@@ -260,6 +260,59 @@ $ ->
       e.preventDefault()
       $(this).siblings('.create-project-button').click()
 
+  # delete project
+  $('.category-zone').on 'click', '.delete-project-button', ->
+    if confirm('确定要删除吗')
+      url = $(this).attr 'url'
+      project_id = $(this).val()
+
+      $.ajax
+        url: url
+        type: 'delete'
+      .done ->
+        $('#project-list-' + project_id).remove()
+
+  # edit project
+  $('.category-zone').on 'click', '.edit-project-button', ->
+    # 先删除其它的edit project form
+    $('form.edit_project').remove()
+    $('.project-list').show()
+
+    url = $(this).attr 'url'
+    project_id = $(this).val()
+    $.get url, (data) ->
+      $('#project-list-' + project_id).hide().after(data)
+      val = $('.update-project-input').val()
+      $('.update-project-input').val('').focus().val(val)
+
+  # cancel update project button
+  $('.category-zone').on 'click', '#cancel-update-project-button', ->
+    project_id = $(this).val()
+    $('form.edit_project').remove()
+    $('#project-list-' + project_id).show()
+
+  # update project
+  $('.category-zone').on 'click', '#update-project-button', ->
+    project_id = $(this).val()
+    edit_project_form = $('form.edit_project')
+    url = edit_project_form.attr 'action'
+
+    $.ajax
+      url: url
+      type: 'patch'
+      data: edit_project_form.serialize()
+    .done (data) ->
+      edit_project_form.remove()
+      $('#project-list-' + project_id).find('.project-name').text(data['name'])
+      $('#project-list-' + project_id).show()
+
+  # bind enter key for update project
+  $('.category-zone').on 'keypress', '.update-project-input', (e) ->
+    if (e.which == 13)
+      e.preventDefault()
+      $('#update-project-button').click()
+
+
   # start tomato timer
   $('.start-tomato-button').on 'click', ->
     $('#cancel-tomato-button').show()
