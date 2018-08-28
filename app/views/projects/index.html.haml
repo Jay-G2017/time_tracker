@@ -1,7 +1,8 @@
+.dashboard
+  = render 'daily_dashboard'
 .container
   .sidebar
     = render 'sidebar'
   .project-container
-    = render 'daily_dashboard'
     = render 'project', project: @pinned_projects.first if @pinned_projects.present?
 

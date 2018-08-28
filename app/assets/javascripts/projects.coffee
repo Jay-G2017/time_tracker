@@ -3,14 +3,16 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $ ->
-  $('a.project-link').on 'click', (e) ->
-    e.preventDefault()
-    project_id = $(this).attr 'id'
+  $('category-container .project-body').on 'click', ->
+    project_id = $(this).parent().val()
+    url = $(this).attr('url')
+    $('.project-container .project-content').hide()
 
-    url = '/projects/' + project_id
-    $.get url, (data) ->
-      $('.project-content').remove()
-      $('.project-container').append data
+    if $('#project-content-' + project_id)[0]
+      $('#project-content-' + project_id).show()
+    else 
+      $.get url, (data) -> 
+        $('.project-container').append data
 
   # new title
   $('.project-container').on 'click', '#new-title-button', (e) ->
@@ -314,7 +316,7 @@ $ ->
 
 
   # start tomato timer
-  $('.start-tomato-button').on 'click', ->
+  $('.project-container').on 'click', '.start-tomato-button', ->
     $('#cancel-tomato-button').show()
     $(this).hide().after("<div id= 'todo-timer' class='timer-show'>25:00</div>")
     url = $(this).attr('url')

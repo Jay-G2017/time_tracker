@@ -11,8 +11,8 @@
       = button_tag 'add', class: 'create-project-button', url: category_projects_path(category), value: category.id, type: 'button'
   .project-content{id: "project-content-#{category.id}"}
     - category.projects.each do |project|
-      .project-list.flex-between{id: "project-list-#{project.id}"}
-        .project-body.flex
+      .project-list.flex-between{id: "project-list-#{project.id}", value: project.id}
+        .project-body.sidebar.flex{url: project_path(project)}
           .project-name= project.name
           .remain-todos{id: "project-#{project.id}-remain-todos"}= '(8)'
         .button-group.flex
