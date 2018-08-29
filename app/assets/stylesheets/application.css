@@ -22,3 +22,16 @@
 .field input {
   display: block;
 }
+
+.hide {
+  display: none;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+}

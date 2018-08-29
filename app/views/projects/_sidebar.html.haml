@@ -7,11 +7,6 @@
 
 .category-zone
   %h3 所有的分类
-  %ul
-    - @categories.each do |category|
-      %li
-        = category.name
-        - category.projects.each do |project|
-          %ol
-            %li
-              %a.project-link{id: project.id, href: '#'}= project.name
+  = render partial: 'category', collection: @categories
+.action-bar
+  = button_tag 'add category', { class: 'btn', id: 'new-category-button', url: new_category_path }

@@ -25,16 +25,72 @@
 
 .title-content {
   display: flex;
+  justify-content: space-between;
+  padding: 3px;
+  background: lightgreen;
 
   .body {
     margin-right: 16px;
   }
 }
 
+.new-todo-content {
+  margin-left: 16px;
+  margin-top: 5px;
+}
+
 .todo-content {
   margin-left: 16px;
+  margin-top: 5px;
 }
 
 .todo-list {
   display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
 }
+
+.todo-body {
+  margin-right: 100px;
+
+  .todo-name {
+    margin-right: 20px;
+  }
+
+  .todo-total-tomato {
+    margin-right: 20px;
+  }
+
+  .todo-today-tomato {
+    border: 1px solid green;
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    text-align: center;
+    line-height: 18px;
+  }
+}
+
+.category-content {
+  padding: 3px;
+  background-color: lightgreen;
+}
+
+  .new-project-content {
+    margin-left: 16px;
+    margin-top: 5px;
+  }
+
+  .project-content {
+    margin-left: 16px;
+    margin-top: 5px;
+  }
+
+  .project-list {
+    margin-bottom: 6px;
+  }
+
+  .tomato-on {
+    display: none;
+  }
+

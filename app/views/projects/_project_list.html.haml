@@ -1,0 +1,7 @@
+.project-list.flex-between{id: "project-list-#{project.id}"}
+  .project-body.flex
+    .project-name= project.name
+    .remain-todos{id: "project-#{project.id}-remain-todos"}= ' (8)'
+  .button-group.flex
+    = button_tag '删除', class: 'delete-project-button', url: project_path(project), value: project.id
+    = button_tag '编辑', class: 'edit-project-button', url: edit_project_path(project), value: project.id
