@@ -3,6 +3,6 @@
 .container
   .sidebar
     = render 'sidebar'
-  .project-container
+  .project-container.main
     = render 'project', project: @pinned_projects.first if @pinned_projects.present?
 
