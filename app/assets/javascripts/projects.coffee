@@ -3,16 +3,17 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $ ->
-  $('category-container .project-body').on 'click', ->
-    project_id = $(this).parent().val()
+  $('.project-body.side').on 'click', ->
+    project_id = $(this).parent().attr('value')
     url = $(this).attr('url')
-    $('.project-container .project-content').hide()
+    $('.main .project-content').hide()
 
-    if $('#project-content-' + project_id)[0]
+    if($('#project-content-' + project_id)[0])
       $('#project-content-' + project_id).show()
-    else 
-      $.get url, (data) -> 
-        $('.project-container').append data
+    else
+      $.get url, (data) ->
+        debugger
+        $('.project-container.main').append data
 
   # new title
   $('.project-container').on 'click', '#new-title-button', (e) ->
@@ -253,7 +254,7 @@ $ ->
     create_project_input = $(this).siblings('.create-project-input')
 
     $.post url, new_project_form.serialize(), (data) ->
-      $('#project-content-' + category_id).append(data)
+      $('#side-project-content-' + category_id).append(data)
       create_project_input.val('')
 
   # bind enter key for create project
@@ -316,11 +317,11 @@ $ ->
 
 
   # start tomato timer
-  $('.project-container').on 'click', '.start-tomato-button', ->
+  $('.project-container.main').on 'click', '.start-tomato-button', ->
     $('#cancel-tomato-button').show()
-    $(this).hide().after("<div id= 'todo-timer' class='timer-show'>25:00</div>")
+    $(this).addClass('tomato-on').after("<div id= 'todo-timer' class='timer-show'>25:00</div>")
     url = $(this).attr('url')
-    startTomatoTimer(1, url)
+    startTomatoTimer(25, url)
 
   # cancel tomato timer
   $('#cancel-tomato-button').on 'click', ->
@@ -353,6 +354,7 @@ createTomato = (minutes, url) ->
     $('#cancel-tomato-button').hide()
     $('#todo-timer').remove()
     $('.start-tomato-button').show()
+    $('.timer-show').text('25:00')
 
     todayTomato = parseInt($('#today-tomatoes-num').text(), 10) + 1
     $('#today-tomatoes-num').text(todayTomato)
