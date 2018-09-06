@@ -1,6 +1,6 @@
 .project-content{id: "project-content-#{project.id}", value: project.id }
   .header
-    %h3= project.name
+    %h1= project.name
   .project-body
   - project.titles.each do |title|
     .title-container.flex-between{id: "title-container-#{title.id}"}
@@ -8,8 +8,8 @@
         - name = title.name.present? ? title.name : '默认标题'
         .title-body= name
       .button-group.flex
-        = button_tag '删除', { class: 'delete-title-button', value: title.id, url: project_title_path(project, title) }
-        = button_tag '编辑', { class: 'edit-title-button', value: title.id, url: edit_project_title_path(project, title) }
+        = button_tag '删除', { class: 'ui button basic delete-title-button', value: title.id, url: project_title_path(project, title) }
+        = button_tag '编辑', { class: 'ui button basic edit-title-button', value: title.id, url: edit_project_title_path(project, title) }
     .title-todos-container{id: "title-todos-container-#{title.id}"}
       - title.todos.each_with_index do |todo, index|
         .todo-list{id: "todo-list-#{todo.id}"}
@@ -20,6 +20,6 @@
             .todo-today-tomato{id: "todo-#{todo.id}-today-tomato"}= todo.today_tomatoes.size
             = check_box_tag 'hi'
           .button-group.flex
-            = button_tag 'start tomato', class: 'start-tomato-button', url: todo_tomatoes_path(todo)
-            = button_tag '删除', class: 'delete-todo-button', url: title_todo_path(title, todo), value: todo.id
-            = button_tag '编辑', class: 'edit-todo-button', url: edit_title_todo_path(title, todo), value: todo.id
+            = button_tag 'start tomato', class: 'ui button primary start-tomato-button', url: todo_tomatoes_path(todo)
+            = button_tag '删除', class: 'ui button delete-todo-button', url: title_todo_path(title, todo), value: todo.id
+            = button_tag '编辑', class: 'ui button edit-todo-button', url: edit_title_todo_path(title, todo), value: todo.id

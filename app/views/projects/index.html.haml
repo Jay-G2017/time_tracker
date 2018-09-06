@@ -5,7 +5,7 @@
     .dashboard
       %p Today's Tomatoes: 5
     .setting
-      = button_tag 'Setting'
+      %button{class: 'ui button'} setting
 .wrapper-body.flex-center.flex-around
   .container.flex-start
     .sidebar.flex-start
@@ -18,7 +18,7 @@
 .wrapper-footer.border-top-grey.flex-around.flex-center
   .footer-content.flex-between.flex-center
     .sidebar-collapse
-      = button_tag 'folder'
+      = button_tag 'folder', class: 'ui button'
     .tomato-timer-content.flex-around.flex-center
       .timer-show
         %h2 25:00
