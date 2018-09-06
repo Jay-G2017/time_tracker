@@ -1,8 +1,27 @@
-.dashboard
-  = render 'daily_dashboard'
-.container
-  .sidebar
-    = render 'sidebar'
-  .project-container
-    = render 'project', project: @pinned_projects.first if @pinned_projects.present?
+.wrapper-header.border-bottom-grey.flex-around.flex-center
+  .header-content.flex-between.flex-center
+    .home
+      = link_to 'Home'
+    .dashboard
+      %p Today's Tomatoes: 5
+    .setting
+      = button_tag 'Setting'
+.wrapper-body.flex-center.flex-around
+  .container.flex-start
+    .sidebar.flex-start
+      .category-sidebar
+        = render 'sidebar_category'
+      .project-sidebar.border-left-grey
+        = render 'sidebar_project'
+    .project-container.border-left-grey
+      = render 'project', project: @default_project
+.wrapper-footer.border-top-grey.flex-around.flex-center
+  .footer-content.flex-between.flex-center
+    .sidebar-collapse
+      = button_tag 'folder'
+    .tomato-timer-content.flex-around.flex-center
+      .timer-show
+        %h2 25:00
+      = button_tag '取消蕃茄', id: 'cancel-tomato-button', class: 'hide'
+
 

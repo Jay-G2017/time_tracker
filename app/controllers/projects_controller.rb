@@ -3,7 +3,10 @@ class ProjectsController < ApplicationController
 
   def index
     @categories = current_user.categories.includes(:projects)
-    @pinned_projects = current_user.pinned_projects.includes(titles: :todos)
+    @projects = current_user.projects.includes(titles: :todos)
+    @default_project = @projects.first
+
+    render layout: 'time_tracker'
   end
 
   def show
