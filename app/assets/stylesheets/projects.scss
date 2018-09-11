@@ -7,14 +7,20 @@
   min-height: 800px;
   .project-container {
     padding: 20px;
+    height: 800px;
+    overflow: auto;
   }
 
   .category-sidebar {
     padding: 20px;
+    height: 800px;
+    overflow: auto;
   }
 
   .project-sidebar {
     padding: 20px;
+    height: 800px;
+    overflow: auto;
   }
 
 }
