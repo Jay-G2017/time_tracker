@@ -1,6 +1,6 @@
 .wrapper-header {
   background-color: #fefefe;
-  height: 65px;
+  height: 50px;
   position: sticky;
   top: 0;
 }
@@ -9,27 +9,12 @@
   background-color: #fafafa;
 }
 
-.wrapper-footer {
+.footer-content {
   background-color: #fefefe;
-  height: 65px;
+  height: 50px;
   position: sticky;
   bottom: 0;
   width: 100%;
-}
-
-.flex-around {
-  display: flex;
-  justify-content: space-around;
-}
-
-.flex-between {
-  display: flex;
-  justify-content: space-between;
-}
-
-.flex-start {
-  display: flex;
-  justify-content: flex-start;
 }
 
 .border-bottom-grey {
@@ -47,8 +32,4 @@
 
 .border-right-grey {
   border-right: 1px solid grey;
-}
-
-.flex-center {
-  align-items: center;
 }

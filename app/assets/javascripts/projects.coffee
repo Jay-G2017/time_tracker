@@ -331,6 +331,23 @@ $ ->
     $('#todo-timer').remove()
     $('.timer-show').text('25:00')
 
+  # colapse sidebar
+  $('.sidebar-hide-button').on 'click', ->
+    $('.sidebar, .side-category-footer, .side-project-footer').hide()
+    $('.project-container, .project-footer').show()
+
+  $('.sidebar-show-button').on 'click', ->
+    $('.sidebar, .side-category-footer, .side-project-footer').show()
+    $('.side-project-footer').css('display', 'flex')
+    $('.project-container, .project-footer').hide()
+
+  # hover tools
+  $('.sidebar-tool-button').on 'mouseenter', ->
+    $(this).removeClass('basic')
+
+  $('.sidebar-tool-button').on 'mouseleave', ->
+    $(this).addClass('basic')
+
 startTomatoTimer = (minutes, url) ->
   final_time = (new Date).getTime() + minutes * 60 * 1000
   window.tt = setInterval ->

@@ -20,6 +20,5 @@
             .todo-today-tomato{id: "todo-#{todo.id}-today-tomato"}= todo.today_tomatoes.size
             = check_box_tag 'hi'
           .button-group.flex
-            = button_tag 'start tomato', class: 'ui button primary start-tomato-button', url: todo_tomatoes_path(todo)
             = button_tag '删除', class: 'ui button delete-todo-button', url: title_todo_path(title, todo), value: todo.id
             = button_tag '编辑', class: 'ui button edit-todo-button', url: edit_title_todo_path(title, todo), value: todo.id

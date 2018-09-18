@@ -1,28 +1,29 @@
-// Place all the styles related to the projects controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
-
 .container {
-  width: 75%;
-  min-height: 800px;
-  .project-container {
-    padding: 20px;
-    height: 800px;
-    overflow: auto;
-  }
+  box-sizing: border-box;
 
   .category-sidebar {
-    padding: 20px;
-    height: 800px;
+    height: calc(100vh - 100px);
     overflow: auto;
   }
 
   .project-sidebar {
-    padding: 20px;
-    height: 800px;
+    height: calc(100vh - 100px);
     overflow: auto;
   }
 
+  .project-container {
+    height: calc(100vh - 100px);
+    overflow: auto;
+    flex: 1 1 auto;
+  }
+}
+
+.footer-content {
+  box-sizing: border-box;
+
+  .project-footer {
+    flex: 1 1 auto;
+  }
 }
 
 .title-container {
@@ -85,8 +86,6 @@
   }
 
   .project-content {
-    margin-left: 16px;
-    margin-top: 5px;
   }
 
   .project-list {
@@ -94,10 +93,6 @@
   }
 
 .header-content {
-  width: 75%;
-}
-
-.footer-content {
   width: 75%;
 }
 
@@ -109,3 +104,61 @@
   position: fixed;
   top: 65px;
 }
+
+@media only screen and (max-width: 920px) {
+  .category-sidebar {
+    padding-top: 2em;
+    padding-left: 3em;
+    flex: 1 1 18%;
+  }
+  .project-sidebar {
+    flex: 1.5 1 28%;
+    padding-top: 2em;
+    padding-left: 3em;
+  }
+  .project-container {
+    padding: 2em 2em;
+  }
+  .side-category-footer {
+    padding-left: 3em;
+    flex: 1 1 18%
+  }
+  .side-project-footer {
+    padding-left: 3em;
+    flex: 1 1 28%
+  }
+  .sidebar, .side-category-footer, .side-project-footer {
+    display: none;
+  }
+  .sidebar-show-button {
+    display: block;
+  }
+}
+
+@media only screen and (min-width: 920px) and (max-width: 1800px) {
+  .category-sidebar {
+    padding-left: 1%;
+    flex: 0 1 16%;
+  }
+  .project-sidebar {
+    flex: 0 1 20%;
+  }
+  .project-container {
+    padding-right: 1%;
+  }
+}
+
+@media only screen and (min-width: 1800px) {
+  .category-sidebar {
+    padding-left: 12%;
+    flex: 0 1 25%;
+  }
+  .project-sidebar {
+    flex: 0 1 16%;
+  }
+  .project-container {
+    padding-right: 12%;
+  }
+}
+
+

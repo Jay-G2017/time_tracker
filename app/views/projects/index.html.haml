@@ -6,20 +6,38 @@
       %p Today's Tomatoes: 5
     .setting
       %button{class: 'ui button'} setting
-.wrapper-body.flex-center.flex-around
-  .container.flex-start
-    .sidebar.flex-start
-      .category-sidebar
-        = render 'sidebar_category'
-      .project-sidebar.border-left-grey
-        = render 'sidebar_project'
+.wrapper-body
+  .container.flex
+    .category-sidebar.sidebar
+      = render 'sidebar_category'
+    .project-sidebar.sidebar.border-left-grey
+      = render 'sidebar_project'
     .project-container.border-left-grey
       = render 'project', project: @default_project
-.wrapper-footer.border-top-grey.flex-around.flex-center
-  .footer-content.flex-between.flex-center
-    .sidebar-collapse
-      = button_tag 'folder', class: 'ui button'
-    .tomato-timer-content.flex-around.flex-center
+
+.footer-content.border-top-grey.flex.flex-center
+  .side-category-footer
+    .add-category-button.sidebar-tools
+      %button{class: 'sidebar-tool-button ui compact button basic primary'}
+        %i{class: 'icon plus'}
+        add category
+  .side-project-footer.flex-between.flex-center
+    %button{class: 'sidebar-tool-button ui compact button basic primary'}
+      %i{class: 'icon plus'}
+      add project
+    .sidebar-hide-button
+      %i{class: 'icon arrow circle left large'}
+  .project-footer.flex.flex-center
+    .sidebar-show-button.hide
+      %i{class: 'icon arrow circle right large'}
+    .project-button-group.flex
+      %button{class: 'sidebar-tool-button ui compact button basic primary'}
+        %i{class: 'icon plus'}
+        add title
+      %button{class: 'sidebar-tool-button ui compact button basic primary'}
+        %i{class: 'icon plus'}
+        add todo
+    .tomato-timer-content.hide.flex-around.flex-center
       .timer-show
         %h2 25:00
-      = button_tag '取消蕃茄', id: 'cancel-tomato-button', class: 'hide'
+      = button_tag '取消蕃茄', id: 'cancel-tomato-button'
