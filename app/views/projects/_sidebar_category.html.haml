@@ -1,0 +1,21 @@
+.default-category-zone
+  %a{class: 'sidebar-inbox'}
+    .category-name
+      Inbox
+  %a
+    .category-name
+      deleted
+  %a
+    .category-name
+      pinned
+  %a
+    .category-name
+      done
+.custom-category-zone
+  - @categories.each do |category|
+    %a{class: 'sidebar-category-list'}
+      .category-name
+        = category.name
+
+.action-bar
+  = button_tag 'add category', { class: 'ui button', id: 'new-category-button', url: new_category_path }

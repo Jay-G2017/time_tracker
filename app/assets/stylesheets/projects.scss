@@ -1,21 +1,28 @@
-// Place all the styles related to the projects controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
-
 .container {
-  display: flex;
+  box-sizing: border-box;
+
+  .category-sidebar {
+    height: calc(100vh - 100px);
+    overflow: auto;
+  }
+
+  .project-sidebar {
+    height: calc(100vh - 100px);
+    overflow: auto;
+  }
 
   .project-container {
-    padding: 20px;
+    height: calc(100vh - 100px);
+    overflow: auto;
+    flex: 1 1 auto;
   }
+}
 
-  .sidebar {
-    padding: 20px;
-    border-right: 1px solid green;
-  }
+.footer-content {
+  box-sizing: border-box;
 
-  .category-zone {
-    margin-top: 50px;
+  .project-footer {
+    flex: 1 1 auto;
   }
 }
 
@@ -24,10 +31,7 @@
 }
 
 .title-content {
-  display: flex;
-  justify-content: space-between;
   padding: 3px;
-  background: lightgreen;
 
   .body {
     margin-right: 16px;
@@ -39,9 +43,9 @@
   margin-top: 5px;
 }
 
-.todo-content {
-  margin-left: 16px;
-  margin-top: 5px;
+.title-todos-container {
+  margin-left: 10px;
+  margin-bottom: 26px;
 }
 
 .todo-list {
@@ -82,15 +86,79 @@
   }
 
   .project-content {
-    margin-left: 16px;
-    margin-top: 5px;
   }
 
   .project-list {
     margin-bottom: 6px;
   }
 
-  .tomato-on {
+.header-content {
+  width: 75%;
+}
+
+.tomato-on {
+  display: none;
+}
+
+.sticky {
+  position: fixed;
+  top: 65px;
+}
+
+@media only screen and (max-width: 920px) {
+  .category-sidebar {
+    padding-top: 2em;
+    padding-left: 3em;
+    flex: 1 1 18%;
+  }
+  .project-sidebar {
+    flex: 1.5 1 28%;
+    padding-top: 2em;
+    padding-left: 3em;
+  }
+  .project-container {
+    padding: 2em 2em;
+  }
+  .side-category-footer {
+    padding-left: 3em;
+    flex: 1 1 18%
+  }
+  .side-project-footer {
+    padding-left: 3em;
+    flex: 1 1 28%
+  }
+  .sidebar, .side-category-footer, .side-project-footer {
     display: none;
   }
+  .sidebar-show-button {
+    display: block;
+  }
+}
+
+@media only screen and (min-width: 920px) and (max-width: 1800px) {
+  .category-sidebar {
+    padding-left: 1%;
+    flex: 0 1 16%;
+  }
+  .project-sidebar {
+    flex: 0 1 20%;
+  }
+  .project-container {
+    padding-right: 1%;
+  }
+}
+
+@media only screen and (min-width: 1800px) {
+  .category-sidebar {
+    padding-left: 12%;
+    flex: 0 1 25%;
+  }
+  .project-sidebar {
+    flex: 0 1 16%;
+  }
+  .project-container {
+    padding-right: 12%;
+  }
+}
+
 
