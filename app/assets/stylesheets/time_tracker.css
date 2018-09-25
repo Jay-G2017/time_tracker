@@ -2,6 +2,7 @@
   background-color: #fefefe;
   height: 50px;
   position: sticky;
+  position: -webkit-sticky;
   top: 0;
 }
 
@@ -13,6 +14,7 @@
   background-color: #fefefe;
   height: 50px;
   position: sticky;
+  position: -webkit-sticky;
   bottom: 0;
   width: 100%;
 }
