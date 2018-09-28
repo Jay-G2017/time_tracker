@@ -1,22 +1,12 @@
 .wrapper-header {
   background-color: #fefefe;
-  height: 50px;
-  position: sticky;
-  position: -webkit-sticky;
+  position: fixed;
   top: 0;
+  width: 100%;
 }
 
 .wrapper-body {
   background-color: #fafafa;
-}
-
-.footer-content {
-  background-color: #fefefe;
-  height: 50px;
-  position: sticky;
-  position: -webkit-sticky;
-  bottom: 0;
-  width: 100%;
 }
 
 .border-bottom-grey {

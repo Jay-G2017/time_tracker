@@ -332,21 +332,17 @@ $ ->
     $('.timer-show').text('25:00')
 
   # colapse sidebar
-  $('.sidebar-hide-button').on 'click', ->
-    $('.sidebar, .side-category-footer, .side-project-footer').hide()
-    $('.project-container, .project-footer').show()
+  $('.to-category-sidebar-link').on 'click', ->
+    $('.project-sidebar').hide()
+    $('.category-sidebar').show()
+    $(this).hide()
+    $('.category-description').show()
 
-  $('.sidebar-show-button').on 'click', ->
-    $('.sidebar, .side-category-footer, .side-project-footer').show()
-    $('.side-project-footer').css('display', 'flex')
-    $('.project-container, .project-footer').hide()
-
-  # hover tools
-  $('.sidebar-tool-button').on 'mouseenter', ->
-    $(this).removeClass('basic')
-
-  $('.sidebar-tool-button').on 'mouseleave', ->
-    $(this).addClass('basic')
+  $('.to-project-sidebar-link').on 'click', ->
+    $('.project-sidebar').show()
+    $('.project-container').hide()
+    $(this).hide()
+    $('.to-category-sidebar-link').show()
 
 startTomatoTimer = (minutes, url) ->
   final_time = (new Date).getTime() + minutes * 60 * 1000

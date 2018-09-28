@@ -2,18 +2,13 @@
   box-sizing: border-box;
 
   .category-sidebar {
-    height: calc(100vh - 100px);
-    overflow: auto;
   }
 
   .project-sidebar {
-    height: calc(100vh - 100px);
-    overflow: auto;
+  
   }
 
   .project-container {
-    height: calc(100vh - 100px);
-    overflow: auto;
     flex: 1 1 auto;
   }
 }
@@ -38,41 +33,34 @@
   }
 }
 
-.new-todo-content {
-  margin-left: 16px;
-  margin-top: 5px;
-}
-
 .title-todos-container {
   margin-left: 10px;
   margin-bottom: 26px;
 }
-
 .todo-list {
-  display: flex;
-  justify-content: space-between;
   margin-bottom: 6px;
 }
 
-.todo-body {
+.todo-content {
   margin-right: 100px;
 
-  .todo-name {
-    margin-right: 20px;
+  .todo-check {
+    flex: none;
+    flex-basis: 2em;
   }
-
+  .todo-name {
+    flex: auto;
+  }
+}
+.todo-toolbar {
   .todo-total-tomato {
     margin-right: 20px;
   }
+}
 
-  .todo-today-tomato {
-    border: 1px solid green;
-    width: 18px;
-    height: 18px;
-    border-radius: 4px;
-    text-align: center;
-    line-height: 18px;
-  }
+.new-todo-content {
+  margin-left: 16px;
+  margin-top: 5px;
 }
 
 .category-content {
@@ -80,20 +68,16 @@
   background-color: lightgreen;
 }
 
-  .new-project-content {
-    margin-left: 16px;
-    margin-top: 5px;
-  }
+.new-project-content {
+  margin-left: 16px;
+  margin-top: 5px;
+}
 
-  .project-content {
-  }
-
-  .project-list {
-    margin-bottom: 6px;
-  }
+.project-list {
+  margin-bottom: 6px;
+}
 
 .header-content {
-  width: 75%;
 }
 
 .tomato-on {
@@ -106,6 +90,15 @@
 }
 
 @media only screen and (max-width: 920px) {
+  .wrapper-header {
+    height: 60px;
+  }
+  .header-content {
+    padding: 0 2em;
+  }
+  .container {
+    padding-top: 80px;
+  }
   .category-sidebar {
     padding-top: 2em;
     padding-left: 3em;
@@ -119,18 +112,10 @@
   .project-container {
     padding: 2em 2em;
   }
-  .side-category-footer {
-    padding-left: 3em;
-    flex: 1 1 18%
-  }
-  .side-project-footer {
-    padding-left: 3em;
-    flex: 1 1 28%
-  }
-  .sidebar, .side-category-footer, .side-project-footer {
+  .sidebar {
     display: none;
   }
-  .sidebar-show-button {
+  .to-project-sidebar-link {
     display: block;
   }
 }
@@ -149,15 +134,28 @@
 }
 
 @media only screen and (min-width: 1800px) {
+  .wrapper-header {
+    height: 60px;
+  }
+  .container {
+    padding-top: 80px;
+  }
   .category-sidebar {
     padding-left: 12%;
     flex: 0 1 25%;
+    height: calc(100vh - 80px);
+    overflow: auto;
   }
   .project-sidebar {
     flex: 0 1 16%;
+    height: calc(100vh - 80px);
+    overflow: auto;
+    overflow: auto;
   }
   .project-container {
     padding-right: 12%;
+    height: calc(100vh - 80px);
+    overflow: auto;
   }
 }
 
