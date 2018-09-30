@@ -10,53 +10,9 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require_self
+ *= require spectre-0.5.3/spectre
+ *= require spectre-0.5.3/spectre-icons
+ *= require spectre-0.5.3/spectre-exp
  *= require_tree .
+ *= require time_tracker_media_query
  */
-
-@import "semantic-ui";
-
-.header {
-  display: flex;
-  justify-content: space-between;
-}
-
-.field input {
-  display: block;
-}
-
-.flex {
-  display: flex;
-}
-
-.flex-around {
-  display: flex;
-  justify-content: space-around;
-}
-
-.flex-between {
-  display: flex;
-  justify-content: space-between;
-}
-
-.flex-start {
-  display: flex;
-  justify-content: flex-start;
-}
-
-.flex-center {
-  align-items: center;
-}
-
-.hide {
-  display: none ;
-}
-
-.flex {
-  display: flex;
-}
-
-.flex-between {
-  display: flex;
-  justify-content: space-between;
-}

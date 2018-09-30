@@ -3,17 +3,16 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $ ->
-  $('.project-body.side').on 'click', ->
-    project_id = $(this).parent().attr('value')
-    url = $(this).attr('url')
-    $('.main .project-content').hide()
-
-    if($('#project-content-' + project_id)[0])
-      $('#project-content-' + project_id).show()
-    else
-      $.get url, (data) ->
-        debugger
-        $('.project-container.main').append data
+  # 项目侧边栏导航
+  $('.project-sidebar').on 'click', 'a.sidebar-project-list', (e)->
+    e.preventDefault()
+    projectId = $(this).attr('value')
+    replaceProjectContent(projectId)
+    # 适配小屏
+    screenWidth = $(document).width()
+    if screenWidth < 920
+      $('.project-sidebar, .project-sidebar-header-row').hide()
+      $('.project-container, .project-container-header-row').show()
 
   # new title
   $('.project-container').on 'click', '#new-title-button', (e) ->
@@ -317,71 +316,68 @@ $ ->
 
 
   # start tomato timer
-  $('.project-container.main').on 'click', '.start-tomato-button', ->
-    $('#cancel-tomato-button').show()
-    $(this).addClass('tomato-on').after("<div id= 'todo-timer' class='timer-show'>25:00</div>")
-    url = $(this).attr('url')
-    startTomatoTimer(25, url)
+  $('.project-container').on 'click', '.tomato-start', ->
+    $('.tomato-button').addClass('disabled')
+    $(this).find('.tomato-button').removeClass('disabled').addClass('clicked')
+    $('.project-container-header-row').hide()
+    $('.tomato-timer-header-row').css('display', 'flex')
+    todoId = $(this).attr('value')
+    startTomatoTimer(todoId, 1)
 
   # cancel tomato timer
-  $('#cancel-tomato-button').on 'click', ->
+  $('.timer-cancel').on 'click', ->
     clearInterval tt
-    $(this).hide()
-    $('.start-tomato-button').show()
-    $('#todo-timer').remove()
-    $('.timer-show').text('25:00')
+    afterTomatoCancel()
 
   # colapse sidebar
-  $('.sidebar-hide-button').on 'click', ->
-    $('.sidebar, .side-category-footer, .side-project-footer').hide()
-    $('.project-container, .project-footer').show()
+  $('.to-category-sidebar-link').on 'click', ->
+    $('.project-sidebar, .project-sidebar-header-row').hide()
+    $('.category-sidebar, .category-sidebar-header-row').show()
 
-  $('.sidebar-show-button').on 'click', ->
-    $('.sidebar, .side-category-footer, .side-project-footer').show()
-    $('.side-project-footer').css('display', 'flex')
-    $('.project-container, .project-footer').hide()
+  $('.to-project-sidebar-link').on 'click', ->
+    $('.project-sidebar, .project-sidebar-header-row').show()
+    $('.project-container, .project-container-header-row').hide()
 
-  # hover tools
-  $('.sidebar-tool-button').on 'mouseenter', ->
-    $(this).removeClass('basic')
-
-  $('.sidebar-tool-button').on 'mouseleave', ->
-    $(this).addClass('basic')
-
-startTomatoTimer = (minutes, url) ->
+startTomatoTimer = (todoId, minutes) ->
   final_time = (new Date).getTime() + minutes * 60 * 1000
   window.tt = setInterval ->
-    showTime(final_time, minutes, url)
+    showTime(final_time, minutes, todoId)
   , 500
 
-showTime = (final_time, minutes, url) ->
+showTime = (final_time, minutes, todoId) ->
   now = (new Date).getTime()
   distance = final_time - now
   if distance >= 0
     minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, 0)
     seconds = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, 0)
-    $('.timer-show').text(minutes + ':' + seconds)
+    $('.timer-show > b').text(minutes + ':' + seconds)
   else
     clearInterval tt
-    createTomato(minutes, url)
+    createTomato(minutes, todoId)
 
-createTomato = (minutes, url) ->
-  url = url + '?minutes=' + minutes
+createTomato = (minutes, todoId) ->
+  url = 'todos/' + todoId + '/tomatoes?minutes=' + minutes
   $.post url, (data) ->
-    $('#cancel-tomato-button').hide()
-    $('#todo-timer').remove()
-    $('.start-tomato-button').show()
-    $('.timer-show').text('25:00')
+    afterTomatoDone()
 
-    todayTomato = parseInt($('#today-tomatoes-num').text(), 10) + 1
-    $('#today-tomatoes-num').text(todayTomato)
+afterTomatoDone = ->
+  todayTomato = parseInt($('#today-tomato-num').text(), 10) + 1
+  $('#today-tomato-num').text(todayTomato)
 
-    todoTotalTomato = $('#todo-'+ data['id'] + '-total-tomato')
-    todoTotalTomatoNum = parseInt(todoTotalTomato.text(), 10) + 1
-    todoTotalTomato.text(todoTotalTomatoNum)
+  $('.tomato-timer-header-row').hide()
+  $('.project-container-header-row').show()
 
-    todoTodayTomato = $('#todo-'+ data['id'] + '-today-tomato')
-    todoTodayTomatoNum = parseInt(todoTodayTomato.text(), 10) + 1
-    todoTodayTomato.text(todoTodayTomatoNum)
+  $('.tomato-button').removeClass('disabled').removeClass('clicked')
 
+  # todoTotalTomato = $('#todo-'+ data['id'] + '-total-tomato')
+  # todoTotalTomatoNum = parseInt(todoTotalTomato.text(), 10) + 1
+  # todoTotalTomato.text(todoTotalTomatoNum)
 
+  # todoTodayTomato = $('#todo-'+ data['id'] + '-today-tomato')
+  # todoTodayTomatoNum = parseInt(todoTodayTomato.text(), 10) + 1
+  # todoTodayTomato.text(todoTodayTomatoNum)
+
+afterTomatoCancel = ->
+  $('.tomato-timer-header-row').hide()
+  $('.project-container-header-row').show()
+  $('.tomato-button').removeClass('disabled').removeClass('clicked')

@@ -1,0 +1,92 @@
+@import "my_variables";
+
+@media only screen and (max-width: 920px) {
+  body {
+    .heading-h2 {
+      font-size: 1.6rem;
+    }
+    .text-p {
+      font-size: 1rem;
+    }
+  }
+  .wrapper-header {
+    height: $phone-header-height;
+  }
+  .header-content {
+    padding: 0 0.5em;
+    width: 100%;
+    .project-container-header-row {
+      .dashboard {
+        justify-content: flex-start;
+      }
+    }
+  }
+  .container {
+    padding-top: $phone-header-height;
+  }
+  .category-sidebar {
+    padding-top: 2em;
+    padding-left: 3em;
+    flex: 1 1 18%;
+  }
+  .project-sidebar {
+    flex: 1.5 1 28%;
+    padding-top: 2em;
+    padding-left: 3em;
+    border-left: none;
+  }
+  .project-container {
+    padding: 1em 0.8em;
+    border-left: none;
+  }
+  .sidebar {
+    display: none;
+  }
+  .to-project-sidebar-link, .project-container-header-divider {
+    display: block;
+  }
+}
+
+@media only screen and (min-width: 920px) and (max-width: 1800px) {
+  .category-sidebar {
+    padding-left: 1%;
+    flex: 0 1 16%;
+  }
+  .project-sidebar {
+    flex: 0 1 20%;
+  }
+  .project-container {
+    padding: 1em 0.8em;
+    padding-right: 1%;
+  }
+}
+
+@media only screen and (min-width: 1800px) {
+  .wrapper-header {
+    height: $pc-header-height;
+  }
+  .header-content {
+    width: 76%;
+  }
+  .container {
+    padding-top: $pc-header-height;
+  }
+  .category-sidebar {
+    padding-left: 12%;
+    flex: 0 1 25%;
+    height: calc(100vh - #{$pc-header-height});
+    overflow: auto;
+  }
+  .project-sidebar {
+    flex: 0 1 16%;
+    height: calc(100vh - #{$pc-header-height});
+    overflow: auto;
+    overflow: auto;
+  }
+  .project-container {
+    padding-right: 12%;
+    height: calc(100vh - #{$pc-header-height});
+    overflow: auto;
+    padding: 1em 0.8em;
+  }
+}

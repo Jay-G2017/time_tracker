@@ -1,0 +1,73 @@
+@import "my_variables";
+
+body {
+  color: #111;
+}
+
+.wrapper-header {
+  background-color: $gray-color-dark;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 999;
+  color: $light-color;
+}
+
+.header-content {
+  .category-sidebar-header-row {
+    justify-content: flex-start;
+    flex: auto;
+  }
+  .project-sidebar-header-row {
+    justify-content: flex-start;
+    flex: auto;
+  }
+  .project-container-header-row {
+    flex: auto;
+    .to-project-sidebar-link {
+    }
+    .dashboard {
+      display: flex;
+      justify-content: space-around;
+      flex: auto;
+    }
+  }
+}
+
+.wrapper-body {
+  background-color: $bg-color-dark;
+}
+
+.border-bottom-grey {
+  border-bottom: 1px solid grey;
+  box-shadow-bottom: 0 1px 2px grey;
+}
+
+.border-top-grey {
+  border-top: 1px solid grey;
+}
+
+.border-left-grey {
+  border-left: 1px solid grey;
+}
+
+.border-right-grey {
+  border-right: 1px solid grey;
+}
+
+.tomato-button {
+  width: 1em;
+  height: 1em;
+  background: $primary-color;
+  border-radius: 50%;
+  box-shadow: 1px 1px 2px $gray-color;
+}
+
+.tomato-button.clicked {
+  box-shadow: none;
+}
+.tomato-button.disabled {
+  box-shadow: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+}

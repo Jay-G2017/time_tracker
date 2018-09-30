@@ -1,20 +1,24 @@
+@import "my_variables";
+
 .container {
   box-sizing: border-box;
+  padding-left: 0;
+  padding-right: 0;
 
   .category-sidebar {
-    height: calc(100vh - 100px);
-    overflow: auto;
   }
+}
 
-  .project-sidebar {
-    height: calc(100vh - 100px);
-    overflow: auto;
-  }
-
-  .project-container {
-    height: calc(100vh - 100px);
-    overflow: auto;
-    flex: 1 1 auto;
+.project-sidebar {
+  border-left: 1px solid $border-color-dark;
+}
+.project-container {
+  flex: 1 1 auto;
+  border-left: 1px solid $border-color-dark;
+  .project-head {
+    background: $light-color;
+    padding: 0.5em;
+    box-shadow: 0 0.05rem 0.2rem rgba(69,77,93,.3)
   }
 }
 
@@ -26,15 +30,30 @@
   }
 }
 
-.title-container {
-  margin-bottom: 16px;
+.title-row {
+  padding: 1em 0 0.5em 0;
 }
 
-.title-content {
-  padding: 3px;
+.title-todos-container {
+  padding: 0 0.5em;
+  background: $light-color;
+  box-shadow: 0 0.05rem 0.2rem rgba(69,77,93,.3)
+}
 
-  .body {
-    margin-right: 16px;
+.todo-list {
+  padding: 0.5em;
+  margin-bottom: 6px;
+  .tomato-start {
+    flex: none;
+    flex-basis: 2em;
+  }
+  .todo-name {
+    flex: auto;
+  }
+  .todo-toolbar {
+    .todo-total-tomato {
+      margin-right: 20px;
+    }
   }
 }
 
@@ -43,57 +62,21 @@
   margin-top: 5px;
 }
 
-.title-todos-container {
-  margin-left: 10px;
-  margin-bottom: 26px;
-}
-
-.todo-list {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 6px;
-}
-
-.todo-body {
-  margin-right: 100px;
-
-  .todo-name {
-    margin-right: 20px;
-  }
-
-  .todo-total-tomato {
-    margin-right: 20px;
-  }
-
-  .todo-today-tomato {
-    border: 1px solid green;
-    width: 18px;
-    height: 18px;
-    border-radius: 4px;
-    text-align: center;
-    line-height: 18px;
-  }
-}
-
 .category-content {
   padding: 3px;
   background-color: lightgreen;
 }
 
-  .new-project-content {
-    margin-left: 16px;
-    margin-top: 5px;
-  }
+.new-project-content {
+  margin-left: 16px;
+  margin-top: 5px;
+}
 
-  .project-content {
-  }
-
-  .project-list {
-    margin-bottom: 6px;
-  }
+.project-list {
+  margin-bottom: 6px;
+}
 
 .header-content {
-  width: 75%;
 }
 
 .tomato-on {
@@ -105,60 +88,6 @@
   top: 65px;
 }
 
-@media only screen and (max-width: 920px) {
-  .category-sidebar {
-    padding-top: 2em;
-    padding-left: 3em;
-    flex: 1 1 18%;
-  }
-  .project-sidebar {
-    flex: 1.5 1 28%;
-    padding-top: 2em;
-    padding-left: 3em;
-  }
-  .project-container {
-    padding: 2em 2em;
-  }
-  .side-category-footer {
-    padding-left: 3em;
-    flex: 1 1 18%
-  }
-  .side-project-footer {
-    padding-left: 3em;
-    flex: 1 1 28%
-  }
-  .sidebar, .side-category-footer, .side-project-footer {
-    display: none;
-  }
-  .sidebar-show-button {
-    display: block;
-  }
-}
 
-@media only screen and (min-width: 920px) and (max-width: 1800px) {
-  .category-sidebar {
-    padding-left: 1%;
-    flex: 0 1 16%;
-  }
-  .project-sidebar {
-    flex: 0 1 20%;
-  }
-  .project-container {
-    padding-right: 1%;
-  }
-}
-
-@media only screen and (min-width: 1800px) {
-  .category-sidebar {
-    padding-left: 12%;
-    flex: 0 1 25%;
-  }
-  .project-sidebar {
-    flex: 0 1 16%;
-  }
-  .project-container {
-    padding-right: 12%;
-  }
-}
 
 

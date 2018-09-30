@@ -1,3 +1,4 @@
 - @projects.each do |project|
-  .sidebar-project-list
-    = project.name
+  %a.sidebar-project-list.text-p{href: '#', value: project.id}
+    .project-name
+      = project.name

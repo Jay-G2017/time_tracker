@@ -1,0 +1,71 @@
+.flex {
+  display: flex;
+}
+
+.flex-around {
+  display: flex;
+  justify-content: space-around;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flex-start {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.flex-end {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.align-center {
+  align-items: center;
+}
+.align-start {
+  align-items: flex-start;
+}
+.align-baseline {
+  align-items: baseline;
+}
+
+.hide {
+  display: none ;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-mini {
+  font-size: 0.5rem;
+  height: 1rem;
+  line-height: 1rem;
+  padding: 0 0.1rem;
+}
+
+.s-rounded {
+  border-radius: 0.15rem;
+}
+
+.rotate90 {
+  /* Safari */
+  -webkit-transform: rotate(-90deg);
+
+  /* Firefox */
+  -moz-transform: rotate(-90deg);
+
+  /* IE */
+  -ms-transform: rotate(-90deg);
+
+  /* Opera */
+  -o-transform: rotate(-90deg);
+}
