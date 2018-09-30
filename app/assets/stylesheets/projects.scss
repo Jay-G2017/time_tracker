@@ -1,15 +1,24 @@
+@import "my_variables";
+
 .container {
   box-sizing: border-box;
+  padding-left: 0;
+  padding-right: 0;
 
   .category-sidebar {
   }
+}
 
-  .project-sidebar {
-  
-  }
-
-  .project-container {
-    flex: 1 1 auto;
+.project-sidebar {
+  border-left: 1px solid $border-color-dark;
+}
+.project-container {
+  flex: 1 1 auto;
+  border-left: 1px solid $border-color-dark;
+  .project-head {
+    background: $light-color;
+    padding: 0.5em;
+    box-shadow: 0 0.05rem 0.2rem rgba(69,77,93,.3)
   }
 }
 
@@ -21,40 +30,30 @@
   }
 }
 
-.title-container {
-  margin-bottom: 16px;
-}
-
-.title-content {
-  padding: 3px;
-
-  .body {
-    margin-right: 16px;
-  }
+.title-row {
+  padding: 1em 0 0.5em 0;
 }
 
 .title-todos-container {
-  margin-left: 10px;
-  margin-bottom: 26px;
+  padding: 0 0.5em;
+  background: $light-color;
+  box-shadow: 0 0.05rem 0.2rem rgba(69,77,93,.3)
 }
+
 .todo-list {
+  padding: 0.5em;
   margin-bottom: 6px;
-}
-
-.todo-content {
-  margin-right: 100px;
-
-  .todo-check {
+  .tomato-start {
     flex: none;
     flex-basis: 2em;
   }
   .todo-name {
     flex: auto;
   }
-}
-.todo-toolbar {
-  .todo-total-tomato {
-    margin-right: 20px;
+  .todo-toolbar {
+    .todo-total-tomato {
+      margin-right: 20px;
+    }
   }
 }
 
@@ -89,74 +88,6 @@
   top: 65px;
 }
 
-@media only screen and (max-width: 920px) {
-  .wrapper-header {
-    height: 60px;
-  }
-  .header-content {
-    padding: 0 2em;
-  }
-  .container {
-    padding-top: 80px;
-  }
-  .category-sidebar {
-    padding-top: 2em;
-    padding-left: 3em;
-    flex: 1 1 18%;
-  }
-  .project-sidebar {
-    flex: 1.5 1 28%;
-    padding-top: 2em;
-    padding-left: 3em;
-  }
-  .project-container {
-    padding: 2em 2em;
-  }
-  .sidebar {
-    display: none;
-  }
-  .to-project-sidebar-link {
-    display: block;
-  }
-}
 
-@media only screen and (min-width: 920px) and (max-width: 1800px) {
-  .category-sidebar {
-    padding-left: 1%;
-    flex: 0 1 16%;
-  }
-  .project-sidebar {
-    flex: 0 1 20%;
-  }
-  .project-container {
-    padding-right: 1%;
-  }
-}
-
-@media only screen and (min-width: 1800px) {
-  .wrapper-header {
-    height: 60px;
-  }
-  .container {
-    padding-top: 80px;
-  }
-  .category-sidebar {
-    padding-left: 12%;
-    flex: 0 1 25%;
-    height: calc(100vh - 80px);
-    overflow: auto;
-  }
-  .project-sidebar {
-    flex: 0 1 16%;
-    height: calc(100vh - 80px);
-    overflow: auto;
-    overflow: auto;
-  }
-  .project-container {
-    padding-right: 12%;
-    height: calc(100vh - 80px);
-    overflow: auto;
-  }
-}
 
 

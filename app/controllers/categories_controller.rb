@@ -5,6 +5,13 @@ class CategoriesController < ApplicationController
     render partial: 'new'
   end
 
+  def show
+    category = Category.find params[:id]
+    @projects = category.projects
+
+    render partial: 'show'
+  end
+
   def edit
     @category = Category.find params[:id]
 

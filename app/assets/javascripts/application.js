@@ -18,3 +18,13 @@
 //= require semantic-ui
 //= require_tree .
 
+function replaceProjectContent(projectId) {
+  if(projectId == undefined) {
+    $('.project-container').empty();
+  }else {
+    var url = 'projects/' + projectId;
+    $.get(url, function(data) {
+      $('.project-container').html(data);
+    });
+  }
+}

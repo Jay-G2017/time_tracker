@@ -1,31 +1,33 @@
 .project-content{id: "project-content-#{project.id}", value: project.id }
-  .header
-    %h2= project.name
-  .description
-    %p This is description
+  .project-head.s-rounded
+    .header
+      %h2= project.name
+    .description.text-p
+      %p This is description
   .project-body
-  - project.titles.each do |title|
-    .title-container{id: "title-container-#{title.id}"}
-      .title-row.flex-between{ id: "title-row-#{title.id}" }
-        .title-content.flex.flex-center
-          %i{class: 'icon icon-caret rotate90'}
-          .title-name
-            - name = title.name.present? ? title.name : '默认标题'
-            %b= name
-        .title-button-group
+    - project.titles.each do |title|
+      .title-container{id: "title-container-#{title.id}"}
+        .title-row.flex-between{ id: "title-row-#{title.id}" }
+          .title-content.flex.align-center
+            .title-name
+              - name = title.name.present? ? title.name : '默认标题'
+              %b= name
+            .divider-vert
+            %i{class: 'icon icon-arrow-up'}
+          .title-button-group
 
-    .title-todos-container{id: "title-todos-container-#{title.id}"}
-      - title.todos.each_with_index do |todo, index|
-        .todo-list{id: "todo-list-#{todo.id}"}
-          .todo-content.flex
-            .todo-check
-              %input{type: 'checkbox'}
-            .todo-name
-              = todo.name
-          .todo-toolbar.flex-end
-            .todo-total-tomato{id: "todo-#{todo.id}-total-tomato"}= todo.tomatoes.size
-            .tomato-start
-            .todo-button-group
-          -# .button-group.flex
-            -# = button_tag '删除', class: 'ui button delete-todo-button', url: title_todo_path(title, todo), value: todo.id
-            -# = button_tag '编辑', class: 'ui button edit-todo-button', url: edit_title_todo_path(title, todo), value: todo.id
+        .title-todos-container.s-rounded{id: "title-todos-container-#{title.id}"}
+          - title.todos.each_with_index do |todo, index|
+            - if index != 0
+              .divider
+            .todo-list.flex-between.align-start{id: "todo-list-#{todo.id}"}
+              .tomato-start{value: todo.id}
+                .tomato-button
+              .todo-name.text-p
+                = todo.name
+                %button.btn.btn-success.btn-mini 5 | 10
+              .todo-toolbar.flex-between.align-center.text-dark
+                %i{class: 'icon icon-more-vert'}
+              -# .button-group.flex
+                -# = button_tag '删除', class: 'ui button delete-todo-button', url: title_todo_path(title, todo), value: todo.id
+                -# = button_tag '编辑', class: 'ui button edit-todo-button', url: edit_title_todo_path(title, todo), value: todo.id
