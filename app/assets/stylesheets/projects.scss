@@ -16,9 +16,7 @@
   flex: 1 1 auto;
   border-left: 1px solid $border-color-dark;
   .project-head {
-    background: $light-color;
     padding: 0.5em;
-    box-shadow: 0 0.05rem 0.2rem rgba(69,77,93,.3)
   }
 }
 
@@ -37,7 +35,6 @@
 .title-todos-container {
   padding: 0 0.5em;
   background: $light-color;
-  box-shadow: 0 0.05rem 0.2rem rgba(69,77,93,.3)
 }
 
 .todo-list {

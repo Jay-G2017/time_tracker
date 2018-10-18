@@ -4,13 +4,20 @@ body {
   color: #111;
 }
 
+.nav-wrapper {
+  height: 50px;
+  background-color: $primary-color-dark;
+  color: $light-color;
+}
+
 .wrapper-header {
-  background-color: $gray-color-dark;
-  position: fixed;
-  top: 0;
+  background-color: $primary-color-light;
+  border-bottom: 1px solid $border-color;
+  //position: fixed;
+  //top: 0;
   width: 100%;
   z-index: 999;
-  color: $light-color;
+  color: $dark-color;
 }
 
 .header-content {
@@ -35,7 +42,21 @@ body {
 }
 
 .wrapper-body {
+  background-color: $bg-color;
+}
+
+.category-sidebar {
   background-color: $bg-color-dark;
+  color: $light-color;
+  a {
+    color: $dark-color;
+  }
+}
+.project-sidebar {
+  background-color: $bg-color-light;
+  a {
+    color: $dark-color;
+  }
 }
 
 .border-bottom-grey {
@@ -60,11 +81,9 @@ body {
   height: 1em;
   background: $primary-color;
   border-radius: 50%;
-  box-shadow: 1px 1px 2px $gray-color;
 }
 
 .tomato-button.clicked {
-  box-shadow: none;
 }
 .tomato-button.disabled {
   box-shadow: none;

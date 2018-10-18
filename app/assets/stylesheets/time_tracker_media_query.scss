@@ -48,6 +48,9 @@
 }
 
 @media only screen and (min-width: 920px) and (max-width: 1800px) {
+  .wrapper-header {
+    height: $tablet-header-height;
+  }
   .category-sidebar {
     padding-left: 1%;
     flex: 0 1 16%;
