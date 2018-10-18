@@ -1,40 +1,93 @@
-// Place all the styles related to the projects controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+@import "my_variables";
 
 .container {
-  display: flex;
+  box-sizing: border-box;
+  padding-left: 0;
+  padding-right: 0;
 
-  .project-container {
-    padding: 20px;
-  }
-
-  .sidebar {
-    padding: 20px;
-    border-right: 1px solid green;
-  }
-
-  .category-zone {
-    margin-top: 50px;
+  .category-sidebar {
   }
 }
 
-.title-container {
-  margin-bottom: 16px;
+.project-sidebar {
+  border-left: 1px solid $border-color-dark;
 }
-
-.title-content {
-  display: flex;
-
-  .body {
-    margin-right: 16px;
+.project-container {
+  flex: 1 1 auto;
+  border-left: 1px solid $border-color-dark;
+  .project-head {
+    background: $light-color;
+    padding: 0.5em;
+    box-shadow: 0 0.05rem 0.2rem rgba(69,77,93,.3)
   }
 }
 
-.todo-content {
-  margin-left: 16px;
+.footer-content {
+  box-sizing: border-box;
+
+  .project-footer {
+    flex: 1 1 auto;
+  }
+}
+
+.title-row {
+  padding: 1em 0 0.5em 0;
+}
+
+.title-todos-container {
+  padding: 0 0.5em;
+  background: $light-color;
+  box-shadow: 0 0.05rem 0.2rem rgba(69,77,93,.3)
 }
 
 .todo-list {
-  display: flex;
+  padding: 0.5em;
+  margin-bottom: 6px;
+  .tomato-start {
+    flex: none;
+    flex-basis: 2em;
+  }
+  .todo-name {
+    flex: auto;
+  }
+  .todo-toolbar {
+    .todo-total-tomato {
+      margin-right: 20px;
+    }
+  }
 }
+
+.new-todo-content {
+  margin-left: 16px;
+  margin-top: 5px;
+}
+
+.category-content {
+  padding: 3px;
+  background-color: lightgreen;
+}
+
+.new-project-content {
+  margin-left: 16px;
+  margin-top: 5px;
+}
+
+.project-list {
+  margin-bottom: 6px;
+}
+
+.header-content {
+}
+
+.tomato-on {
+  display: none;
+}
+
+.sticky {
+  position: fixed;
+  top: 65px;
+}
+
+
+
+

@@ -1,0 +1,24 @@
+// Core colors
+$primary-color: #5755d9;
+$primary-color-dark: darken($primary-color, 3%);
+$primary-color-light: lighten($primary-color, 3%);
+$secondary-color: lighten($primary-color, 37.5%) !default;
+$secondary-color-dark: darken($secondary-color, 3%) !default;
+$secondary-color-light: lighten($secondary-color, 3%) !default;
+
+// Gray colors
+$dark-color: #454d5d ;
+$light-color: #fff !default;
+$gray-color: lighten($dark-color, 40%) !default;
+$gray-color-dark: darken($gray-color, 25%) !default;
+$gray-color-light: lighten($gray-color, 20%) !default;
+
+$border-color: lighten($dark-color, 60%);
+$border-color-dark: darken($border-color, 10%) !default;
+$bg-color: lighten($dark-color, 66%);
+$bg-color-dark: darken($bg-color, 3%) !default;
+$bg-color-light: $light-color !default;
+
+$phone-header-height: 60px;
+$tablet-header-height: 60px;
+$pc-header-height: 60px;

@@ -1,0 +1,22 @@
+.default-category-zone.category-zone.text-p
+  %a.sidebar-inbox{href: '#'}
+    .category-name
+      Inbox
+  %a.sidebar-deleted{href: '#'}
+    .category-name
+      deleted
+  %a.sidebar-pinned{href: '#'}
+    .category-name
+      pinned
+  %a.sidebar-done{href: '#'}
+    .category-name
+      done
+.custom-category-zone.category-zone.text-p
+  - @categories.each do |category|
+    %a.sidebar-category-list.flex{href: category_path(category), value: category.id}
+      .category-name
+        = category.name
+      .todo-num 9
+
+-# .action-bar
+  = button_tag 'add category', { class: 'ui button', id: 'new-category-button', url: new_category_path }

@@ -1,7 +1,33 @@
-.project-content#project-id{ value: project.id }
-  .header
-    %h3= project.name
+.project-content{id: "project-content-#{project.id}", value: project.id }
+  .project-head.s-rounded
+    .header
+      %h2= project.name
+    .description.text-p
+      %p This is description
   .project-body
-    = render partial: 'title', collection: project.titles, as: :title, locals: { project: project }
-  .action-bar
-    = button_tag '新建标题', { class: 'btn', id: 'new-title-button', url: new_project_title_path(project.id) }
+    - project.titles.each do |title|
+      .title-container{id: "title-container-#{title.id}"}
+        .title-row.flex-between{ id: "title-row-#{title.id}" }
+          .title-content.flex.align-center
+            .title-name
+              - name = title.name.present? ? title.name : '默认标题'
+              %b= name
+            .divider-vert
+            %i{class: 'icon icon-arrow-up'}
+          .title-button-group
+
+        .title-todos-container.s-rounded{id: "title-todos-container-#{title.id}"}
+          - title.todos.each_with_index do |todo, index|
+            - if index != 0
+              .divider
+            .todo-list.flex-between.align-start{id: "todo-list-#{todo.id}"}
+              .tomato-start{value: todo.id}
+                .tomato-button
+              .todo-name.text-p
+                = todo.name
+                %button.btn.btn-success.btn-mini 5 | 10
+              .todo-toolbar.flex-between.align-center.text-dark
+                %i{class: 'icon icon-more-vert'}
+              -# .button-group.flex
+                -# = button_tag '删除', class: 'ui button delete-todo-button', url: title_todo_path(title, todo), value: todo.id
+                -# = button_tag '编辑', class: 'ui button edit-todo-button', url: edit_title_todo_path(title, todo), value: todo.id

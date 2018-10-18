@@ -1,0 +1,20 @@
+.category-container{id: "category-container-#{category.id}"}
+  - name = category.name.present? ? category.name : '默认'
+  .category-content.flex-between{ id: "category-content-#{category.id}" }
+    .category-body= name
+    .button-group.flex
+      = button_tag '删除', { class: 'delete-category-button', value: category.id, url: category_path(category) }
+      = button_tag '编辑', { class: 'edit-category-button', value: category.id, url: edit_category_path(category) }
+  .new-project-content
+    = form_tag do
+      = text_field_tag 'project[name]', nil, class: 'create-project-input', placeholder: 'add project'
+      = button_tag 'add', class: 'create-project-button', url: category_projects_path(category), value: category.id, type: 'button'
+  .project-content{id: "side-project-content-#{category.id}"}
+    - category.projects.each do |project|
+      .project-list.flex-between{id: "project-list-#{project.id}", value: project.id}
+        .project-body.side.flex{url: project_path(project)}
+          .project-name= project.name
+          .remain-todos{id: "project-#{project.id}-remain-todos"}= '(8)'
+        .button-group.flex
+          = button_tag '删除', class: 'delete-project-button', url: project_path(project), value: project.id
+          = button_tag '编辑', class: 'edit-project-button', url: edit_project_path(project), value: project.id
