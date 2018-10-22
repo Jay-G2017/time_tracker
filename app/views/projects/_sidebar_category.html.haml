@@ -1,22 +1,41 @@
 .default-category-zone.category-zone.text-p
-  %a.sidebar-inbox{href: '#'}
-    .category-name
-      Inbox
-  %a.sidebar-deleted{href: '#'}
-    .category-name
-      deleted
-  %a.sidebar-pinned{href: '#'}
-    .category-name
-      pinned
-  %a.sidebar-done{href: '#'}
-    .category-name
-      done
+  %a.category-list.sidebar-inbox{href: '#'}
+    .row-name
+      %span.category-icon
+        %i.fas.fa-inbox
+      %span 所有项目
+    .row-stat
+      %span 4
+  %a.category-list.sidebar-deleted{href: '#'}
+    .row-name
+      %span.category-icon
+        %i.fas.fa-thumbtack
+      %span 置顶项目
+    .row-stat
+      %span 4
+  %a.category-list.sidebar-pinned{href: '#'}
+    .row-name
+      %span.category-icon
+        %i.fas.fa-check-square
+      %span 完成项目
+    .row-stat
+      %span 4
+  %a.category-list.sidebar-done{href: '#'}
+    .row-name
+      %span.category-icon
+        %i.fas.fa-trash
+      %span 删除项目
+    .row-stat
+      %span 4
 .custom-category-zone.category-zone.text-p
   - @categories.each do |category|
-    %a.sidebar-category-list.flex{href: category_path(category), value: category.id}
-      .category-name
-        = category.name
-      .todo-num 9
+    %a.category-list.flex{href: category_path(category), value: category.id}
+      .row-name
+        %span.category-icon
+          %i.fas.fa-folder
+        %span= category.name
+      .row-stat.todo-num
+        %span 9
 
 -# .action-bar
   = button_tag 'add category', { class: 'ui button', id: 'new-category-button', url: new_category_path }

@@ -52,11 +52,10 @@
     height: $tablet-header-height;
   }
   .category-sidebar {
-    padding-left: 1%;
     flex: 0 1 16%;
   }
   .project-sidebar {
-    flex: 0 1 20%;
+    flex: 0 1 16%;
   }
   .project-container {
     padding: 1em 0.8em;
@@ -75,19 +74,17 @@
     padding-top: $pc-header-height;
   }
   .category-sidebar {
-    padding-left: 12%;
-    flex: 0 1 25%;
+    flex: 0 1 15%;
     height: calc(100vh - #{$pc-header-height});
     overflow: auto;
   }
   .project-sidebar {
-    flex: 0 1 16%;
+    flex: 0 1 15%;
     height: calc(100vh - #{$pc-header-height});
     overflow: auto;
     overflow: auto;
   }
   .project-container {
-    padding-right: 12%;
     height: calc(100vh - #{$pc-header-height});
     overflow: auto;
     padding: 1em 0.8em;

@@ -16,6 +16,7 @@
 //= require activestorage
 //= require turbolinks
 //= require semantic-ui
+//= require fontawesome-5.4.1
 //= require_tree .
 
 function replaceProjectContent(projectId) {

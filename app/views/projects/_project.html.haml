@@ -18,16 +18,19 @@
 
         .title-todos-container.s-rounded{id: "title-todos-container-#{title.id}"}
           - title.todos.each_with_index do |todo, index|
-            - if index != 0
-              .divider
-            .todo-list.flex-between.align-start{id: "todo-list-#{todo.id}"}
-              .tomato-start{value: todo.id}
-                .tomato-button
-              .todo-name.text-p
-                = todo.name
-                %button.btn.btn-success.btn-mini 5 | 10
-              .todo-toolbar.flex-between.align-center.text-dark
-                %i{class: 'icon icon-more-vert'}
+            .todo-list{id: "todo-list-#{todo.id}"}
+              .first-row.flex-between.align-start
+                %span.tomato-start{value: todo.id}
+                  %i.fas.fa-play-circle
+                .todo-name.text-p
+                  = todo.name
+                %label{class: 'switch'}
+                  %input{type: 'checkbox'}
+                  %span{class: 'hi'}
+              .second-row
+                .tomato-stat
+                .todo-toolbar.flex-between.align-center.text-dark
+                  %i{class: 'icon icon-more-vert'}
               -# .button-group.flex
                 -# = button_tag '删除', class: 'ui button delete-todo-button', url: title_todo_path(title, todo), value: todo.id
                 -# = button_tag '编辑', class: 'ui button edit-todo-button', url: edit_title_todo_path(title, todo), value: todo.id
