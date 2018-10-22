@@ -39,22 +39,27 @@
 }
 
 .todo-list {
-  padding: 0.5em;
-  margin-bottom: 6px;
+  border-bottom: 1px solid $border-color;
+
   .tomato-start {
-    flex: none;
-    flex-basis: 2em;
+    flex: 0 0 2em;
   }
   .todo-name {
     flex: auto;
   }
-  .todo-toolbar {
-    .todo-total-tomato {
-      margin-right: 20px;
-    }
+  .switcher {
+    font-size: 20px;
   }
+
+  .second-row-item {
+    padding-right: 1em;
+  }
+
 }
 
+.todo-list:not(:first-child) {
+  padding-top: 0.8em;
+}
 .new-todo-content {
   margin-left: 16px;
   margin-top: 5px;

@@ -4,7 +4,7 @@ body {
   color: #111;
 }
 
-.wrapper-header {
+.header-wrapper {
   background-color: $primary-color-light;
   border-bottom: 1px solid $border-color;
   position: fixed;
@@ -14,25 +14,12 @@ body {
   color: $dark-color;
 }
 
-.header-content {
-  .category-sidebar-header-row {
-    justify-content: flex-start;
-    flex: auto;
-  }
-  .project-sidebar-header-row {
-    justify-content: flex-start;
-    flex: auto;
-  }
-  .project-container-header-row {
-    flex: auto;
-    .to-project-sidebar-link {
-    }
-    .dashboard {
-      display: flex;
-      justify-content: space-around;
-      flex: auto;
-    }
-  }
+.category-sidebar-header-row {
+  border-right: 1px solid $border-color;
+}
+
+.project-sidebar-header-row {
+  border-right: 1px solid $border-color;
 }
 
 .wrapper-body {
