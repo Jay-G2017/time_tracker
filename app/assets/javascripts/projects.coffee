@@ -3,6 +3,11 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $ ->
+  new PerfectScrollbar('.project-sidebar', {
+    minScrollbarLength: 20,
+    maxScrollbarLength: 80
+  })
+
   # 项目侧边栏导航
   $('.project-sidebar').on 'click', 'a.sidebar-project-list', (e)->
     e.preventDefault()
@@ -86,7 +91,7 @@ $ ->
   $('.project-container').on 'keypress', '#update-title-input', (e) ->
     if e.which == 13
       e.preventDefault()
-      $('#update-title-button').click() 
+      $('#update-title-button').click()
 
   # bind enter key for create title
   $('.project-container').on 'keypress', '#create-title-input', (e) ->

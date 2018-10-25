@@ -29,6 +29,7 @@ body {
 }
 
 .category-sidebar {
+  position: relative;
   background-color: $bg-color-light;
   color: $dark-color;
   a {
@@ -36,6 +37,7 @@ body {
   }
 }
 .project-sidebar {
+  position: relative;
   background-color: $bg-color;
   a {
     color: $dark-color;
