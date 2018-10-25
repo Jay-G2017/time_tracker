@@ -10,7 +10,47 @@
 }
 
 .project-sidebar {
-  padding: 1em;
+  padding: 1em 0;
+
+  .project-list {
+    border-bottom: 1px solid $border-color;
+    padding: 0.8em 1em;
+    text-decoration: none;
+  }
+
+  .project-list:hover {
+    background-color: $gray-color;
+  }
+  .project-list.active {
+    background-color: $primary-color;
+    color: $light-color;
+  }
+
+  .project-list-name {
+    height: 1.8em;
+  }
+
+  .project-list-content {
+    flex: 0 0 86%;
+  }
+
+  .project-list-icons {
+    padding-left: 0.6em;
+  }
+
+  .project-list-description {
+    height: 3.6em;
+    line-height: 1.8em;
+    overflow: hidden;
+    font-size: 0.7rem;
+  }
+  .project-list-stat {
+    font-size: 0.6rem;
+  }
+  .project-start-time {
+    padding-right: 0.8em;
+  }
+
 }
 
 .project-container {
@@ -76,10 +116,6 @@
 .new-project-content {
   margin-left: 16px;
   margin-top: 5px;
-}
-
-.project-list {
-  margin-bottom: 6px;
 }
 
 .header-content {

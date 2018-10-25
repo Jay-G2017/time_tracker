@@ -52,10 +52,10 @@
     height: $tablet-header-height;
   }
   .category-sidebar-header-row {
-    flex: 0 1 16%;
+    flex: 0 0 16%;
   }
   .project-sidebar-header-row {
-    flex: 0 1 16%;
+    flex: 0 0 16%;
   }
   .project-container-header-row {
     flex: auto;
@@ -64,17 +64,17 @@
     padding-top: $tablet-header-height;
   }
   .category-sidebar {
-    flex: 0 1 16%;
+    flex: 0 0 16%;
     height: calc(100vh - #{$tablet-header-height});
     overflow: auto;
   }
   .project-sidebar {
-    flex: 0 1 16%;
+    flex: 0 0 16%;
     height: calc(100vh - #{$tablet-header-height});
     overflow: auto;
   }
   .project-container {
-    padding: 1em 9em;
+    padding: 1em 10em;
     height: calc(100vh - #{$tablet-header-height});
     overflow: auto;
   }

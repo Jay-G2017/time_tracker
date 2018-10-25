@@ -3,7 +3,7 @@
     .header
       %h2= project.name
     .description.text-p
-      %p This is description
+      %p= project.description
   .project-body
     - project.titles.each do |title|
       .title-container{id: "title-container-#{title.id}"}
