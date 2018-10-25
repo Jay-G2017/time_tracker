@@ -3,23 +3,26 @@
     .header-name.hide 分类
     .category-add
       %i{class: 'fas fa-plus'}
-      %span new category
+      %span 新建分类
   .project-sidebar-header-row.flex-end.align-center
     .to-category-sidebar-link.hide
       %i{class: 'fas fa-bars'}
     .project-add
       %i{class: 'fas fa-plus'}
-      %span new project
+      %span 新建项目
   .project-container-header-row.flex-around.align-center
     .to-project-sidebar-link.hide
-      .icon-group.flex.align-center
-        %i{class: 'icon icon-arrow-left'}
-        .text Inbox
-    .project-container-header-divider.divider-vert.hide
-    .dashboard
-      .today
-        %b 今日Tomatoes:
-        %b#today-tomato-num= current_user.today_tomato_size || 0
+      %span
+        %i{class: 'fas fa-arrow-left'}
+    .today-tomato
+      %span 
+        %i{class: 'fas fa-apple-alt'}
+      %span#today-tomato-num= current_user.today_tomato_size || 0
+    .title-add
+      %span
+        %i{class: 'fas fa-plus'}
+      %span 新建标题
+
   .tomato-timer-header-row.hide.flex-around.align-center
     .timer-show
       %b 25:00

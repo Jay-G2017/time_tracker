@@ -21,6 +21,10 @@
   }
 }
 
+.title-container {
+  margin-bottom: 3em;
+}
+
 .footer-content {
   box-sizing: border-box;
 
@@ -30,7 +34,7 @@
 }
 
 .title-row {
-  padding: 1em 0 0.5em 0;
+  border-bottom: 1px solid $border-color;
 }
 
 .title-todos-container {
@@ -40,14 +44,16 @@
 
 .todo-list {
   border-bottom: 1px solid $border-color;
+  padding: 0.5em 0;
 
   .tomato-start {
-    flex: 0 0 2em;
+    flex: 0 0 2.5em;
   }
-  .todo-name {
+  .todo-list-content {
     flex: auto;
   }
-  .switcher {
+  .todo-switcher {
+    flex: 0 0 2em;
     font-size: 20px;
   }
 
@@ -57,9 +63,6 @@
 
 }
 
-.todo-list:not(:first-child) {
-  padding-top: 0.8em;
-}
 .new-todo-content {
   margin-left: 16px;
   margin-top: 5px;

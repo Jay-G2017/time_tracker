@@ -15,29 +15,30 @@
             .divider-vert
             .chevron-up
               %i{class: 'fas fa-chevron-up'}
-          .title-button-group
+          .title-button-group.flex.align-center
             %span
               %i{class: 'fas fa-plus'}
 
         .title-todos-container.s-rounded{id: "title-todos-container-#{title.id}"}
           - title.todos.each_with_index do |todo, index|
-            .todo-list{id: "todo-list-#{todo.id}"}
-              .first-row.flex-between.align-center
-                %span.tomato-start{value: todo.id}
-                  %i.fas.fa-play-circle
+            .todo-list.flex.align-center{id: "todo-list-#{todo.id}"}
+              %span.tomato-start{value: todo.id}
+                %i.fas.fa-play-circle
+              .todo-list-content
                 .todo-name.text-p
                   = todo.name
+                .second-row.flex.align-center
+                  .tomato-stat.second-row-item
+                    %span 10
+                    %span 5
+                  .history-context.second-row-item
+                    %i{class: 'fas fa-align-left'}
+                  .todo-toolbar.text-dark.second-row-item
+                    %i{class: 'fas fa-ellipsis-h'}
+              .todo-switcher
                 %label{class: 'switcher'}
                   %input{type: 'checkbox'}
                   %span{class: 'slider-my'}
-              .second-row.flex-end.align-center
-                .tomato-stat.second-row-item
-                  %span 10
-                  %span 5
-                .history-context.second-row-item
-                  %i{class: 'fas fa-align-left'}
-                .todo-toolbar.text-dark.second-row-item
-                  %i{class: 'fas fa-ellipsis-h'}
               -# .button-group.flex
                 -# = button_tag '删除', class: 'ui button delete-todo-button', url: title_todo_path(title, todo), value: todo.id
                 -# = button_tag '编辑', class: 'ui button edit-todo-button', url: edit_title_todo_path(title, todo), value: todo.id

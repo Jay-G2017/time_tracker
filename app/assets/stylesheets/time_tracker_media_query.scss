@@ -84,19 +84,25 @@
   .header-wrapper {
     height: $pc-header-height;
   }
-  .header-content {
-    width: 76%;
+  .category-sidebar-header-row {
+    flex: 0 0 15%;
+  }
+  .project-sidebar-header-row {
+    flex: 0 0 15%;
+  }
+  .project-container-header-row {
+    flex: auto;
   }
   .container {
     padding-top: $pc-header-height;
   }
   .category-sidebar {
-    flex: 0 1 15%;
+    flex: 0 0 15%;
     height: calc(100vh - #{$pc-header-height});
     overflow: auto;
   }
   .project-sidebar {
-    flex: 0 1 15%;
+    flex: 0 0 15%;
     height: calc(100vh - #{$pc-header-height});
     overflow: auto;
     overflow: auto;
@@ -104,6 +110,6 @@
   .project-container {
     height: calc(100vh - #{$pc-header-height});
     overflow: auto;
-    padding: 1em 0.8em;
+    padding: 1em 18em;
   }
 }
