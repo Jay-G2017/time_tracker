@@ -26,30 +26,45 @@
     color: $light-color;
   }
 
-  .project-list-name {
-    height: 1.8em;
-  }
-
   .project-list-content {
     flex: 0 0 86%;
+    width: 86%;
   }
-
-  .project-list-icons {
-    padding-left: 0.6em;
-  }
-
-  .project-list-description {
-    height: 3.6em;
-    line-height: 1.8em;
+  .project-list-name {
+    height: 1.8em;
+    white-space: nowrap;
     overflow: hidden;
-    font-size: 0.7rem;
+    text-overflow: ellipsis;
+  }
+ .project-list-description {
+    height: 1.8em;
+    line-height: 1.8em;
+    font-size: 0.6rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .project-list-stat {
+    height: 1.8em;
+    line-height: 1.8em;
     font-size: 0.6rem;
   }
   .project-start-time {
-    padding-right: 0.8em;
+    flex: 1 0 auto;
   }
+  .tomato-num-div {
+    flex: 0 0 3em;
+  }
+
+
+  .project-list-icons {
+    padding-left: 0.6em;
+    opacity: 0;
+  }
+  .project-list-icons:hover {
+    opacity: 1;
+  }
+
 
 }
 
@@ -96,9 +111,13 @@
     flex: 0 0 2em;
     font-size: 20px;
   }
+  .second-row {
+    color: $gray-color;
+  }
 
   .second-row-item {
     padding-right: 1em;
+    color: $gray-color;
   }
 
 }

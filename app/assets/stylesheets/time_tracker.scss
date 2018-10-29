@@ -22,6 +22,12 @@ body {
 .project-sidebar-header-row {
   //border-right: 1px solid $light-color;
   padding: 0 0.8em;
+  .project-add {
+    flex: 0 0 6em;
+  }
+  .to-category-sidebar-link {
+    flex: auto;
+  }
 }
 
 .wrapper-body {

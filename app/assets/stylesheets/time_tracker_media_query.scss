@@ -12,15 +12,19 @@
   .header-wrapper {
     height: $phone-header-height;
   }
-  .header-content {
-    padding: 0 0.5em;
-    width: 100%;
-    .project-container-header-row {
-      .dashboard {
-        justify-content: flex-start;
-      }
-    }
+  .category-sidebar-header-row {
+    flex: 1 1 18%;
+    display: none;
   }
+  .project-sidebar-header-row {
+    flex: 1.5 2 28%;
+  }
+  .project-container-header-row {
+    flex: auto;
+    padding: 0 0.8em;
+    display: none;
+  }
+
   .container {
     padding-top: $phone-header-height;
   }
@@ -38,14 +42,15 @@
   .project-container {
     padding: 1em 0.8em;
     border-left: none;
-  }
-  .sidebar {
     display: none;
   }
-  .to-project-sidebar-link, .project-container-header-divider {
+  .category-sidebar {
+    display: none;
+  }
+  .to-category-sidebar-link {
     display: block;
   }
-}
+  }
 
 @media only screen and (min-width: 920px) and (max-width: 1800px) {
   .header-wrapper {
@@ -59,6 +64,7 @@
   }
   .project-container-header-row {
     flex: auto;
+    padding: 0 10em;
   }
   .container {
     padding-top: $tablet-header-height;
@@ -92,6 +98,7 @@
   }
   .project-container-header-row {
     flex: auto;
+    padding: 0 18em;
   }
   .container {
     padding-top: $pc-header-height;

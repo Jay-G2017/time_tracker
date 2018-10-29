@@ -9,7 +9,7 @@ $ ->
   })
 
   # 项目侧边栏导航
-  $('.project-sidebar').on 'click', 'a.sidebar-project-list', (e)->
+  $('.project-sidebar').on 'click', 'a.project-list', (e)->
     e.preventDefault()
     projectId = $(this).attr('value')
     replaceProjectContent(projectId)
@@ -17,7 +17,7 @@ $ ->
     screenWidth = $(document).width()
     if screenWidth < 920
       $('.project-sidebar, .project-sidebar-header-row').hide()
-      $('.project-container, .project-container-header-row').show()
+      $('.project-container, .project-container-header-row, .to-project-sidebar-link').show()
 
   # new title
   $('.project-container').on 'click', '#new-title-button', (e) ->
@@ -324,8 +324,8 @@ $ ->
   $('.project-container').on 'click', '.tomato-start', ->
     $('.tomato-button').addClass('disabled')
     $(this).find('.tomato-button').removeClass('disabled').addClass('clicked')
-    $('.project-container-header-row').hide()
-    $('.tomato-timer-header-row').css('display', 'flex')
+    $('.project-container-header-row .title-add').hide()
+    $('.tomato-timer').css('display', 'flex')
     todoId = $(this).attr('value')
     startTomatoTimer(todoId, 1)
 
@@ -383,6 +383,6 @@ afterTomatoDone = ->
   # todoTodayTomato.text(todoTodayTomatoNum)
 
 afterTomatoCancel = ->
-  $('.tomato-timer-header-row').hide()
-  $('.project-container-header-row').show()
+  $('.tomato-timer').hide()
+  $('.project-container-header-row .title-add').show()
   $('.tomato-button').removeClass('disabled').removeClass('clicked')

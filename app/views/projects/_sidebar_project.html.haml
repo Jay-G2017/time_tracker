@@ -2,12 +2,13 @@
   %a.project-list.flex.align-center.text-p{href: '#', value: project.id}
     .project-list-content
       .project-list-name= project.name
-      .project-list-description= project.description
-      .project-list-stat
+      .project-list-description= project.description || 'no content'
+      .project-list-stat.flex
         %span.project-start-time= china_date(project.created_at)
-        %span.tomato-icon
-          %i.fas.fa-apple-alt
-        %span.tomato-num= project.tomatos_count
+        .tomato-num-div
+          %span.tomato-icon
+            %i.fas.fa-apple-alt
+          %span.tomato-num= project.tomatos_count
     .project-list-icons
       .project-pin
         %i.fas.fa-thumbtack
