@@ -65,6 +65,9 @@
   .project-container-header-row {
     flex: auto;
     padding: 0 10em;
+    .title-add span::after {
+      content: '新建标题'
+    }
   }
   .container {
     padding-top: $tablet-header-height;
@@ -99,6 +102,9 @@
   .project-container-header-row {
     flex: auto;
     padding: 0 18em;
+    .title-add span::after {
+      content: '新建标题'
+    }
   }
   .container {
     padding-top: $pc-header-height;
