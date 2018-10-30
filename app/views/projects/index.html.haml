@@ -1,31 +1,39 @@
-.wrapper-header.flex-around.align-center
-  .header-content.flex-around.align-center.text-p
-    .category-sidebar-header-row.align-center.hide
-      .header-name 分类
-    .project-sidebar-header-row.align-center.hide
-      .to-category-sidebar-link
-        %i{class: 'icon icon-menu'}
-    .project-container-header-row.flex.align-center
+.header-wrapper.flex.align-center.text-p
+  .category-sidebar-header-row
+    .row-content.flex-end.align-center
+      .category-add
+        %i{class: 'fas fa-plus'}
+        %span 新建分类
+  .project-sidebar-header-row
+    .row-content.flex-end.align-center
+      .to-category-sidebar-link.hide
+        %i{class: 'fas fa-bars'}
+      .project-add
+        %i{class: 'fas fa-plus'}
+        %span 新建项目
+  .project-container-header-row
+    .row-content.flex-between.align-center
       .to-project-sidebar-link.hide
-        .icon-group.flex.align-center
-          %i{class: 'icon icon-arrow-left'}
-          .text Inbox
-      .project-container-header-divider.divider-vert.hide
-      .dashboard
-        .today
-          %b 今日Tomatoes:
-          %b#today-tomato-num= current_user.today_tomato_size || 0
-    .tomato-timer-header-row.hide.flex-around.align-center
-      .timer-show
-        %b 25:00
-      .divider-vert
-      .timer-cancel.flex-around.align-center
-        %i{class: 'icon icon-cross'}
-.wrapper-body
-  .container.flex
-    .category-sidebar.sidebar
-      = render 'sidebar_category'
-    .project-sidebar.sidebar
-      = render 'sidebar_project'
-    .project-container
-      = render 'project', project: @default_project
+        %span
+          %i{class: 'fas fa-arrow-left'}
+      .today-tomato
+        %span
+          %i{class: 'fas fa-apple-alt'}
+        %span#today-tomato-num= current_user.today_tomato_size || 0
+      .title-add
+        %span
+          %i{class: 'fas fa-plus'}
+        %span 新建标题
+      .tomato-timer.hide.flex-around.align-center
+        .timer-show
+          %b 25:00
+        .divider-vert
+        .timer-cancel.flex-around.align-center
+          %i{class: 'icon icon-cross'}
+.container.flex
+  .category-sidebar.sidebar
+    = render 'sidebar_category'
+  .project-sidebar.sidebar
+    = render 'sidebar_project'
+  .project-container
+    = render 'project', project: @default_project

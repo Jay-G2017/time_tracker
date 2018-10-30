@@ -1,8 +1,8 @@
 // Core colors
-$primary-color: #5755d9;
-$primary-color-dark: darken($primary-color, 3%);
-$primary-color-light: lighten($primary-color, 3%);
-$secondary-color: lighten($primary-color, 37.5%) !default;
+$primary-color: #007AFF; //apple blue
+$primary-color-dark: #212B3B;
+$primary-color-light: #F6F6F6;
+$secondary-color: #FF9500; //apple orange
 $secondary-color-dark: darken($secondary-color, 3%) !default;
 $secondary-color-light: lighten($secondary-color, 3%) !default;
 
@@ -15,10 +15,10 @@ $gray-color-light: lighten($gray-color, 20%) !default;
 
 $border-color: lighten($dark-color, 60%);
 $border-color-dark: darken($border-color, 10%) !default;
-$bg-color: lighten($dark-color, 66%);
-$bg-color-dark: darken($bg-color, 3%) !default;
-$bg-color-light: $light-color !default;
+$bg-color: $light-color;
+$bg-color-light: #DEE1E5; //foxmail-bg-color
+$bg-color-dark: $primary-color-dark;
 
 $phone-header-height: 60px;
-$tablet-header-height: 60px;
-$pc-header-height: 60px;
+$tablet-header-height: 50px;
+$pc-header-height: 50px;

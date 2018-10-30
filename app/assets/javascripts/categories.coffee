@@ -6,6 +6,8 @@ $ ->
   # 分类侧边栏导航-自定义
   $('.category-sidebar').on 'click', '.custom-category-zone > a', (e)->
       e.preventDefault()
+      $('.category-list').removeClass('active')
+      $(this).addClass('active')
       categoryId = $(this).attr('value')
       url = $(this).attr('href')
 
@@ -18,3 +20,8 @@ $ ->
         if screenWidth < 920
           $('.category-sidebar, .category-sidebar-header-row').hide()
           $('.project-sidebar, .project-sidebar-header-row').show()
+
+  new PerfectScrollbar('.category-sidebar', {
+    minScrollbarLength: 20,
+    maxScrollbarLength: 80
+  })

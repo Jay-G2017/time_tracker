@@ -4,38 +4,50 @@ body {
   color: #111;
 }
 
-.wrapper-header {
-  background-color: $gray-color-dark;
+.header-wrapper {
+  background-color: $primary-color-light;
+  border-bottom: 1px solid $border-color;
   position: fixed;
   top: 0;
   width: 100%;
   z-index: 999;
-  color: $light-color;
+  color: $dark-color;
 }
 
-.header-content {
-  .category-sidebar-header-row {
-    justify-content: flex-start;
-    flex: auto;
+.category-sidebar-header-row {
+  //border-right: 1px solid $light-color;
+  padding: 0 0.8em;
+}
+
+.project-sidebar-header-row {
+  //border-right: 1px solid $light-color;
+  padding: 0 0.8em;
+  .project-add {
+    flex: 0 0 6em;
   }
-  .project-sidebar-header-row {
-    justify-content: flex-start;
+  .to-category-sidebar-link {
     flex: auto;
-  }
-  .project-container-header-row {
-    flex: auto;
-    .to-project-sidebar-link {
-    }
-    .dashboard {
-      display: flex;
-      justify-content: space-around;
-      flex: auto;
-    }
   }
 }
 
 .wrapper-body {
-  background-color: $bg-color-dark;
+  background-color: $bg-color;
+}
+
+.category-sidebar {
+  position: relative;
+  background-color: $bg-color-light;
+  color: $dark-color;
+  a {
+    color: $dark-color;
+  }
+}
+.project-sidebar {
+  position: relative;
+  background-color: $bg-color;
+  a {
+    color: $dark-color;
+  }
 }
 
 .border-bottom-grey {
@@ -60,11 +72,9 @@ body {
   height: 1em;
   background: $primary-color;
   border-radius: 50%;
-  box-shadow: 1px 1px 2px $gray-color;
 }
 
 .tomato-button.clicked {
-  box-shadow: none;
 }
 .tomato-button.disabled {
   box-shadow: none;
