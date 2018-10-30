@@ -19,14 +19,16 @@ $ ->
       $('.project-sidebar, .project-sidebar-header-row').hide()
       $('.project-container, .project-container-header-row, .to-project-sidebar-link').show()
 
-  # new title
-  $('.project-container').on 'click', '#new-title-button', (e) ->
+  # add title
+  $('.title-add').on 'click', (e) ->
     e.preventDefault()
     $(this).attr 'disabled', true
-    url = $(this).attr 'url'
-    $.get url, (data) ->
+    projectId = $('.project-container .project-content').attr('value')
+    url = '/projects/' + projectId + '/titles'
+    data = { title: {name: '默认标题'} }
+
+    $.post url, data, (data) ->
       $('.project-body').append(data)
-      $('#create-title-input').focus()
 
   # edit title
   $('.project-container').on 'click', '.edit-title-button', ->
