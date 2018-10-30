@@ -6,6 +6,10 @@ class Project < ApplicationRecord
 
   before_validation :set_user, on: :create
 
+  def tomatos_count
+    Tomato.where(todo_id: todo_ids).count
+  end
+
   private
   def set_user
     self.user = self.category.user

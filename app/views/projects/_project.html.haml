@@ -3,7 +3,7 @@
     .header
       %h2= project.name
     .description.text-p
-      %p This is description
+      %p= project.description
   .project-body
     - project.titles.each do |title|
       .title-container{id: "title-container-#{title.id}"}
@@ -13,21 +13,32 @@
               - name = title.name.present? ? title.name : '默认标题'
               %b= name
             .divider-vert
-            %i{class: 'icon icon-arrow-up'}
-          .title-button-group
+            .chevron-up
+              %i{class: 'fas fa-chevron-up'}
+          .title-button-group.flex.align-center
+            %span
+              %i{class: 'fas fa-plus'}
 
         .title-todos-container.s-rounded{id: "title-todos-container-#{title.id}"}
           - title.todos.each_with_index do |todo, index|
-            - if index != 0
-              .divider
-            .todo-list.flex-between.align-start{id: "todo-list-#{todo.id}"}
-              .tomato-start{value: todo.id}
-                .tomato-button
-              .todo-name.text-p
-                = todo.name
-                %button.btn.btn-success.btn-mini 5 | 10
-              .todo-toolbar.flex-between.align-center.text-dark
-                %i{class: 'icon icon-more-vert'}
+            .todo-list.flex.align-center{id: "todo-list-#{todo.id}"}
+              %span.tomato-start{value: todo.id}
+                %i.fas.fa-play-circle
+              .todo-list-content
+                .todo-name.text-p
+                  = todo.name
+                .second-row.flex.align-center
+                  .tomato-stat.second-row-item
+                    %span 10
+                    %span 5
+                  .history-context.second-row-item
+                    %i{class: 'fas fa-align-left'}
+                  .todo-toolbar.text-dark.second-row-item
+                    %i.far.fa-trash-alt
+              .todo-switcher
+                %label{class: 'switcher'}
+                  %input{type: 'checkbox'}
+                  %span{class: 'slider-my'}
               -# .button-group.flex
                 -# = button_tag '删除', class: 'ui button delete-todo-button', url: title_todo_path(title, todo), value: todo.id
                 -# = button_tag '编辑', class: 'ui button edit-todo-button', url: edit_title_todo_path(title, todo), value: todo.id

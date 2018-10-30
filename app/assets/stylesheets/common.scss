@@ -1,3 +1,5 @@
+@import "my_variables";
+
 .flex {
   display: flex;
 }
@@ -68,4 +70,44 @@
 
   /* Opera */
   -o-transform: rotate(-90deg);
+}
+
+label.switcher {
+  display: inline-block;
+  height: 1em;
+  width: 2em;
+  position: relative;
+  input {
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+  span.slider-my {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    border-radius: 1em;
+    background-color: $gray-color-light;
+    transition: 0.3s;
+  }
+  span.slider-my::before {
+    content: '';
+    position: absolute;
+    top: 0.1em;
+    left: 0.1em;
+    width: calc(1em - 0.2em);
+    height: calc(1em - 0.2em);
+    border-radius: 50%;
+    background-color: white;
+    box-shadow: 0 0.1em 0.1em rgba(0,0,0,0.5), 0 0 0.1em rgba(100,100,100,0.5);
+    transition: 0.3s;
+  }
+  input:checked + span.slider-my::before {
+    transform: translateX(1em);
+  }
+  input:checked + span.slider-my {
+    background-color: $primary-color;
+  }
 }
