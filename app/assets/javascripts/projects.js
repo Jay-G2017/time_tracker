@@ -1,39 +1,54 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
-
-$ ->
+$(function(){
+  // 自动隐藏滚动条
   new PerfectScrollbar('.project-sidebar', {
     minScrollbarLength: 20,
     maxScrollbarLength: 80
   })
 
-  # 项目侧边栏导航
-  $('.project-sidebar').on 'click', 'a.project-list', (e)->
-    e.preventDefault()
-    projectId = $(this).attr('value')
-    replaceProjectContent(projectId)
-    # 适配小屏
-    screenWidth = $(document).width()
-    if screenWidth < 920
-      $('.project-sidebar, .project-sidebar-header-row').hide()
-      $('.project-container, .project-container-header-row, .to-project-sidebar-link').show()
+  // 项目侧边栏导航
+  $('.project-sidebar').on('click', 'a.project-list', function(e) {
+    e.preventDefault();
+    var projectId = $(this).attr('value');
+    replaceProjectContent(projectId);
 
-  # add title
-  $('.title-add').on 'click', (e) ->
-    e.preventDefault()
-    $(this).attr 'disabled', true
-    $('.title-add-loading').show()
-    $('.title-add-icon').hide()
+    // 适配小屏
+    var screenWidth = $(document).width();
+    if (screenWidth < 920) {
+      $('.project-sidebar, .project-sidebar-header-row').hide();
+      $('.project-container, .project-container-header-row, .to-project-sidebar-link').show();
+    }
+  });
 
-    projectId = $('.project-container .project-content').attr('value')
-    url = '/projects/' + projectId + '/titles'
-    data = { title: {name: '默认标题'} }
+  // add title
+  $('.title-add').on('click', function(e){
+    e.preventDefault();
+    $(this).attr('disabled', true);
+    $('.title-add-loading').show();
+    $('.title-add-icon').hide();
 
-    $.post url, data, (data) ->
-      $('.project-body').append(data)
-      $('.title-add-loading').hide()
-      $('.title-add-icon').show()
+    var projectId = $('.project-container .project-content').attr('value');
+    var url = '/projects/' + projectId + '/titles';
+    var data = { title: {name: '默认标题'} };
+
+    $.post(url, data, function(data){
+      $('.project-body').append(data);
+      $('.title-add-loading').hide();
+      $('.title-add-icon').show();
+    });
+
+  });
+
+
+});
+
+
+
+   /*
+
+
+
+
+
 
   # edit title
   $('.project-container').on 'click', '.edit-title-button', ->
@@ -393,3 +408,4 @@ afterTomatoCancel = ->
   $('.tomato-timer').hide()
   $('.project-container-header-row .title-add').show()
   $('.tomato-button').removeClass('disabled').removeClass('clicked')
+*/
