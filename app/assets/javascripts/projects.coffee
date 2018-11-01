@@ -23,12 +23,17 @@ $ ->
   $('.title-add').on 'click', (e) ->
     e.preventDefault()
     $(this).attr 'disabled', true
+    $('.title-add-loading').show()
+    $('.title-add-icon').hide()
+
     projectId = $('.project-container .project-content').attr('value')
     url = '/projects/' + projectId + '/titles'
     data = { title: {name: '默认标题'} }
 
     $.post url, data, (data) ->
       $('.project-body').append(data)
+      $('.title-add-loading').hide()
+      $('.title-add-icon').show()
 
   # edit title
   $('.project-container').on 'click', '.edit-title-button', ->
