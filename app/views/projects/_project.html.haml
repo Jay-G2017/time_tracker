@@ -8,10 +8,10 @@
     - project.titles.each do |title|
       .title-container{id: "title-container-#{title.id}"}
         .title-row.flex-between{ id: "title-row-#{title.id}" }
-          .title-content.flex.align-center
+          .title-content.flex.align-center{url: project_title_path(project, title)}
             .title-name
               - name = title.name.present? ? title.name : '默认标题'
-              %b= name
+              %span= name
             .divider-vert
             .chevron-up
               %i{class: 'fas fa-chevron-up'}
@@ -42,3 +42,5 @@
               -# .button-group.flex
                 -# = button_tag '删除', class: 'ui button delete-todo-button', url: title_todo_path(title, todo), value: todo.id
                 -# = button_tag '编辑', class: 'ui button edit-todo-button', url: edit_title_todo_path(title, todo), value: todo.id
+
+%input.title-edit-input.hide{type: 'text'}

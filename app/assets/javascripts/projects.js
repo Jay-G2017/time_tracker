@@ -20,9 +20,9 @@ $(function(){
   });
 
   // add title
-  $('.title-add').on('click', function(e){
+  $(".project-container-header-row").on('click', ".title-add:not('.clicked')", function(e){
     e.preventDefault();
-    $(this).attr('disabled', true);
+    var target = $(this).addClass('clicked');
     $('.title-add-loading').show();
     $('.title-add-icon').hide();
 
@@ -32,14 +32,99 @@ $(function(){
 
     $.post(url, data, function(data){
       $('.project-body').append(data);
+      target.removeClass('clicked');
       $('.title-add-loading').hide();
       $('.title-add-icon').show();
+      var viewElement = $('.title-container').last()[0];
+      viewElement.scrollIntoView();
     });
 
   });
 
+  // edit title
+  $('.project-container').on('dblclick', '.title-name', function() {
+    $('.title-name').show();
+    var target = $(this).hide();
+    var titleEditName = target.text();
+    var titleEditInput = $('.title-edit-input');
+    target.after(titleEditInput.show()[0]);
+    titleEditInput.focus().val('').val(titleEditName);
+  });
+
+  // cancel edit title, bind Esc key
+  $('.project-container').on('keydown', '.title-edit-input', function(e) {
+    if(e.which == 27) {
+      e.preventDefault();
+      $('.title-edit-input').hide();
+      $('.title-name').show();
+    }
+  });
+
+  // update title, bind to enter key
+  $('.project-container').on('keydown', '.title-edit-input', function(e) {
+    var target = $(this).parent();
+    if(e.which == 13) {
+      e.preventDefault();
+      var titleEditName = $(this).val();
+      var url = target.attr('url');
+      var data = {title: {name: titleEditName}};
+
+      $.ajax({
+        type: 'patch',
+        url: url,
+        data: data
+      }).done(function(data) {
+        $('.title-edit-input').hide();
+        target.find('.title-name').text(data.name).show();
+      });
+    }
+  });
+
+  // start tomato timer
+  $('.project-container').on('click', '.tomato-start', function() {
+    $('.tomato-button').addClass('disabled');
+    $(this).find('.tomato-button').removeClass('disabled').addClass('clicked');
+    $('.project-container-header-row .title-add').hide();
+    $('.tomato-timer').css('display', 'flex');
+    var todoId = $(this).attr('value');
+    startTomatoTimer(todoId, 1);
+  });
+
+  // cancel tomato timer
+  $('.timer-cancel').on('click', function(){
+    clearInterval(tt);
+    afterTomatoCancel();
+  });
+
 
 });
+
+function startTomatoTimer(todoId, minutes) {
+  var finalTime = (new Date).getTime() + minutes * 60 * 1000;
+  window.tt = setInterval(function(){
+    showTime(finalTime, minutes, todoId);}
+    , 500);
+}
+
+
+function showTime(finalTime, minutes, todoId) {
+  var now = (new Date).getTime();
+  var distance = finalTime - now;
+  if (distance >= 0) {
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, 0);
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, 0);
+    $('.timer-show > b').text(minutes + ':' + seconds);
+  } else {
+    clearInterval(tt);
+    //createTomato(minutes, todoId);
+  }
+}
+
+function afterTomatoCancel() {
+  $('.tomato-timer').hide();
+  $('.project-container-header-row .title-add').show();
+  $('.tomato-button').removeClass('disabled').removeClass('clicked');
+}
 
 
 
@@ -50,43 +135,16 @@ $(function(){
 
 
 
-  # edit title
-  $('.project-container').on 'click', '.edit-title-button', ->
-    # 移掉其它的编辑框
-    $('form.edit_title').remove()
-    $('.title-content').show()
 
-    title_content = $(this).parent()
-    url = $(this).attr 'url'
-    $.get url, (data) ->
-      title_content.hide().after(data)
-      # 下面两段代码是让他自动激活, 并且光标移到最后
-      val = $('#update-title-input').val()
-      $('#update-title-input').focus().val('').val(val)
 
   # cancel create title
   $('.project-container').on 'click', '#cancel-create-title-button', ->
     $('form#new_title').remove()
     $('#new-title-button').attr 'disabled', false
 
-  # cancel update title
-  $('.project-container').on 'click', '#cancel-update-title-button', ->
-    $('form.edit_title').remove()
-    $('.title-content').show()
+  
 
-  # update title
-  $('.project-container').on 'click', '#update-title-button', ->
-    edit_title_form = $('form.edit_title')
-    url = edit_title_form.attr 'action'
-    title_id = $(this).val()
-    $.ajax
-      type: 'patch'
-      url: url
-      data: edit_title_form.serialize()
-     .done (data) ->
-       edit_title_form.remove()
-       $('#title-content-' + title_id).find('.title-body').text(data.name)
-       $('#title-content-' + title_id).show()
+  
 
   # create title
   $('.project-container').on 'click', '#create-title-button', (e) ->
@@ -109,11 +167,7 @@ $(function(){
       .done ->
         $('#title-container-' + title_id).remove()
 
-  # bind enter key for update title
-  $('.project-container').on 'keypress', '#update-title-input', (e) ->
-    if e.which == 13
-      e.preventDefault()
-      $('#update-title-button').click()
+  
 
   # bind enter key for create title
   $('.project-container').on 'keypress', '#create-title-input', (e) ->
@@ -341,21 +395,14 @@ $(function(){
       e.preventDefault()
       $('#update-project-button').click()
 
+  */
 
-  # start tomato timer
-  $('.project-container').on 'click', '.tomato-start', ->
-    $('.tomato-button').addClass('disabled')
-    $(this).find('.tomato-button').removeClass('disabled').addClass('clicked')
-    $('.project-container-header-row .title-add').hide()
-    $('.tomato-timer').css('display', 'flex')
-    todoId = $(this).attr('value')
-    startTomatoTimer(todoId, 1)
 
-  # cancel tomato timer
-  $('.timer-cancel').on 'click', ->
-    clearInterval tt
-    afterTomatoCancel()
 
+
+
+
+  /*
   # colapse sidebar
   $('.to-category-sidebar-link').on 'click', ->
     $('.project-sidebar, .project-sidebar-header-row').hide()
@@ -364,24 +411,13 @@ $(function(){
   $('.to-project-sidebar-link').on 'click', ->
     $('.project-sidebar, .project-sidebar-header-row').show()
     $('.project-container, .project-container-header-row').hide()
+  */
 
-startTomatoTimer = (todoId, minutes) ->
-  final_time = (new Date).getTime() + minutes * 60 * 1000
-  window.tt = setInterval ->
-    showTime(final_time, minutes, todoId)
-  , 500
+/*
+*/
 
-showTime = (final_time, minutes, todoId) ->
-  now = (new Date).getTime()
-  distance = final_time - now
-  if distance >= 0
-    minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, 0)
-    seconds = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, 0)
-    $('.timer-show > b').text(minutes + ':' + seconds)
-  else
-    clearInterval tt
-    createTomato(minutes, todoId)
 
+/*
 createTomato = (minutes, todoId) ->
   url = 'todos/' + todoId + '/tomatoes?minutes=' + minutes
   $.post url, (data) ->
@@ -403,9 +439,6 @@ afterTomatoDone = ->
   # todoTodayTomato = $('#todo-'+ data['id'] + '-today-tomato')
   # todoTodayTomatoNum = parseInt(todoTodayTomato.text(), 10) + 1
   # todoTodayTomato.text(todoTodayTomatoNum)
+  */
 
-afterTomatoCancel = ->
-  $('.tomato-timer').hide()
-  $('.project-container-header-row .title-add').show()
-  $('.tomato-button').removeClass('disabled').removeClass('clicked')
-*/
+
