@@ -78,6 +78,27 @@
 
 .title-container {
   margin-bottom: 3em;
+  position: relative;
+}
+
+.title-container.new .title-content::before {
+  position: absolute;
+  content: '';
+  width: 0.3em;
+  height: 0.3em;
+  border-radius: 50%;
+  left: -1em;
+  background-color: $primary-color;
+}
+
+.title-edit-form {
+  input {
+    margin-right: 2em;
+  }
+  span.control-item {
+    font-size: 2em;
+    margin-right: 1em;
+  }
 }
 
 .footer-content {

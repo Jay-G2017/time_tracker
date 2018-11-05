@@ -42,3 +42,11 @@
               -# .button-group.flex
                 -# = button_tag '删除', class: 'ui button delete-todo-button', url: title_todo_path(title, todo), value: todo.id
                 -# = button_tag '编辑', class: 'ui button edit-todo-button', url: edit_title_todo_path(title, todo), value: todo.id
+
+%form.title-edit-form.hide
+  .control-group.flex.align-center
+    %input.title-edit-input.control-item{type: 'text'}
+    %span.title-update.primary-color.control-item
+      %i.fas.fa-check-circle
+    %span.title-update-cancel.error-color.control-item
+      %i.fas.fa-times-circle
