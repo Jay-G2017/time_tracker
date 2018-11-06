@@ -42,25 +42,43 @@ $(function(){
   });
 
   // edit title
-  $('.project-container').on('dblclick', '.title-content', function() {
-    $('.title-row').show();
-    var target = $(this).parent().hide();
-    var titleEditContent = $(this).find('.title-name').text();
-    var titleEditForm = $('.title-edit-form');
-    titleEditForm.find('.title-edit-input').focus().val('').val(titleEditContent);
-    target.after(titleEditForm.show()[0]);
-
-    /*
-    var title_content = $(this).parent()
-    url = $(this).attr 'url'
-    $.get url, (data) ->
-      title_content.hide().after(data)
-      # 下面两段代码是让他自动激活, 并且光标移到最后
-      val = $('#update-title-input').val()
-      $('#update-title-input').focus().val('').val(val)
-    */
+  $('.project-container').on('dblclick', '.title-name', function() {
+    $('.title-name').show();
+    var target = $(this).hide();
+    var titleEditName = target.text();
+    var titleEditInput = $('.title-edit-input');
+    target.after(titleEditInput.show()[0]);
+    titleEditInput.focus().val('').val(titleEditName);
   });
 
+  // cancel edit title, bind Esc key
+  $('.project-container').on('keydown', '.title-edit-input', function(e) {
+    if(e.which == 27) {
+      e.preventDefault();
+      $('.title-edit-input').hide();
+      $('.title-name').show();
+    }
+  });
+
+  // update title, bind to enter key
+  $('.project-container').on('keydown', '.title-edit-input', function(e) {
+    var target = $(this).parent();
+    if(e.which == 13) {
+      e.preventDefault();
+      var titleEditName = $(this).val();
+      var url = target.attr('url');
+      var data = {title: {name: titleEditName}};
+
+      $.ajax({
+        type: 'patch',
+        url: url,
+        data: data
+      }).done(function(data) {
+        $('.title-edit-input').hide();
+        target.find('.title-name').text(data.name).show();
+      });
+    }
+  });
 
   // start tomato timer
   $('.project-container').on('click', '.tomato-start', function() {
@@ -123,24 +141,9 @@ function afterTomatoCancel() {
     $('form#new_title').remove()
     $('#new-title-button').attr 'disabled', false
 
-  # cancel update title
-  $('.project-container').on 'click', '#cancel-update-title-button', ->
-    $('form.edit_title').remove()
-    $('.title-content').show()
 
-  # update title
-  $('.project-container').on 'click', '#update-title-button', ->
-    edit_title_form = $('form.edit_title')
-    url = edit_title_form.attr 'action'
-    title_id = $(this).val()
-    $.ajax
-      type: 'patch'
-      url: url
-      data: edit_title_form.serialize()
-     .done (data) ->
-       edit_title_form.remove()
-       $('#title-content-' + title_id).find('.title-body').text(data.name)
-       $('#title-content-' + title_id).show()
+
+
 
   # create title
   $('.project-container').on 'click', '#create-title-button', (e) ->
@@ -163,11 +166,7 @@ function afterTomatoCancel() {
       .done ->
         $('#title-container-' + title_id).remove()
 
-  # bind enter key for update title
-  $('.project-container').on 'keypress', '#update-title-input', (e) ->
-    if e.which == 13
-      e.preventDefault()
-      $('#update-title-button').click()
+
 
   # bind enter key for create title
   $('.project-container').on 'keypress', '#create-title-input', (e) ->
