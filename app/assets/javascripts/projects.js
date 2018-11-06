@@ -35,8 +35,13 @@ $(function(){
       target.removeClass('clicked');
       $('.title-add-loading').hide();
       $('.title-add-icon').show();
-      var viewElement = $('.title-container').last()[0];
-      viewElement.scrollIntoView();
+
+
+      var viewElement = $('.title-container').last();
+      viewElement[0].scrollIntoView();
+
+      viewElement.find('.title-name').dblclick();
+      $('.title-edit-input').select();
     });
 
   });
@@ -66,17 +71,24 @@ $(function(){
     if(e.which == 13) {
       e.preventDefault();
       var titleEditName = $(this).val();
-      var url = target.attr('url');
-      var data = {title: {name: titleEditName}};
+      //make sure input not empty
+      if(titleEditName) {
+        var url = target.attr('url');
+        var data = {title: {name: titleEditName}};
 
-      $.ajax({
-        type: 'patch',
-        url: url,
-        data: data
-      }).done(function(data) {
-        $('.title-edit-input').hide();
-        target.find('.title-name').text(data.name).show();
-      });
+        $.ajax({
+          type: 'patch',
+          url: url,
+          data: data
+        }).done(function(data) {
+          $('.title-edit-input').hide();
+          target.find('.title-name').text(data.name).show();
+        });
+
+      } else {
+        alert('输入不能为空');
+      }
+
     }
   });
 

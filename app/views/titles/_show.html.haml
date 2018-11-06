@@ -1,6 +1,6 @@
 .title-container.new{id: "title-container-#{title.id}"}
   .title-row.flex-between{ id: "title-row-#{title.id}" }
-    .title-content.flex.align-center
+    .title-content.flex.align-center{url: project_title_path(project, title)}
       .title-name
         - name = title.name.present? ? title.name : '默认标题'
         %b= name
