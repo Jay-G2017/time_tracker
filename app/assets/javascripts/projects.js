@@ -116,12 +116,19 @@ $(function(){
         method: 'delete',
         url: url
       }).done(function() {
-        $('#title-container-' + titleId).remove();
+        $('#title-container-' + titleId).slideUp();
       }).error(function(data) {
         showMessage(data.responseText);
       });
     }
   });
+
+  // toggle title todos
+  $('.project-container').on('click', '.toggle-title-todos', function() {
+    $(this).find('svg').toggle();
+    var titleId = $(this).attr('value');
+    $('#title-todos-container-' + titleId).slideToggle();
+  })
 
 
 });
