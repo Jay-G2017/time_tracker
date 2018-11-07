@@ -78,6 +78,24 @@
 
 .title-container {
   margin-bottom: 3em;
+  position: relative;
+  .title-name {
+    font-weight: bold;
+  }
+}
+
+.title-container.new .title-content::before {
+  position: absolute;
+  content: '';
+  width: 0.4em;
+  height: 0.4em;
+  border-radius: 50%;
+  left: -1em;
+  background-color: $primary-color;
+}
+
+.title-edit-input {
+  font-weight: bold;
 }
 
 .footer-content {
@@ -148,7 +166,4 @@
   position: fixed;
   top: 65px;
 }
-
-
-
 

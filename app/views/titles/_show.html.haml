@@ -1,10 +1,12 @@
-.title-container
-  - name = title.name.present? ? title.name : '默认标题'
-  .title-content{ id: "title-content-#{title.id}" }
-    .title-body= name
-    .button-group
-      = button_tag '删除', { class: 'delete-title-button', value: title.id, url: project_title_path(project, title) }
-      = button_tag '编辑', { class: 'edit-title-button', value: title.id, url: edit_project_title_path(project, title) }
-  .todo-content
-    - title.todos.each do |todo|
-      .todo-list= todo.name
+.title-container.new{id: "title-container-#{title.id}"}
+  .title-row.flex-between{ id: "title-row-#{title.id}" }
+    .title-content.flex.align-center{url: project_title_path(project, title)}
+      .title-name
+        - name = title.name.present? ? title.name : '默认标题'
+        %b= name
+      .divider-vert
+      .chevron-up
+        %i{class: 'fas fa-chevron-up'}
+    .title-button-group.flex.align-center
+      %span
+        %i{class: 'fas fa-plus'}

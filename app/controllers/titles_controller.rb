@@ -1,4 +1,6 @@
 class TitlesController < ApplicationController
+  validates :name, presence: true
+
   def new
     @project = Project.find params[:project_id]
     @title = Title.new
