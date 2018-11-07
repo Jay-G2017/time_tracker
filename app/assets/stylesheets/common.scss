@@ -58,6 +58,17 @@
   border-radius: 0.15rem;
 }
 
+.hover-border {
+  padding: 0.3em;
+  border: 1px solid transparent;
+  border-radius: 0.2em;
+}
+.hover-border:hover {
+  cursor: pointer;
+  border: 1px solid $gray-color-dark;
+  transition: 0.5s;
+}
+
 .rotate90 {
   /* Safari */
   -webkit-transform: rotate(-90deg);
@@ -110,4 +121,11 @@ label.switcher {
   input:checked + span.slider-my {
     background-color: $primary-color;
   }
+}
+
+.primary-color {
+  color: $primary-color;
+}
+.error-color {
+  color: $error-color;
 }

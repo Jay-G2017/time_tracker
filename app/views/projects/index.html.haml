@@ -20,10 +20,12 @@
         %span
           %i{class: 'fas fa-apple-alt'}
         %span#today-tomato-num= current_user.today_tomato_size || 0
-      .title-add
-        %span
-          %i{class: 'fas fa-plus'}
-        %span 新建标题
+      .title-add.hover-border
+        %span.title-add-loading.hide
+          %i.fas.fa-spinner.fa-spin
+        %span.title-add-icon
+          %i.fas.fa-plus
+        %span.title-add-content 新建标题
       .tomato-timer.hide.flex-around.align-center
         .timer-show
           %b 25:00
