@@ -82,6 +82,13 @@
   .title-name {
     font-weight: bold;
   }
+
+  .title-button-group:hover {
+    cursor: pointer;
+  }
+  .title-delete {
+    margin-right: 1em;
+  }
 }
 
 .title-container.new .title-content::before {

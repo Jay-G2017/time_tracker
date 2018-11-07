@@ -16,6 +16,8 @@
             .chevron-up
               %i{class: 'fas fa-chevron-up'}
           .title-button-group.flex.align-center
+            %span.title-delete{url: project_title_path(project, title), value: title.id, class: title.todos.count > 0 ? 'hide': ''}
+              %i{class: 'fas fa-trash-alt'}
             %span
               %i{class: 'fas fa-plus'}
 

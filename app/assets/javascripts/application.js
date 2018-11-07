@@ -30,3 +30,12 @@ function replaceProjectContent(projectId) {
     });
   }
 }
+
+function showMessage(data, timeout) {
+  $('.flash-content .body').text(data);
+  $('.flash-content').addClass('alert-error');
+  $('.flash-container').show();
+  setTimeout(function() {
+    $('.flash-container').hide();
+  }, timeout);
+}

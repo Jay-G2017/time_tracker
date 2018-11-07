@@ -88,7 +88,6 @@ $(function(){
       } else {
         alert('输入不能为空');
       }
-
     }
   });
 
@@ -107,6 +106,23 @@ $(function(){
     clearInterval(tt);
     afterTomatoCancel();
   });
+
+  // delete title
+  $('.project-container').on('click', '.title-delete', function() {
+    if(confirm('Are you sure')) {
+      var titleId = $(this).attr('value');
+      var url = $(this).attr('url');
+      $.ajax({
+        method: 'delete',
+        url: url
+      }).done(function() {
+        $('#title-container-' + titleId).remove();
+      }).error(function(data) {
+        showMessage(data.responseText);
+      });
+    }
+  });
+
 
 });
 
