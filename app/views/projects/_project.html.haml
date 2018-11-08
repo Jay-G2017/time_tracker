@@ -12,10 +12,12 @@
             .title-name
               - name = title.name.present? ? title.name : '默认标题'
               %span= name
-            .divider-vert
-            .chevron-up
-              %i{class: 'fas fa-chevron-up'}
           .title-button-group.flex.align-center
+            %span.title-delete{url: project_title_path(project, title), value: title.id, class: title.todos.count > 0 ? 'hide': ''}
+              %i{class: 'fas fa-trash-alt'}
+            %span.toggle-title-todos{value: title.id, class: title.todos.count > 0 ? '' : 'hide'}
+              %i{class: 'fas fa-chevron-up'}
+              %i{class: 'fas fa-chevron-down hide'}
             %span
               %i{class: 'fas fa-plus'}
 
