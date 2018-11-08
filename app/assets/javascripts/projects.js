@@ -137,10 +137,89 @@ $(function(){
     var data = { todo: {name: '默认名字'} };
 
     $.post(url, data, function(data) {
-      $('#title-todos-container-' + titleId).append(data)
+      $('#title-todos-container-' + titleId).append(data);
+
+      var todoId = $(data).find('.todo-delete').attr('value');
+      $('#todo-list-' + todoId).find('.todo-name').dblclick();
+      $('.todo-edit-input').select();
+
+      // hide title delete icon.
+      var titleContainer = $('#title-container-' + titleId);
+      titleContainer.find('.title-delete').hide();
+      titleContainer.find('.toggle-title-todos').show();
     });
   });
 
+  // edit todo
+  $('.project-container').on('dblclick', '.todo-name', function() {
+    $('.todo-name').show();
+    var target = $(this).hide();
+    var todoEditName = target.text();
+    var todoEditInput = $('.todo-edit-input');
+    target.after(todoEditInput.show()[0]);
+    todoEditInput.focus().val('').val(todoEditName);
+  });
+
+  // cancel edit todo, bind Esc key
+  $('.project-container').on('keydown', '.todo-edit-input', function(e) {
+    if(e.which == 27) {
+      e.preventDefault();
+      $('.todo-edit-input').hide();
+      $('.todo-name').show();
+    }
+  });
+
+
+  // update todo, bind to enter key
+  $('.project-container').on('keydown', '.todo-edit-input', function(e) {
+    var target = $(this).parent();
+    if(e.which == 13) {
+      e.preventDefault();
+      var todoEditName = $(this).val();
+      //make sure input not empty
+      if(todoEditName) {
+        var url = target.attr('url');
+        var data = {todo: {name: todoEditName}};
+
+        $.ajax({
+          type: 'patch',
+          url: url,
+          data: data
+        }).done(function(data) {
+          $('.todo-edit-input').hide();
+          target.find('.todo-name').text(data.name).show();
+        });
+
+      } else {
+        alert('输入不能为空');
+      }
+    }
+  });
+
+  // delete todo
+  $('.project-container').on('click', '.todo-delete', function() {
+    if(confirm('Are you sure')) {
+      var todoId = $(this).attr('value');
+      var titleId = $(this).attr('title_id');
+      var url = $(this).attr('url');
+      $.ajax({
+        method: 'delete',
+        url: url
+      }).done(function() {
+        $('#todo-list-' + todoId).slideUp();
+
+        // show title delete icon when no todo exists.
+        var titleContainer = $('#title-container-' + titleId);
+        // <=1 is because slideUp tasks time to hide;
+        if(titleContainer.find('.todo-list:visible').length <= 1) {
+          titleContainer.find('.title-delete').show();
+          titleContainer.find('.toggle-title-todos').hide();
+        }
+      }).error(function(data) {
+        showMessage(data.responseText);
+      });
+    }
+  });
 
 });
 
@@ -175,7 +254,7 @@ function afterTomatoCancel() {
 
    /*
 
-  
+
 
   # bind enter key for create todo
   $('.project-container').on 'keypress', '.create-todo-input', (e) ->
