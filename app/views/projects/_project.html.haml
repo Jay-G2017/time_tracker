@@ -18,7 +18,7 @@
             %span.toggle-title-todos{value: title.id, class: title.todos.count > 0 ? '' : 'hide'}
               %i{class: 'fas fa-chevron-up'}
               %i{class: 'fas fa-chevron-down hide'}
-            %span
+            %span.todo-add{value: title.id, url: title_todos_path(title)}
               %i{class: 'fas fa-plus'}
 
         .title-todos-container.s-rounded{id: "title-todos-container-#{title.id}"}

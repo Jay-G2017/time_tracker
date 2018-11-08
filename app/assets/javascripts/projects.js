@@ -130,6 +130,17 @@ $(function(){
     $('#title-todos-container-' + titleId).slideToggle();
   })
 
+  // create todo
+  $('.project-container').on('click', '.todo-add', function() {
+    var url = $(this).attr('url');
+    var titleId = $(this).attr('value');
+    var data = { todo: {name: '默认名字'} };
+
+    $.post(url, data, function(data) {
+      $('#title-todos-container-' + titleId).append(data)
+    });
+  });
+
 
 });
 
@@ -164,62 +175,7 @@ function afterTomatoCancel() {
 
    /*
 
-
-
-
-
-
-
-
-  # cancel create title
-  $('.project-container').on 'click', '#cancel-create-title-button', ->
-    $('form#new_title').remove()
-    $('#new-title-button').attr 'disabled', false
-
-
-
-
-
-  # create title
-  $('.project-container').on 'click', '#create-title-button', (e) ->
-    e.preventDefault()
-    new_title_form = $('form#new_title')
-    url = new_title_form.attr 'action'
-    $.post url, new_title_form.serialize(), (data) ->
-      new_title_form.remove()
-      $('#new-title-button').attr 'disabled', false
-      $('.project-body').append(data)
-
-  # delete title
-  $('.project-container').on 'click', '.delete-title-button', ->
-    if confirm('确定删除吗?')
-      url = $(this).attr 'url'
-      title_id = $(this).val()
-      $.ajax
-        url: url
-        type: 'delete'
-      .done ->
-        $('#title-container-' + title_id).remove()
-
-
-
-  # bind enter key for create title
-  $('.project-container').on 'keypress', '#create-title-input', (e) ->
-    if e.which == 13
-      e.preventDefault()
-      $('#create-title-button').click()
-
-
-  # create todo
-  $('.project-container').on 'click', '.create-todo-button', ->
-    url = $(this).attr 'url'
-    title_id = $(this).val()
-    new_todo_form = $(this).parent()
-    create_todo_input = $(this).siblings('.create-todo-input')
-
-    $.post url, new_todo_form.serialize(), (data) ->
-      $('#todo-content-' + title_id).append(data)
-      create_todo_input.val('')
+  
 
   # bind enter key for create todo
   $('.project-container').on 'keypress', '.create-todo-input', (e) ->
