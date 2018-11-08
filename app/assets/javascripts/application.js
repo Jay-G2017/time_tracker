@@ -20,6 +20,12 @@
 //= require perfect-scrollbar-1.4
 //= require_tree .
 
+$(function() {
+  $('.flash-close').on('click', function() {
+    $('.flash-container').hide();
+  })
+});
+
 function replaceProjectContent(projectId) {
   if(projectId == undefined) {
     $('.project-container').empty();
@@ -29,4 +35,13 @@ function replaceProjectContent(projectId) {
       $('.project-container').html(data);
     });
   }
+}
+
+function showMessage(data, timeout=3000) {
+  $('.flash-content .body').text(data);
+  $('.flash-content').addClass('alert-error');
+  $('.flash-container').show();
+  setTimeout(function() {
+    $('.flash-container').slideUp();
+  }, timeout);
 }

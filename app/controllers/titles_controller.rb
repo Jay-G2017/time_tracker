@@ -25,8 +25,13 @@ class TitlesController < ApplicationController
 
   def destroy
     title = Title.find params[:id]
-    title.destroy!
-    render json: { success: true }
+
+    if title.todos.count > 0
+      render json: 'You cannot destroy title with todos. 含有todo的标题不能删除.', status: 500
+    else
+      title.destroy!
+      render json: { success: true }
+    end
   end
 
   private
