@@ -144,6 +144,12 @@
     padding-right: 1em;
     color: $gray-color;
   }
+  .second-row-item:hover {
+    cursor: pointer;
+  }
+  .todo-delete:hover {
+    color: $error-color;
+  }
 
 }
 
