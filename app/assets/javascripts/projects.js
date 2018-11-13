@@ -221,6 +221,34 @@ $(function(){
     }
   });
 
+  // create project
+  //
+    $(".project-sidebar-header-row").on('click', ".project-add:not('.clicked')", function(e){
+    e.preventDefault();
+    var target = $(this).addClass('clicked');
+    $('.project-add-loading').show();
+    $('.project-add-icon').hide();
+
+    var projectId = $('.project-container .project-content').attr('value');
+    var url = '/projects/' + projectId + '/titles';
+    var data = { title: {name: '默认标题'} };
+
+    $.post(url, data, function(data){
+      $('.project-body').append(data);
+      target.removeClass('clicked');
+      $('.title-add-loading').hide();
+      $('.title-add-icon').show();
+  //
+  $('.category-zone').on 'click', '.create-project-button', ->
+    url = $(this).attr 'url'
+    category_id = $(this).val()
+    new_project_form = $(this).parent()
+    create_project_input = $(this).siblings('.create-project-input')
+
+    $.post url, new_project_form.serialize(), (data) ->
+      $('#side-project-content-' + category_id).append(data)
+      create_project_input.val('')
+
 });
 
 function startTomatoTimer(todoId, minutes) {
@@ -253,68 +281,6 @@ function afterTomatoCancel() {
 
 
    /*
-
-
-
-  # bind enter key for create todo
-  $('.project-container').on 'keypress', '.create-todo-input', (e) ->
-    if e.which == 13
-      e.preventDefault()
-      $(this).siblings('.create-todo-button').click()
-
-  # delete todo
-  $('.project-container').on 'click', '.delete-todo-button', ->
-    if confirm('确定要删除吗')
-      url = $(this).attr 'url'
-      todo_id = $(this).val()
-
-      $.ajax
-        url: url
-        type: 'delete'
-      .done ->
-        $('#todo-list-' + todo_id).remove()
-
-  # edit todo
-  $('.project-container').on 'click', '.edit-todo-button', ->
-    # 先删除其它的edit todo form
-    $('form.edit_todo').remove()
-    $('.todo-list').show()
-
-    url = $(this).attr 'url'
-    todo_id = $(this).val()
-    $.get url, (data) ->
-      $('#todo-list-' + todo_id).hide().after(data)
-      val = $('.update-todo-input').val()
-      $('.update-todo-input').val('').focus().val(val)
-
-  # cancel update todo button
-  $('.project-container').on 'click', '#cancel-update-todo-button', ->
-    todo_id = $(this).val()
-    $('form.edit_todo').remove()
-    $('#todo-list-' + todo_id).show()
-
-
-  # update todo
-  $('.project-container').on 'click', '#update-todo-button', ->
-    todo_id = $(this).val()
-    edit_todo_form = $('form.edit_todo')
-    url = edit_todo_form.attr 'action'
-
-    $.ajax
-      url: url
-      type: 'patch'
-      data: edit_todo_form.serialize()
-    .done (data) ->
-      edit_todo_form.remove()
-      $('#todo-list-' + todo_id).find('.todo-body').text(data['name'])
-      $('#todo-list-' + todo_id).show()
-
-  # bind enter key for update todo
-  $('.project-container').on 'keypress', '.update-todo-input', (e) ->
-    if (e.which == 13)
-      e.preventDefault()
-      $('#update-todo-button').click()
-
   # new category
   $('#new-category-button').on 'click', ->
     $(this).attr 'disabled', true
@@ -395,16 +361,7 @@ function afterTomatoCancel() {
       e.preventDefault()
       $('#update-category-button').click()
 
-  # create project
-  $('.category-zone').on 'click', '.create-project-button', ->
-    url = $(this).attr 'url'
-    category_id = $(this).val()
-    new_project_form = $(this).parent()
-    create_project_input = $(this).siblings('.create-project-input')
-
-    $.post url, new_project_form.serialize(), (data) ->
-      $('#side-project-content-' + category_id).append(data)
-      create_project_input.val('')
+  
 
   # bind enter key for create project
   $('.category-zone').on 'keypress', '.create-project-input', (e) ->

@@ -8,9 +8,12 @@
     .row-content.flex-end.align-center
       .to-category-sidebar-link.hide
         %i{class: 'fas fa-bars'}
-      .project-add
-        %i{class: 'fas fa-plus'}
-        %span 新建项目
+      .project-add.hover-border
+        %span.project-add-loading.hide
+          %i.fas.fa-spinner.fa-spin
+        %span.project-add-icon
+          %i.fas.fa-plus
+        %span.project-add-content 新建项目
   .project-container-header-row
     .row-content.flex-between.align-center
       .to-project-sidebar-link.hide
