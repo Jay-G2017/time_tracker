@@ -36,9 +36,7 @@
         .timer-cancel.flex-around.align-center
           %i{class: 'icon icon-cross'}
 .container.flex
-  .category-sidebar.sidebar
-    = render 'sidebar_category'
-  .project-sidebar.sidebar
-    = render 'sidebar_project'
+  = render 'category_sidebar'
+  = render 'project_sidebar'
   .project-container
-    = render 'project', project: @default_project
+    = render 'project', project: @projects.first

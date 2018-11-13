@@ -1,0 +1,29 @@
+.category-sidebar.sidebar
+  .default-category-zone.category-zone.text-p
+    .category-list.sidebar-inbox{url: category_projects_path(0) + '?category_type=inbox'}
+      %span.category-icon
+        %i.fas.fa-inbox
+      %span.row-name 所有项目
+      %span.row-stat 4
+      %span.placeholder.category-delete
+    .category-list.sidebar-pinned{url: category_projects_path(0) + '?category_type=pinned'}
+      %span.category-icon
+        %i.fas.fa-thumbtack
+      %span.row-name 置顶项目
+      %span.row-stat 4
+      %span.placeholder.category-delete
+    .category-list.sidebar-done{url: category_projects_path(0) + '?category_type=done'}
+      %span.category-icon
+        %i.fas.fa-check-square
+      %span.row-name 完成项目
+      %span.row-stat 4
+      %span.placeholder.category-delete
+  .custom-category-zone.category-zone.text-p
+    - @categories.each do |category|
+      .category-list.flex{url: category_projects_path(category), value: category.id}
+        %span.category-icon
+          %i.fas.fa-folder
+        %span.row-name= category.name
+        %span.row-stat 9
+        %span.category-delete
+          %i.far.fa-trash-alt

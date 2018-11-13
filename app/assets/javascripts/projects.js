@@ -5,6 +5,18 @@ $(function(){
     maxScrollbarLength: 80
   })
 
+  // category侧边栏导航
+  $('.category-sidebar').on('click', ".category-list:not('.active')", function(e) {
+    e.preventDefault()
+    $('.category-list').removeClass('active')
+    $(this).addClass('active')
+    let url = $(this).attr('url')
+    $.get(url, function(data) {
+      $('.project-sidebar').replaceWith(data)
+    })
+
+  })
+
   // 项目侧边栏导航
   $('.project-sidebar').on('click', 'a.project-list', function(e) {
     e.preventDefault();
@@ -222,7 +234,7 @@ $(function(){
   });
 
   // create project
-  //
+  /*
     $(".project-sidebar-header-row").on('click', ".project-add:not('.clicked')", function(e){
     e.preventDefault();
     var target = $(this).addClass('clicked');
@@ -248,6 +260,7 @@ $(function(){
     $.post url, new_project_form.serialize(), (data) ->
       $('#side-project-content-' + category_id).append(data)
       create_project_input.val('')
+      */
 
 });
 
@@ -280,7 +293,7 @@ function afterTomatoCancel() {
 
 
 
-   /*
+/*
   # new category
   $('#new-category-button').on 'click', ->
     $(this).attr 'disabled', true
@@ -361,7 +374,7 @@ function afterTomatoCancel() {
       e.preventDefault()
       $('#update-category-button').click()
 
-  
+
 
   # bind enter key for create project
   $('.category-zone').on 'keypress', '.create-project-input', (e) ->

@@ -1,12 +1,44 @@
 class ProjectsController < ApplicationController
   before_action :require_login
 
-  def index
-    @categories = current_user.categories.includes(:projects)
-    @projects = current_user.projects.includes(titles: :todos)
-    @default_project = @projects.first
+  def first_load
+    @categories = current_user.categories
+    pinned_projects = current_user.pinned_projects
+    if pinned_projects.present?
+      @projects = pinned_projects
+      @category_type = 'pinned'
+    else
+      @projects = current_user.inbox_projects
+      @category_type = 'inbox'
+    end
+    @category_id = 0
 
-    render layout: 'time_tracker'
+    render 'index', layout: 'time_tracker'
+  end
+
+  def index
+    category = Category.find_by(id: params[:category_id])
+
+    if category
+      @projects = category.projects
+      @category_id = category.id
+      @category_type = nil
+    else
+      case params[:category_type]
+      when 'inbox'
+        @projects = current_user.inbox_projects
+        @category_type = 'inbox'
+      when 'pinned'
+        @projects = current_user.pinned_projects
+        @category_type = 'pinned'
+      when 'done'
+        @projects = current_user.done_projects
+        @category_type = 'done'
+      end
+      @category_id = 0
+    end
+
+    render partial: 'project_sidebar'
   end
 
   def show

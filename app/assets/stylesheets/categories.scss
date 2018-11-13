@@ -41,6 +41,7 @@
 
   .category-list:hover {
     background-color: $gray-color;
+    cursor: pointer;
   }
 
   .category-list.active {

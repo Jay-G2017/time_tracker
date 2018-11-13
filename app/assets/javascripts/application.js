@@ -24,6 +24,14 @@ $(function() {
   $('.flash-close').on('click', function() {
     $('.flash-container').hide();
   })
+
+  // first load page will active inbox or pinned
+  let categoryType = $('.project-sidebar').attr('category_type')
+  if (categoryType == 'pinned')  {
+    $('.category-list.sidebar-pinned').addClass('active')
+  } else {
+    $('.category-list.sidebar-inbox').addClass('active')
+  }
 });
 
 function replaceProjectContent(projectId) {
