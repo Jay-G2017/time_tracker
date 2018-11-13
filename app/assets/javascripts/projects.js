@@ -130,6 +130,96 @@ $(function(){
     $('#title-todos-container-' + titleId).slideToggle();
   })
 
+  // create todo
+  $('.project-container').on('click', '.todo-add', function() {
+    var url = $(this).attr('url');
+    var titleId = $(this).attr('value');
+    var data = { todo: {name: '默认名字'} };
+
+    $.post(url, data, function(data) {
+      $('#title-todos-container-' + titleId).append(data);
+
+      var todoId = $(data).find('.todo-delete').attr('value');
+      $('#todo-list-' + todoId).find('.todo-name').dblclick();
+      $('.todo-edit-input').select();
+
+      // hide title delete icon.
+      var titleContainer = $('#title-container-' + titleId);
+      titleContainer.find('.title-delete').hide();
+      titleContainer.find('.toggle-title-todos').show();
+    });
+  });
+
+  // edit todo
+  $('.project-container').on('dblclick', '.todo-name', function() {
+    $('.todo-name').show();
+    var target = $(this).hide();
+    var todoEditName = target.text();
+    var todoEditInput = $('.todo-edit-input');
+    target.after(todoEditInput.show()[0]);
+    todoEditInput.focus().val('').val(todoEditName);
+  });
+
+  // cancel edit todo, bind Esc key
+  $('.project-container').on('keydown', '.todo-edit-input', function(e) {
+    if(e.which == 27) {
+      e.preventDefault();
+      $('.todo-edit-input').hide();
+      $('.todo-name').show();
+    }
+  });
+
+
+  // update todo, bind to enter key
+  $('.project-container').on('keydown', '.todo-edit-input', function(e) {
+    var target = $(this).parent();
+    if(e.which == 13) {
+      e.preventDefault();
+      var todoEditName = $(this).val();
+      //make sure input not empty
+      if(todoEditName) {
+        var url = target.attr('url');
+        var data = {todo: {name: todoEditName}};
+
+        $.ajax({
+          type: 'patch',
+          url: url,
+          data: data
+        }).done(function(data) {
+          $('.todo-edit-input').hide();
+          target.find('.todo-name').text(data.name).show();
+        });
+
+      } else {
+        alert('输入不能为空');
+      }
+    }
+  });
+
+  // delete todo
+  $('.project-container').on('click', '.todo-delete', function() {
+    if(confirm('Are you sure')) {
+      var todoId = $(this).attr('value');
+      var titleId = $(this).attr('title_id');
+      var url = $(this).attr('url');
+      $.ajax({
+        method: 'delete',
+        url: url
+      }).done(function() {
+        $('#todo-list-' + todoId).slideUp();
+
+        // show title delete icon when no todo exists.
+        var titleContainer = $('#title-container-' + titleId);
+        // <=1 is because slideUp tasks time to hide;
+        if(titleContainer.find('.todo-list:visible').length <= 1) {
+          titleContainer.find('.title-delete').show();
+          titleContainer.find('.toggle-title-todos').hide();
+        }
+      }).error(function(data) {
+        showMessage(data.responseText);
+      });
+    }
+  });
 
 });
 
@@ -165,61 +255,6 @@ function afterTomatoCancel() {
    /*
 
 
-
-
-
-
-
-
-  # cancel create title
-  $('.project-container').on 'click', '#cancel-create-title-button', ->
-    $('form#new_title').remove()
-    $('#new-title-button').attr 'disabled', false
-
-
-
-
-
-  # create title
-  $('.project-container').on 'click', '#create-title-button', (e) ->
-    e.preventDefault()
-    new_title_form = $('form#new_title')
-    url = new_title_form.attr 'action'
-    $.post url, new_title_form.serialize(), (data) ->
-      new_title_form.remove()
-      $('#new-title-button').attr 'disabled', false
-      $('.project-body').append(data)
-
-  # delete title
-  $('.project-container').on 'click', '.delete-title-button', ->
-    if confirm('确定删除吗?')
-      url = $(this).attr 'url'
-      title_id = $(this).val()
-      $.ajax
-        url: url
-        type: 'delete'
-      .done ->
-        $('#title-container-' + title_id).remove()
-
-
-
-  # bind enter key for create title
-  $('.project-container').on 'keypress', '#create-title-input', (e) ->
-    if e.which == 13
-      e.preventDefault()
-      $('#create-title-button').click()
-
-
-  # create todo
-  $('.project-container').on 'click', '.create-todo-button', ->
-    url = $(this).attr 'url'
-    title_id = $(this).val()
-    new_todo_form = $(this).parent()
-    create_todo_input = $(this).siblings('.create-todo-input')
-
-    $.post url, new_todo_form.serialize(), (data) ->
-      $('#todo-content-' + title_id).append(data)
-      create_todo_input.val('')
 
   # bind enter key for create todo
   $('.project-container').on 'keypress', '.create-todo-input', (e) ->
