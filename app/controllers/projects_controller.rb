@@ -60,8 +60,12 @@ class ProjectsController < ApplicationController
   end
 
   def create
-    category = Category.find params[:category_id]
-    project = category.projects.create!(project_params)
+    category = Category.find_by(id: params[:category_id])
+    if category.nil? && category_type == 'inbox'
+      project = Project.create!(project_params)
+    else
+      project = category.projects.create!(project_params)
+    end
 
     render partial: 'project_list', locals: { project: project }
   end

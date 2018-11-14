@@ -10,9 +10,19 @@ $(function(){
     e.preventDefault()
     $('.category-list').removeClass('active')
     $(this).addClass('active')
+    $('.project-add').show()
+
+    $('.project-content').remove()
+    $('.title-add').hide()
+
+    let categoryType = $(this).attr('category_type')
+    if (['pinned', 'done'].includes(categoryType)) {
+      $('.project-add').hide()
+    }
+
     let url = $(this).attr('url')
     $.get(url, function(data) {
-      $('.project-sidebar').replaceWith(data)
+      $('.project-sidebar').html(data)
     })
 
   })
@@ -234,33 +244,26 @@ $(function(){
   });
 
   // create project
-  /*
-    $(".project-sidebar-header-row").on('click', ".project-add:not('.clicked')", function(e){
+  $(".project-sidebar-header-row").on('click', ".project-add:not('.clicked')", function(e){
     e.preventDefault();
     var target = $(this).addClass('clicked');
     $('.project-add-loading').show();
     $('.project-add-icon').hide();
 
-    var projectId = $('.project-container .project-content').attr('value');
-    var url = '/projects/' + projectId + '/titles';
-    var data = { title: {name: '默认标题'} };
+    var categoryId = $('.project-sidebar-content').attr('category_id')
+    var url = '/categories/' + categoryId + '/projects'
+    var data = { project: {name: '默认project'} };
 
     $.post(url, data, function(data){
-      $('.project-body').append(data);
-      target.removeClass('clicked');
-      $('.title-add-loading').hide();
-      $('.title-add-icon').show();
-  //
-  $('.category-zone').on 'click', '.create-project-button', ->
-    url = $(this).attr 'url'
-    category_id = $(this).val()
-    new_project_form = $(this).parent()
-    create_project_input = $(this).siblings('.create-project-input')
+      $('.project-sidebar-content').prepend(data)
+      data.click()
 
-    $.post url, new_project_form.serialize(), (data) ->
-      $('#side-project-content-' + category_id).append(data)
-      create_project_input.val('')
-      */
+      target.removeClass('clicked');
+      $('.project-add-loading').hide();
+      $('.project-add-icon').show();
+    })
+  })
+
 
 });
 

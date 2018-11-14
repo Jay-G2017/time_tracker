@@ -23,7 +23,7 @@
         %span
           %i{class: 'fas fa-apple-alt'}
         %span#today-tomato-num= current_user.today_tomato_size || 0
-      .title-add.hover-border
+      .title-add.hover-border.hide
         %span.title-add-loading.hide
           %i.fas.fa-spinner.fa-spin
         %span.title-add-icon
@@ -37,6 +37,6 @@
           %i{class: 'icon icon-cross'}
 .container.flex
   = render 'category_sidebar'
-  = render 'project_sidebar'
+  .project-sidebar.sidebar
+    = render 'project_sidebar'
   .project-container
-    = render 'project', project: @projects.first

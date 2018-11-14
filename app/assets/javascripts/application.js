@@ -26,9 +26,10 @@ $(function() {
   })
 
   // first load page will active inbox or pinned
-  let categoryType = $('.project-sidebar').attr('category_type')
+  let categoryType = $('.project-sidebar-content').attr('category_type')
   if (categoryType == 'pinned')  {
     $('.category-list.sidebar-pinned').addClass('active')
+    $('.project-add').hide()
   } else {
     $('.category-list.sidebar-inbox').addClass('active')
   }
@@ -41,6 +42,7 @@ function replaceProjectContent(projectId) {
     var url = 'projects/' + projectId;
     $.get(url, function(data) {
       $('.project-container').html(data);
+      $('.title-add').show()
     });
   }
 }

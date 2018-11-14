@@ -1,18 +1,18 @@
 .category-sidebar.sidebar
   .default-category-zone.category-zone.text-p
-    .category-list.sidebar-inbox{url: category_projects_path(0) + '?category_type=inbox'}
+    .category-list.sidebar-inbox{category_type: 'inbox', url: category_projects_path(0) + '?category_type=inbox'}
       %span.category-icon
         %i.fas.fa-inbox
       %span.row-name 所有项目
       %span.row-stat 4
       %span.placeholder.category-delete
-    .category-list.sidebar-pinned{url: category_projects_path(0) + '?category_type=pinned'}
+    .category-list.sidebar-pinned{category_type: 'pinned', url: category_projects_path(0) + '?category_type=pinned'}
       %span.category-icon
         %i.fas.fa-thumbtack
       %span.row-name 置顶项目
       %span.row-stat 4
       %span.placeholder.category-delete
-    .category-list.sidebar-done{url: category_projects_path(0) + '?category_type=done'}
+    .category-list.sidebar-done{category_type: 'done', url: category_projects_path(0) + '?category_type=done'}
       %span.category-icon
         %i.fas.fa-check-square
       %span.row-name 完成项目
