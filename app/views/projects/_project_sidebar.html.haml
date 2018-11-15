@@ -1,6 +1,6 @@
 .project-sidebar-content{category_id: @category_id, category_type: @category_type}
   - @projects.each do |project|
-    .project-list.flex.align-center.text-p{value: project.id}
+    .project-list.flex.align-center.text-p{id: "project-list-#{project.id}", value: project.id}
       .project-list-content
         .project-list-name= project.name
         .project-list-description= project.description || 'no content'

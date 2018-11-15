@@ -265,8 +265,70 @@ $(function(){
       target.removeClass('clicked');
       $('.project-add-loading').hide();
       $('.project-add-icon').show();
+
+      let projectId = $(data).attr('value')
+      let url = 'projects/' + projectId
+      $('.project-list').removeClass('active')
+      $('#project-list-' + projectId).addClass('active')
+
+      $.get(url, function(result) {
+        $('.project-container').html(result);
+        $('.title-add').show()
+        $('.project-name').dblclick()
+        $('.project-name-input').select()
+      });
+
     })
   })
+
+  // edit project name
+  $('.project-container').on('dblclick', '.project-name', function() {
+    $('.project-name').show();
+    let target = $(this).hide();
+    let projectOriginName = target.text();
+    let projectNameInput = $('.project-name-input');
+    target.after(projectNameInput.show()[0]);
+    projectNameInput.focus().val('').val(projectOriginName);
+  });
+
+  // cancel edit project name, bind Esc key
+  $('.project-container').on('keydown', '.project-name-input', function(e) {
+    if(e.which == 27) {
+      e.preventDefault();
+      $('.project-name-input').hide();
+      $('.project-name').show();
+    }
+  });
+
+  // update project name, bind to enter key
+  $('.project-container').on('keydown', '.project-name-input', function(e) {
+    var target = $(this).parent();
+    if(e.which == 13) {
+      e.preventDefault();
+      var projectEditName = $(this).val();
+      //make sure input not empty
+      if(projectEditName) {
+        var url = target.attr('url');
+        let projectId = target.attr('value')
+        var data = {project: {name: projectEditName}};
+
+        $.ajax({
+          type: 'patch',
+          url: url,
+          data: data
+        }).done(function(data) {
+          $('.project-name-input').hide();
+          target.find('.project-name').text(data.name).show();
+
+          $('#project-list-' + projectId).find('.project-list-name').text(data.name)
+
+        });
+
+      } else {
+        alert('输入不能为空');
+      }
+    }
+  });
 
 
 });

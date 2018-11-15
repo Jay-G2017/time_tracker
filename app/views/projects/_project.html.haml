@@ -1,8 +1,7 @@
 .project-content{id: "project-content-#{project.id}", value: project.id }
-  .project-head.s-rounded
-    .header
-      %h2= project.name
-    .description.text-p
+  .project-header{url: project_path(project), value: project.id}
+    .project-name= project.name
+    .project-description.text-p
       %p= project.description
   .project-body
     - project.titles.each do |title|
@@ -45,5 +44,6 @@
                 -# = button_tag '删除', class: 'ui button delete-todo-button', url: title_todo_path(title, todo), value: todo.id
                 -# = button_tag '编辑', class: 'ui button edit-todo-button', url: edit_title_todo_path(title, todo), value: todo.id
 
+%input.project-name-input.hide{type: 'text'}
 %input.title-edit-input.hide{type: 'text'}
 %input.todo-edit-input.hide{type: 'text'}
