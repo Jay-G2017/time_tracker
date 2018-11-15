@@ -27,9 +27,13 @@ $(function(){
 
   })
 
-  // 项目侧边栏导航
-  $('.project-sidebar').on('click', 'a.project-list', function(e) {
+  // project侧边栏导航
+  $('.project-sidebar').on('click', '.project-list', function(e) {
     e.preventDefault();
+
+    $('.project-list').removeClass('active')
+    $(this).addClass('active')
+
     var projectId = $(this).attr('value');
     replaceProjectContent(projectId);
 
@@ -250,13 +254,13 @@ $(function(){
     $('.project-add-loading').show();
     $('.project-add-icon').hide();
 
-    var categoryId = $('.project-sidebar-content').attr('category_id')
-    var url = '/categories/' + categoryId + '/projects'
-    var data = { project: {name: '默认project'} };
+    let categoryId = $('.project-sidebar-content').attr('category_id')
+    let categoryType = $('.project-sidebar-content').attr('category_type')
+    let url = '/categories/' + categoryId + '/projects?category_id=' + categoryId + '&category_type=' + categoryType
+    let data = { project: {name: '默认project'} };
 
     $.post(url, data, function(data){
       $('.project-sidebar-content').prepend(data)
-      data.click()
 
       target.removeClass('clicked');
       $('.project-add-loading').hide();

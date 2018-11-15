@@ -20,6 +20,7 @@
 
   .project-list:hover {
     background-color: $gray-color;
+    cursor: pointer;
   }
   .project-list.active {
     background-color: $primary-color;

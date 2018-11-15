@@ -3,12 +3,12 @@ class ProjectsController < ApplicationController
 
   def first_load
     @categories = current_user.categories
-    pinned_projects = current_user.pinned_projects
+    pinned_projects = current_user.pinned_projects.created_desc
     if pinned_projects.present?
       @projects = pinned_projects
       @category_type = 'pinned'
     else
-      @projects = current_user.inbox_projects
+      @projects = current_user.inbox_projects.created_desc
       @category_type = 'inbox'
     end
     @category_id = 0
@@ -20,19 +20,19 @@ class ProjectsController < ApplicationController
     category = Category.find_by(id: params[:category_id])
 
     if category
-      @projects = category.projects
+      @projects = category.projects.created_desc
       @category_id = category.id
       @category_type = nil
     else
       case params[:category_type]
       when 'inbox'
-        @projects = current_user.inbox_projects
+        @projects = current_user.inbox_projects.created_desc
         @category_type = 'inbox'
       when 'pinned'
-        @projects = current_user.pinned_projects
+        @projects = current_user.pinned_projects.created_desc
         @category_type = 'pinned'
       when 'done'
-        @projects = current_user.done_projects
+        @projects = current_user.done_projects.created_desc
         @category_type = 'done'
       end
       @category_id = 0
@@ -60,13 +60,15 @@ class ProjectsController < ApplicationController
   end
 
   def create
+    category_type = params[:category_type]
     category = Category.find_by(id: params[:category_id])
     if category.nil? && category_type == 'inbox'
-      project = Project.create!(project_params)
+      project = Project.new(project_params)
     else
-      project = category.projects.create!(project_params)
+      project = category.projects.new(project_params)
     end
-
+    project.user = current_user
+    project.save!
     render partial: 'project_list', locals: { project: project }
   end
 
