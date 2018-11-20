@@ -330,6 +330,48 @@ $(function(){
     }
   });
 
+  // star project
+  $('.project-sidebar').on('click', '.star-project', function(e) {
+    e.preventDefault()
+    let target = $(this)
+    let url = target.attr('url')
+    let projectId = target.attr('value')
+    let projectList = $('#project-list-' + projectId)
+    let starIcon = projectList.find('.project-star-icon')
+
+    $.ajax({
+      url: url,
+      method: 'patch'
+    }).success(function() {
+      starIcon.removeClass('visible-hide')
+      projectList.addClass('starred')
+      let starProjectInbox = $('.sidebar-pinned .row-stat')
+      let starProjectCount = parseInt(starProjectInbox.text())
+      starProjectInbox.text( starProjectCount + 1)
+    })
+  })
+
+  // unstar project
+  $('.project-sidebar').on('click', '.unstar-project', function(e) {
+    e.preventDefault()
+    let target = $(this)
+    let url = target.attr('url')
+    let projectId = target.attr('value')
+    let projectList = $('#project-list-' + projectId)
+    let starIcon = projectList.find('.project-star-icon')
+
+    $.ajax({
+      url: url,
+      method: 'patch'
+    }).success(function() {
+      starIcon.addClass('visible-hide')
+      projectList.removeClass('starred')
+      let starProjectInbox = $('.sidebar-pinned .row-stat')
+      let starProjectCount = parseInt(starProjectInbox.text())
+      starProjectInbox.text( starProjectCount - 1)
+    })
+  })
+
 
 });
 

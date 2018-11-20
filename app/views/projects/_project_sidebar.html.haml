@@ -1,6 +1,6 @@
 .project-sidebar-content{category_id: @category_id, category_type: @category_type}
   - @projects.each do |project|
-    .project-list.flex.align-center.text-p{id: "project-list-#{project.id}", value: project.id}
+    .project-list.flex.align-center.text-p{id: "project-list-#{project.id}", value: project.id, class: project.pin ? 'starred' : ''}
       .project-star-icon{class: project.pin ? '' : 'visible-hide'}
         %i.fas.fa-star
       .project-list-content
@@ -8,7 +8,8 @@
           .project-list-dropdown-button{'data-toggle': 'dropdown', 'data-boundary': 'window'}
             %i.fas.fa-ellipsis-h
           .dropdown-menu.dropdown-menu-right
-            %button.dropdown-item= project.pin ? '取消星标' : '标记星标'
+            %button.dropdown-item.star-project{value: project.id, url: star_project_path(project)} 标记星标
+            %button.dropdown-item.unstar-project{value: project.id, url: unstar_project_path(project)} 取消星标
             .dropdown-divider
             %button.dropdown-item 删除项目
         .project-list-name= project.name

@@ -79,6 +79,20 @@ class ProjectsController < ApplicationController
     render json: { success: true }
   end
 
+  def star
+    project = Project.find params[:id]
+    project.update!(pin: true)
+
+    render json: {success: true}
+  end
+
+  def unstar
+    project = Project.find params[:id]
+    project.update!(pin: false)
+
+    render json: {success: true}
+  end
+
   private
   def require_login
     if !current_user || (current_user.login_at < 12.hours.ago ) #12小时登录过期
@@ -88,6 +102,6 @@ class ProjectsController < ApplicationController
   end
 
   def project_params
-    params.require(:project).permit(:name)
+    params.require(:project).permit(:name, :pin)
   end
 end

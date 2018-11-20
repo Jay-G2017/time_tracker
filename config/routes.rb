@@ -12,6 +12,10 @@ Rails.application.routes.draw do
 
   resources :projects, only: [:show, :edit, :update, :destroy] do
     resources :titles
+    member do
+      patch 'star'
+      patch 'unstar'
+    end
   end
 
   resources :titles, only: [] do

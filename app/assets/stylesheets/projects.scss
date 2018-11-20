@@ -21,13 +21,20 @@
   .project-list:not(.active) .project-list-dropdown-button {
     display: none;
   }
+  .project-list.starred .star-project {
+    display: none;
+  }
+  .project-list:not(.starred) .unstar-project {
+    display: none;
+  }
   .project-star-icon {
     padding-right: 0.6em;
     font-size: 0.8em;
     color: $warning;
   }
   .project-list-content {
-    flex: 1 0 auto;
+    flex: auto;
+    width: 80%;
   }
   .project-list-dropdown-button:hover {
     cursor: pointer;
@@ -35,7 +42,6 @@
 
   .project-list-name {
     height: 1.8em;
-    width: 86%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
