@@ -15,7 +15,6 @@
 //= require rails-ujs
 //= require activestorage
 //= require turbolinks
-//= require semantic-ui
 //= require fontawesome-5.4.1
 //= require perfect-scrollbar-1.4
 //= require_tree .

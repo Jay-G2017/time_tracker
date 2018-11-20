@@ -1,20 +1,11 @@
 @import "my_variables";
 
-.container {
-  box-sizing: border-box;
-  padding-left: 0;
-  padding-right: 0;
-
-  .category-sidebar {
-  }
-}
-
 .project-sidebar {
   padding: 1em 0;
 
   .project-list {
     border-bottom: 1px solid $border-color;
-    padding: 0.8em 1em;
+    padding: 0.3em 2em 0.3em 0.3em;
     text-decoration: none;
   }
 
@@ -25,14 +16,26 @@
   .project-list.active {
     background-color: $primary-color;
     color: $light-color;
+    cursor: default;
+  }
+  .project-list:not(.active) .project-list-dropdown-button {
+    display: none;
+  }
+  .project-star-icon {
+    padding-right: 0.6em;
+    font-size: 0.8em;
+    color: $warning;
+  }
+  .project-list-content {
+    flex: 1 0 auto;
+  }
+  .project-list-dropdown-button:hover {
+    cursor: pointer;
   }
 
-  .project-list-content {
-    flex: 0 0 86%;
-    width: 86%;
-  }
   .project-list-name {
     height: 1.8em;
+    width: 86%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -51,21 +54,14 @@
     font-size: 0.6rem;
   }
   .project-start-time {
-    flex: 1 0 auto;
+    flex: 0 0 auto;
   }
   .tomato-num-div {
     flex: 0 0 3em;
   }
-
-
-  .project-list-icons {
-    padding-left: 0.6em;
-    opacity: 0;
+  .project-pinned:hover {
+    color: yellow;
   }
-  .project-list-icons:hover {
-    opacity: 1;
-  }
-
 
 }
 
@@ -149,7 +145,7 @@
     cursor: pointer;
   }
   .todo-delete:hover {
-    color: $error-color;
+    color: $danger;
   }
 
 }
