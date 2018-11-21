@@ -3,10 +3,10 @@ class ProjectsController < ApplicationController
 
   def first_load
     @categories = current_user.categories
-    pinned_projects = current_user.pinned_projects.created_desc
-    if pinned_projects.present?
-      @projects = pinned_projects
-      @category_type = 'pinned'
+    starred_projects = current_user.starred_projects.updated_desc
+    if starred_projects.present?
+      @projects = starred_projects
+      @category_type = 'starred'
     else
       @projects = current_user.inbox_projects.created_desc
       @category_type = 'inbox'
@@ -28,9 +28,9 @@ class ProjectsController < ApplicationController
       when 'inbox'
         @projects = current_user.inbox_projects.created_desc
         @category_type = 'inbox'
-      when 'pinned'
-        @projects = current_user.pinned_projects.created_desc
-        @category_type = 'pinned'
+      when 'starred'
+        @projects = current_user.starred_projects.updated_desc
+        @category_type = 'starred'
       when 'done'
         @projects = current_user.done_projects.created_desc
         @category_type = 'done'
@@ -81,14 +81,14 @@ class ProjectsController < ApplicationController
 
   def star
     project = Project.find params[:id]
-    project.update!(pin: true)
+    project.update!(starred: true)
 
     render json: {success: true}
   end
 
   def unstar
     project = Project.find params[:id]
-    project.update!(pin: false)
+    project.update!(starred: false)
 
     render json: {success: true}
   end
@@ -102,6 +102,6 @@ class ProjectsController < ApplicationController
   end
 
   def project_params
-    params.require(:project).permit(:name, :pin)
+    params.require(:project).permit(:name, :starred)
   end
 end

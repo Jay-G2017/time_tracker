@@ -26,8 +26,8 @@ $(function() {
 
   // first load page will active inbox or pinned
   let categoryType = $('.project-sidebar-content').attr('category_type')
-  if (categoryType == 'pinned')  {
-    $('.category-list.sidebar-pinned').addClass('active')
+  if (categoryType == 'starred')  {
+    $('.category-list.sidebar-starred').addClass('active')
     $('.project-add').hide()
   } else {
     $('.category-list.sidebar-inbox').addClass('active')

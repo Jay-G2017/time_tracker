@@ -16,7 +16,7 @@ $(function(){
     $('.title-add').hide()
 
     let categoryType = $(this).attr('category_type')
-    if (['pinned', 'done'].includes(categoryType)) {
+    if (['starred', 'done'].includes(categoryType)) {
       $('.project-add').hide()
     }
 
@@ -345,7 +345,7 @@ $(function(){
     }).success(function() {
       starIcon.removeClass('visible-hide')
       projectList.addClass('starred')
-      let starProjectInbox = $('.sidebar-pinned .row-stat')
+      let starProjectInbox = $('.sidebar-starred .row-stat')
       let starProjectCount = parseInt(starProjectInbox.text())
       starProjectInbox.text( starProjectCount + 1)
     })
@@ -366,7 +366,7 @@ $(function(){
     }).success(function() {
       starIcon.addClass('visible-hide')
       projectList.removeClass('starred')
-      let starProjectInbox = $('.sidebar-pinned .row-stat')
+      let starProjectInbox = $('.sidebar-starred .row-stat')
       let starProjectCount = parseInt(starProjectInbox.text())
       starProjectInbox.text( starProjectCount - 1)
     })

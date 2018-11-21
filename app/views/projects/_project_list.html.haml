@@ -1,15 +1,20 @@
-.project-list.flex.align-center.text-p{id: "project-list-#{project.id}", value: project.id}
+.project-list.flex.align-center.text-p{id: "project-list-#{project.id}", value: project.id, class: project.starred ? 'starred' : ''}
+  .project-star-icon{class: project.starred ? '' : 'visible-hide'}
+    %i.fas.fa-star
   .project-list-content
+    .project-list-dropdown.d-flex.row-reverse
+      .project-list-dropdown-button{'data-toggle': 'dropdown', 'data-boundary': 'window'}
+        %i.fas.fa-ellipsis-h
+      .dropdown-menu.dropdown-menu-right
+        %button.dropdown-item.star-project{value: project.id, url: star_project_path(project)} 标记星标
+        %button.dropdown-item.unstar-project{value: project.id, url: unstar_project_path(project)} 取消星标
+        .dropdown-divider
+        %button.dropdown-item 删除项目
     .project-list-name= project.name
     .project-list-description= project.description || 'no content'
-    .project-list-stat.flex
+    .project-list-stat.flex-between
       %span.project-start-time= china_date(project.created_at)
       .tomato-num-div
         %span.tomato-icon
           %i.fas.fa-apple-alt
         %span.tomato-num= project.tomatos_count
-  .project-list-icons
-    .project-pin
-      %i.fas.fa-thumbtack
-    .project-delete
-      %i.far.fa-trash-alt

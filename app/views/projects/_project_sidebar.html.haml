@@ -1,7 +1,7 @@
 .project-sidebar-content{category_id: @category_id, category_type: @category_type}
   - @projects.each do |project|
-    .project-list.flex.align-center.text-p{id: "project-list-#{project.id}", value: project.id, class: project.pin ? 'starred' : ''}
-      .project-star-icon{class: project.pin ? '' : 'visible-hide'}
+    .project-list.flex.align-center.text-p{id: "project-list-#{project.id}", value: project.id, class: project.starred ? 'starred' : ''}
+      .project-star-icon{class: project.starred ? '' : 'visible-hide'}
         %i.fas.fa-star
       .project-list-content
         .project-list-dropdown.d-flex.row-reverse

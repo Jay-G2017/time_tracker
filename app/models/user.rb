@@ -11,8 +11,8 @@ class User < ApplicationRecord
     projects.where(category_id: nil)
   end
 
-  def pinned_projects
-    projects.where(pin: true)
+  def starred_projects
+    projects.where(starred: true)
   end
 
   def done_projects

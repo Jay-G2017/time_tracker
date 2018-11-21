@@ -6,11 +6,11 @@
       %span.row-name 所有项目
       %span.row-stat= current_user.inbox_projects.count
       %span.placeholder.category-delete
-    .category-list.sidebar-pinned{category_type: 'pinned', url: category_projects_path(0) + '?category_type=pinned'}
+    .category-list.sidebar-starred{category_type: 'starred', url: category_projects_path(0) + '?category_type=starred'}
       %span.category-icon
         %i.fas.fa-star
       %span.row-name 星标项目
-      %span.row-stat= current_user.pinned_projects.count
+      %span.row-stat= current_user.starred_projects.count
       %span.placeholder.category-delete
     .category-list.sidebar-done{category_type: 'done', url: category_projects_path(0) + '?category_type=done'}
       %span.category-icon
