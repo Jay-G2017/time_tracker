@@ -20,7 +20,7 @@
       %span.placeholder.category-delete
   .custom-category-zone.category-zone.text-p
     - @categories.each do |category|
-      .category-list.flex{url: category_projects_path(category), value: category.id}
+      .category-list.flex{id: "category-list-#{category.id}", url: category_projects_path(category), value: category.id}
         %span.category-icon
           %i.fas.fa-folder
         %span.row-name= category.name

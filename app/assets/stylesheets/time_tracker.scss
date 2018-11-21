@@ -78,3 +78,8 @@ body {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+body .dropdown-item:hover {
+  background-color: $gray-color;
+  cursor: pointer;
+}

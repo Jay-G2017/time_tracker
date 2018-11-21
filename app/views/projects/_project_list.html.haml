@@ -3,13 +3,13 @@
     %i.fas.fa-star
   .project-list-content
     .project-list-dropdown.d-flex.row-reverse
-      .project-list-dropdown-button{'data-toggle': 'dropdown', 'data-boundary': 'window'}
+      .project-list-dropdown-button{'data-toggle': 'dropdown'}
         %i.fas.fa-ellipsis-h
       .dropdown-menu.dropdown-menu-right
         %button.dropdown-item.star-project{value: project.id, url: star_project_path(project)} 标记星标
         %button.dropdown-item.unstar-project{value: project.id, url: unstar_project_path(project)} 取消星标
         .dropdown-divider
-        %button.dropdown-item 删除项目
+        %button.dropdown-item.delete-project{value: project.id, url: project_path(project), category_id: project.category_id } 删除项目
     .project-list-name= project.name
     .project-list-description= project.description || 'no content'
     .project-list-stat.flex-between

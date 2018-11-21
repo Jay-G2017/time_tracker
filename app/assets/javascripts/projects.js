@@ -1,9 +1,11 @@
 $(function(){
   // 自动隐藏滚动条
+  /*
   new PerfectScrollbar('.project-sidebar', {
     minScrollbarLength: 20,
     maxScrollbarLength: 80
   })
+  */
 
   // category侧边栏导航
   $('.category-sidebar').on('click', ".category-list:not('.active')", function(e) {
@@ -261,6 +263,7 @@ $(function(){
 
     $.post(url, data, function(data){
       $('.project-sidebar-content').prepend(data)
+      addSidebarProjectCount(categoryType, categoryId, 1)
 
       target.removeClass('clicked');
       $('.project-add-loading').hide();
@@ -345,9 +348,7 @@ $(function(){
     }).success(function() {
       starIcon.removeClass('visible-hide')
       projectList.addClass('starred')
-      let starProjectInbox = $('.sidebar-starred .row-stat')
-      let starProjectCount = parseInt(starProjectInbox.text())
-      starProjectInbox.text( starProjectCount + 1)
+      addSidebarProjectCount('starred', '0', 1)
     })
   })
 
@@ -366,9 +367,48 @@ $(function(){
     }).success(function() {
       starIcon.addClass('visible-hide')
       projectList.removeClass('starred')
-      let starProjectInbox = $('.sidebar-starred .row-stat')
-      let starProjectCount = parseInt(starProjectInbox.text())
-      starProjectInbox.text( starProjectCount - 1)
+      addSidebarProjectCount('starred', '0', -1)
+    })
+  })
+
+  // delete project
+  $('.project-sidebar').on('click', '.delete-project', function(e) {
+    e.preventDefault()
+    let target = $(this)
+    let url = target.attr('url')
+    let projectId = target.attr('value')
+    let projectList = $('#project-list-' + projectId)
+
+    $.ajax({
+      url: url,
+      method: 'delete'
+    }).success(function() {
+      projectList.remove()
+      $('.project-content').remove()
+      let firstProject = $('.project-sidebar .project-list')[0]
+      if (firstProject) {
+        firstProject.click()
+      }
+      let categoryType = $('.project-sidebar-content').attr('category_type')
+      let categoryId = $('.project-sidebar-content').attr('category_id')
+      // 处理删除project后category侧边栏的计数问题
+      switch (categoryType) {
+        case 'starred':
+          addSidebarProjectCount(categoryType, categoryId, -1)
+          let originalCategoryId = target.attr('category_id')
+          if (originalCategoryId) {
+            addSidebarProjectCount('custom', originalCategoryId, -1)
+          } else {
+            addSidebarProjectCount('inbox', 0, -1)
+          }
+          break
+        default:
+          addSidebarProjectCount(categoryType, categoryId, -1)
+          if (projectList.attr('class').includes('starred')) {
+            addSidebarProjectCount('starred', 0, -1)
+          }
+      }
+      // 处理完毕
     })
   })
 
@@ -400,6 +440,31 @@ function afterTomatoCancel() {
   $('.tomato-timer').hide();
   $('.project-container-header-row .title-add').show();
   $('.tomato-button').removeClass('disabled').removeClass('clicked');
+}
+
+// 给category侧边栏的某个category的project计数增加数目
+function addSidebarProjectCount(categoryType, categoryId, count) {
+  let sidebarCategory, projectCount
+  if (categoryId === '0') {
+    switch (categoryType) {
+      case 'inbox':
+        sidebarCategory = $('.sidebar-inbox .row-stat')
+        break
+      case 'starred':
+        sidebarCategory = $('.sidebar-starred .row-stat')
+        break
+      case 'done':
+        sidebarCategory = $('.sidebar-done .row-stat')
+        break
+    }
+    projectCount = parseInt(sidebarCategory.text())
+    sidebarCategory.text(projectCount + count)
+    return
+  }
+
+  sidebarCategory = $('#category-list-' + categoryId + ' .row-stat')
+  projectCount = parseInt(sidebarCategory.text())
+  sidebarCategory.text(projectCount + count)
 }
 
 
