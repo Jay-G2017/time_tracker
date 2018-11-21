@@ -346,7 +346,7 @@ $(function(){
       url: url,
       method: 'patch'
     }).success(function() {
-      starIcon.removeClass('visible-hide')
+      starIcon.removeClass('d-none')
       projectList.addClass('starred')
       addSidebarProjectCount('starred', '0', 1)
     })
@@ -365,7 +365,7 @@ $(function(){
       url: url,
       method: 'patch'
     }).success(function() {
-      starIcon.addClass('visible-hide')
+      starIcon.addClass('d-none')
       projectList.removeClass('starred')
       addSidebarProjectCount('starred', '0', -1)
     })
@@ -399,14 +399,49 @@ $(function(){
           if (originalCategoryId) {
             addSidebarProjectCount('custom', originalCategoryId, -1)
           } else {
-            addSidebarProjectCount('inbox', 0, -1)
+            addSidebarProjectCount('inbox', '0', -1)
           }
           break
         default:
           addSidebarProjectCount(categoryType, categoryId, -1)
           if (projectList.attr('class').includes('starred')) {
-            addSidebarProjectCount('starred', 0, -1)
+            addSidebarProjectCount('starred', '0', -1)
           }
+      }
+      // 处理完毕
+    })
+  })
+
+  // mark project done
+  $('.project-sidebar').on('click', '.done-project', function(e) {
+    e.preventDefault()
+    let target = $(this)
+    let projectId = target.attr('value')
+    let url = '/projects/' + projectId + '/done'
+    let projectList = $('#project-list-' + projectId)
+
+    $.ajax({
+      url: url,
+      method: 'patch'
+    }).success(function() {
+      projectList.remove()
+      let categoryType = $('.project-sidebar-content').attr('category_type')
+      let categoryId = $('.project-sidebar-content').attr('category_id')
+      // 处理删除project后category侧边栏的计数问题
+      switch (categoryType) {
+        case 'starred':
+          addSidebarProjectCount(categoryType, categoryId, -1)
+          addSidebarProjectCount('done', '0', 1)
+          let originalCategoryId = target.attr('category_id')
+          if (originalCategoryId) {
+            addSidebarProjectCount('custom', originalCategoryId, -1)
+          } else {
+            addSidebarProjectCount('inbox', '0', -1)
+          }
+          break
+        default:
+          addSidebarProjectCount(categoryType, categoryId, -1)
+          addSidebarProjectCount('done', '0', 1)
       }
       // 处理完毕
     })

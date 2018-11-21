@@ -27,10 +27,23 @@
   .project-list:not(.starred) .unstar-project {
     display: none;
   }
-  .project-star-icon {
+  .project-list.done .done-project {
+    display: none;
+  }
+  .project-list:not(.done) .undone-project {
+    display: none;
+  }
+  .project-sidebar-content[category_type='done'] .star-project {
+    display: none;
+  }
+  .project-sidebar-content[category_type='done'] .unstar-project {
+    display: none;
+  }
+  .project-icons {
     padding-right: 0.6em;
     font-size: 0.8em;
     color: $warning;
+    width: 16%;
   }
   .project-list-content {
     flex: auto;

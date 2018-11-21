@@ -8,11 +8,11 @@ class User < ApplicationRecord
   has_many :projects
 
   def inbox_projects
-    projects.where(category_id: nil)
+    projects.where(category_id: nil, done: false)
   end
 
   def starred_projects
-    projects.where(starred: true)
+    projects.where(starred: true, done: false)
   end
 
   def done_projects

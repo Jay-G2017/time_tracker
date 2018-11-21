@@ -20,7 +20,7 @@ class ProjectsController < ApplicationController
     category = Category.find_by(id: params[:category_id])
 
     if category
-      @projects = category.projects.created_desc
+      @projects = category.projects.where(done: false).created_desc
       @category_id = category.id
       @category_type = nil
     else
@@ -89,6 +89,20 @@ class ProjectsController < ApplicationController
   def unstar
     project = Project.find params[:id]
     project.update!(starred: false)
+
+    render json: {success: true}
+  end
+
+  def done
+    project = Project.find params[:id]
+    project.update!(done: true)
+
+    render json: {success: true}
+  end
+
+  def undone
+    project = Project.find params[:id]
+    project.update!(done: false, starred: false)
 
     render json: {success: true}
   end
