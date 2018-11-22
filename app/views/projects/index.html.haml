@@ -1,9 +1,12 @@
 .header-wrapper.flex.align-center.text-p
   .category-sidebar-header-row
     .row-content.flex-end.align-center
-      .category-add
-        %i{class: 'fas fa-plus'}
-        %span 新建分类
+      .category-add.hover-border
+        %span.category-add-loading.hide
+          %i.fas.fa-spinner.fa-spin
+        %span.category-add-icon
+          %i.fas.fa-plus
+        %span.project-add-content 新建分类
   .project-sidebar-header-row
     .row-content.flex-end.align-center
       .to-category-sidebar-link.hide

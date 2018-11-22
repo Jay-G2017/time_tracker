@@ -30,7 +30,7 @@ class CategoriesController < ApplicationController
     category.user = current_user
     category.save!
 
-    render partial: 'projects/category', locals: { category: category}
+    render partial: 'show', locals: { category: category}
   end
 
   def destroy

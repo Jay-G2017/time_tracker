@@ -489,6 +489,25 @@ $(function(){
     })
   })
 
+  // create category
+  $(".category-sidebar-header-row").on('click', ".category-add:not('.clicked')", function(e){
+    e.preventDefault();
+    var target = $(this).addClass('clicked');
+    $('.category-add-loading').show();
+    $('.category-add-icon').hide();
+
+    let url = '/categories'
+    let data = { category: {name: '默认category'} };
+
+    $.post(url, data, function(data){
+      $('.custom-category-zone').append(data)
+
+      target.removeClass('clicked');
+      $('.category-add-loading').hide();
+      $('.category-add-icon').show();
+    })
+  })
+
 
 });
 
