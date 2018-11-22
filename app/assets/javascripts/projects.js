@@ -374,42 +374,48 @@ $(function(){
   // delete project
   $('.project-sidebar').on('click', '.delete-project', function(e) {
     e.preventDefault()
+    $('#delete-project-modal').modal()
     let target = $(this)
     let url = target.attr('url')
     let projectId = target.attr('value')
     let projectList = $('#project-list-' + projectId)
 
-    $.ajax({
-      url: url,
-      method: 'delete'
-    }).success(function() {
-      projectList.remove()
-      $('.project-content').remove()
-      let firstProject = $('.project-sidebar .project-list')[0]
-      if (firstProject) {
-        firstProject.click()
-      }
-      let categoryType = $('.project-sidebar-content').attr('category_type')
-      let categoryId = $('.project-sidebar-content').attr('category_id')
-      // 处理删除project后category侧边栏的计数问题
-      switch (categoryType) {
-        case 'starred':
-          addSidebarProjectCount(categoryType, categoryId, -1)
-          let originalCategoryId = target.attr('category_id')
-          if (originalCategoryId) {
-            addSidebarProjectCount('custom', originalCategoryId, -1)
-          } else {
-            addSidebarProjectCount('inbox', '0', -1)
-          }
-          break
-        default:
-          addSidebarProjectCount(categoryType, categoryId, -1)
-          if (projectList.attr('class').includes('starred')) {
-            addSidebarProjectCount('starred', '0', -1)
-          }
-      }
-      // 处理完毕
+    $('.delete-project-confirm').on('click', function() {
+      $.ajax({
+        url: url,
+        method: 'delete'
+      }).success(function() {
+        $('#delete-project-modal').modal('hide')
+        projectList.remove()
+        $('.project-content').remove()
+        let firstProject = $('.project-sidebar .project-list')[0]
+        if (firstProject) {
+          firstProject.click()
+        }
+        let categoryType = $('.project-sidebar-content').attr('category_type')
+        let categoryId = $('.project-sidebar-content').attr('category_id')
+        // 处理删除project后category侧边栏的计数问题
+        switch (categoryType) {
+          case 'starred':
+            addSidebarProjectCount(categoryType, categoryId, -1)
+            let originalCategoryId = target.attr('category_id')
+            if (originalCategoryId) {
+              addSidebarProjectCount('custom', originalCategoryId, -1)
+            } else {
+              addSidebarProjectCount('inbox', '0', -1)
+            }
+            break
+          default:
+            addSidebarProjectCount(categoryType, categoryId, -1)
+            if (projectList.attr('class').includes('starred')) {
+              addSidebarProjectCount('starred', '0', -1)
+            }
+        }
+        // 处理完毕
+      })
     })
+
+
   })
 
   // mark project done
@@ -425,6 +431,11 @@ $(function(){
       method: 'patch'
     }).success(function() {
       projectList.remove()
+      $('.project-content').remove()
+      let firstProject = $('.project-sidebar .project-list')[0]
+      if (firstProject) {
+        firstProject.click()
+      }
       let categoryType = $('.project-sidebar-content').attr('category_type')
       let categoryId = $('.project-sidebar-content').attr('category_id')
       // 处理删除project后category侧边栏的计数问题
@@ -442,6 +453,37 @@ $(function(){
         default:
           addSidebarProjectCount(categoryType, categoryId, -1)
           addSidebarProjectCount('done', '0', 1)
+      }
+      // 处理完毕
+    })
+  })
+
+  // undone project
+  $('.project-sidebar').on('click', '.undone-project', function(e) {
+    e.preventDefault()
+    let target = $(this)
+    let projectId = target.attr('value')
+    let url = '/projects/' + projectId + '/undone'
+    let projectList = $('#project-list-' + projectId)
+
+    $.ajax({
+      url: url,
+      method: 'patch'
+    }).success(function() {
+      projectList.remove()
+      $('.project-content').remove()
+      let firstProject = $('.project-sidebar .project-list')[0]
+      if (firstProject) {
+        firstProject.click()
+      }
+
+      // 处理undone project后category侧边栏的计数问题
+      addSidebarProjectCount('done', '0', -1)
+      let originalCategoryId = target.attr('category_id')
+      if (originalCategoryId) {
+        addSidebarProjectCount('custom', originalCategoryId, 1)
+      } else {
+        addSidebarProjectCount('inbox', '0', 1)
       }
       // 处理完毕
     })

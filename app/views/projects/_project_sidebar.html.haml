@@ -16,10 +16,10 @@
           .dropdown-menu.dropdown-menu-right
             %button.dropdown-item.star-project{value: project.id, url: star_project_path(project)} 标记星标
             %button.dropdown-item.unstar-project{value: project.id, url: unstar_project_path(project)} 取消星标
-            %button.dropdown-item.done-project{value: project.id} mark as done
-            %button.dropdown-item.undone-project{value: project.id} mark as undone
+            %button.dropdown-item.done-project{value: project.id, category_id: project.category_id} mark as done
+            %button.dropdown-item.undone-project{value: project.id, category_id: project.category_id} mark as undone
             .dropdown-divider
-            %button.dropdown-item.delete-project{value: project.id, url: project_path(project), category_id: project.category_id } 删除项目
+            %button.dropdown-item.delete-project{value: project.id, url: project_path(project), category_id: project.category_id} 删除项目
         .project-list-name= project.name
         .project-list-description= project.description || 'no content'
         .project-list-stat.flex-between
@@ -28,6 +28,18 @@
             %span.tomato-icon
               %i.fas.fa-apple-alt
             %span.tomato-num= project.tomatos_count
+
+.modal.fade#delete-project-modal
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %h4 Delete This Project
+        %button.close{'data-dismiss': 'modal'} &times;
+      .modal-body
+        %p you will delete all tomatoes belongs to this project
+      .modal-footer
+        %button.btn.btn-info{'data-dismiss': 'modal'} Close
+        %button.btn.btn-danger.delete-project-confirm Delete
 
 :javascript
   $(function() {

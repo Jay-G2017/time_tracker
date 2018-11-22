@@ -95,14 +95,14 @@ class ProjectsController < ApplicationController
 
   def done
     project = Project.find params[:id]
-    project.update!(done: true)
+    project.update!(done: true, starred: false)
 
     render json: {success: true}
   end
 
   def undone
     project = Project.find params[:id]
-    project.update!(done: false, starred: false)
+    project.update!(done: false)
 
     render json: {success: true}
   end
