@@ -1,7 +1,7 @@
 .category-list.flex{id: "category-list-#{category.id}", url: category_projects_path(category), value: category.id}
   %span.category-icon
     %i.fas.fa-folder
-  %span.row-name= category.name
-  %span.row-stat= category.projects.where(done: false).count
-  %span.category-delete
+  %span.category-name= category.name
+  %span.row-stat= category.undone_projects.count
+  %span.delete-category
     %i.far.fa-trash-alt

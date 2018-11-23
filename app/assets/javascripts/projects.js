@@ -508,6 +508,76 @@ $(function(){
     })
   })
 
+  // edit category
+  $('.custom-category-zone').on('dblclick', '.category-name', function(e) {
+    e.stopPropagation()
+    $('.category-name').show();
+    let target = $(this).hide();
+    let categoryEditName = target.text();
+    var categoryEditInput = $('.category-edit-input');
+    target.after(categoryEditInput.show()[0]);
+    categoryEditInput.focus().val('').val(categoryEditName);
+  });
+
+  // cancel edit category, bind Esc key
+  $('.custom-category-zone').on('keydown', '.category-edit-input', function(e) {
+    if(e.which == 27) {
+      e.preventDefault();
+      $('.category-edit-input').hide();
+      $('.category-name').show();
+    }
+  });
+
+  // update category, bind to enter key
+  $('.custom-category-zone').on('keydown', '.category-edit-input', function(e) {
+    var target = $(this).parent();
+    let categoryId = target.attr('value')
+    if(e.which == 13) {
+      e.preventDefault();
+      var categoryEditName = $(this).val();
+      //make sure input not empty
+      if(categoryEditName) {
+        let url = '/categories/' + categoryId
+        var data = {category: {name: categoryEditName}};
+
+        $.ajax({
+          type: 'patch',
+          url: url,
+          data: data
+        }).done(function(data) {
+          $('.category-edit-input').hide();
+          target.find('.category-name').text(data.name).show();
+        });
+
+      } else {
+        alert('输入不能为空');
+      }
+    }
+  });
+
+  // delete category
+  $('.custom-category-zone').on('click', '.delete-category', function() {
+    let categoryList = $(this).parent()
+    let categoryId = categoryList.attr('value')
+    $('#delete-category-modal').modal()
+    $('.delete-category-confirm').on('click', function() {
+      let url = '/categories/' + categoryId
+      $.ajax({
+        method: 'delete',
+        url: url
+      }).done(function(data) {
+        $('#delete-category-modal').modal('hide')
+        categoryList.remove()
+        $('.project-sidebar-content').remove()
+        $('.project-content').remove()
+
+        $('.sidebar-inbox').click()
+        addSidebarProjectCount('inbox', '0', data.undone_projects_count)
+        addSidebarProjectCount('starred', '0', data.starred_projects_count)
+      })
+    })
+  });
+
 
 });
 
