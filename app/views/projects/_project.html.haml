@@ -1,9 +1,10 @@
 .project-content{id: "project-content-#{project.id}", value: project.id }
   .project-header{url: project_path(project), value: project.id}
     .project-name= project.name
-    .project-description.text-p
-      %input{id: 'project-description', value: project.description, type: 'hidden'}
-      %trix-editor{input: 'project-description'}
+    .project-description{value: project.id}
+      %input{id: 'project-description-input', value: project.description, type: 'hidden'}
+      %trix-editor.trix-content{input: 'project-description-input'}
+      %button.btn.btn-primary.save-project-description.d-none#save-des Save
   .project-body
     - project.titles.each do |title|
       .title-container{id: "title-container-#{title.id}"}

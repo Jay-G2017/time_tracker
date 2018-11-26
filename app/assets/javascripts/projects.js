@@ -584,6 +584,28 @@ $(function(){
     })
   });
 
+  // show save button when trix-change for project description
+  addEventListener("trix-change", function(event) {
+    $('.save-project-description').removeClass('d-none')
+  })
+
+  // save project description
+  $('.project-container').on('click', '.save-project-description', function() {
+    let projectId = $(this).parent().attr('value')
+    let url = '/projects/' + projectId
+    let description = $('#project-description-input').val()
+    let data = { project: { description: description } }
+
+    $.ajax({
+      method: 'patch',
+      url: url,
+      data: data
+    }).done(function() {
+      $('.save-project-description').addClass('d-none')
+    })
+  })
+
+
 
 });
 
@@ -638,155 +660,6 @@ function addSidebarProjectCount(categoryType, categoryId, count) {
   projectCount = parseInt(sidebarCategory.text())
   sidebarCategory.text(projectCount + count)
 }
-
-
-
-/*
-  # new category
-  $('#new-category-button').on 'click', ->
-    $(this).attr 'disabled', true
-    url = $(this).attr 'url'
-    $.get url, (data) ->
-      $('.category-zone').append(data)
-      $('#create-category-input').focus()
-
-  # create category
-  $('.category-zone').on 'click', '#create-category-button', (e) ->
-    e.preventDefault()
-    new_category_form = $('form#new_category')
-    url = new_category_form.attr 'action'
-    $.post url, new_category_form.serialize(), (data) ->
-      new_category_form.remove()
-      $('#new-category-button').attr 'disabled', false
-      $('.category-zone').append(data)
-
-  # cancel create category
-  $('.category-zone').on 'click', '#cancel-create-category-button', ->
-    $('form#new_category').remove()
-    $('#new-category-button').attr 'disabled', false
-
-  # edit category
-  $('.category-zone').on 'click', '.edit-category-button', ->
-    # 移掉其它的编辑框
-    $('form.edit_category').remove()
-    $('.category-content').show()
-
-    category_id = $(this).val()
-    category_content = $('#category-content-' + category_id)
-    url = $(this).attr 'url'
-    $.get url, (data) ->
-      category_content.hide().after(data)
-      # 下面两段代码是让他自动激活, 并且光标移到最后
-      val = $('#update-category-input').val()
-      $('#update-category-input').focus().val('').val(val)
-
-  # cancel update category
-  $('.category-zone').on 'click', '#cancel-update-category-button', ->
-    $('form.edit_category').parent().remove()
-    $('.category-content').show()
-
-  # update category
-  $('.category-zone').on 'click', '#update-category-button', ->
-    edit_category_form = $('form.edit_category')
-    url = edit_category_form.attr 'action'
-    category_id = $(this).val()
-    $.ajax
-      type: 'patch'
-      url: url
-      data: edit_category_form.serialize()
-     .done (data) ->
-       edit_category_form.parent().remove()
-       $('#category-content-' + category_id).find('.category-body').text(data.name)
-       $('#category-content-' + category_id).show()
-
-  # delete category
-  $('.category-zone').on 'click', '.delete-category-button', ->
-    if confirm('确定删除吗?')
-      url = $(this).attr 'url'
-      category_id = $(this).val()
-      $.ajax
-        url: url
-        type: 'delete'
-      .done ->
-        $('#category-container-' + category_id).remove()
-
-  # bind enter key for create category
-  $('.category-zone').on 'keypress', '#create-category-input', (e) ->
-    if e.which == 13
-      e.preventDefault()
-      $('#create-category-button').click()
-
-  # bind enter key for update category
-  $('.category-zone').on 'keypress', '#update-category-input', (e) ->
-    if e.which == 13
-      e.preventDefault()
-      $('#update-category-button').click()
-
-
-
-  # bind enter key for create project
-  $('.category-zone').on 'keypress', '.create-project-input', (e) ->
-    if e.which == 13
-      e.preventDefault()
-      $(this).siblings('.create-project-button').click()
-
-  # delete project
-  $('.category-zone').on 'click', '.delete-project-button', ->
-    if confirm('确定要删除吗')
-      url = $(this).attr 'url'
-      project_id = $(this).val()
-
-      $.ajax
-        url: url
-        type: 'delete'
-      .done ->
-        $('#project-list-' + project_id).remove()
-
-  # edit project
-  $('.category-zone').on 'click', '.edit-project-button', ->
-    # 先删除其它的edit project form
-    $('form.edit_project').remove()
-    $('.project-list').show()
-
-    url = $(this).attr 'url'
-    project_id = $(this).val()
-    $.get url, (data) ->
-      $('#project-list-' + project_id).hide().after(data)
-      val = $('.update-project-input').val()
-      $('.update-project-input').val('').focus().val(val)
-
-  # cancel update project button
-  $('.category-zone').on 'click', '#cancel-update-project-button', ->
-    project_id = $(this).val()
-    $('form.edit_project').remove()
-    $('#project-list-' + project_id).show()
-
-  # update project
-  $('.category-zone').on 'click', '#update-project-button', ->
-    project_id = $(this).val()
-    edit_project_form = $('form.edit_project')
-    url = edit_project_form.attr 'action'
-
-    $.ajax
-      url: url
-      type: 'patch'
-      data: edit_project_form.serialize()
-    .done (data) ->
-      edit_project_form.remove()
-      $('#project-list-' + project_id).find('.project-name').text(data['name'])
-      $('#project-list-' + project_id).show()
-
-  # bind enter key for update project
-  $('.category-zone').on 'keypress', '.update-project-input', (e) ->
-    if (e.which == 13)
-      e.preventDefault()
-      $('#update-project-button').click()
-
-  */
-
-
-
-
 
 
   /*
