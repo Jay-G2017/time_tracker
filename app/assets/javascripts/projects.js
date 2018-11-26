@@ -505,6 +505,12 @@ $(function(){
       target.removeClass('clicked');
       $('.category-add-loading').hide();
       $('.category-add-icon').show();
+
+      var viewElement = $('.custom-category-zone .category-list').last();
+      viewElement[0].scrollIntoView();
+
+      viewElement.find('.category-name').dblclick();
+      $('.category-edit-input').select();
     })
   })
 
