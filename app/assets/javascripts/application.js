@@ -15,7 +15,6 @@
 //= require rails-ujs
 //= require activestorage
 //= require turbolinks
-//= require semantic-ui
 //= require fontawesome-5.4.1
 //= require perfect-scrollbar-1.4
 //= require_tree .
@@ -24,6 +23,15 @@ $(function() {
   $('.flash-close').on('click', function() {
     $('.flash-container').hide();
   })
+
+  // first load page will active inbox or pinned
+  let categoryType = $('.project-sidebar-content').attr('category_type')
+  if (categoryType == 'starred')  {
+    $('.category-list.sidebar-starred').addClass('active')
+    $('.project-add').hide()
+  } else {
+    $('.category-list.sidebar-inbox').addClass('active')
+  }
 });
 
 function replaceProjectContent(projectId) {
@@ -33,6 +41,7 @@ function replaceProjectContent(projectId) {
     var url = 'projects/' + projectId;
     $.get(url, function(data) {
       $('.project-container').html(data);
+      $('.title-add').show()
     });
   }
 }

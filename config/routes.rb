@@ -5,12 +5,19 @@ Rails.application.routes.draw do
   get 'sign_up', to: 'users#new', as: 'sign_up'
   get 'log_in', to: 'sessions#new', as: 'log_in'
   get 'log_out', to: 'sessions#destroy', as: 'log_out'
+  get 'time_tracker', to: 'projects#first_load'
 
   resources :users
   resources :sessions
 
-  resources :projects, only: [:index, :show, :edit, :update, :destroy] do
+  resources :projects, only: [:show, :edit, :update, :destroy] do
     resources :titles
+    member do
+      patch 'star'
+      patch 'unstar'
+      patch 'done'
+      patch 'undone'
+    end
   end
 
   resources :titles, only: [] do
@@ -22,7 +29,7 @@ Rails.application.routes.draw do
   end
 
   resources :categories do
-    resources :projects, only: [:new, :create]
+    resources :projects, only: [:index, :new, :create]
   end
 
 end

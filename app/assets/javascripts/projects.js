@@ -1,13 +1,41 @@
 $(function(){
   // 自动隐藏滚动条
+  /*
   new PerfectScrollbar('.project-sidebar', {
     minScrollbarLength: 20,
     maxScrollbarLength: 80
   })
+  */
 
-  // 项目侧边栏导航
-  $('.project-sidebar').on('click', 'a.project-list', function(e) {
+  // category侧边栏导航
+  $('.category-sidebar').on('click', ".category-list:not('.active')", function(e) {
+    e.preventDefault()
+    $('.category-list').removeClass('active')
+    $(this).addClass('active')
+    $('.project-add').show()
+
+    $('.project-content').remove()
+    $('.title-add').hide()
+
+    let categoryType = $(this).attr('category_type')
+    if (['starred', 'done'].includes(categoryType)) {
+      $('.project-add').hide()
+    }
+
+    let url = $(this).attr('url')
+    $.get(url, function(data) {
+      $('.project-sidebar').html(data)
+    })
+
+  })
+
+  // project侧边栏导航
+  $('.project-sidebar').on('click', '.project-list', function(e) {
     e.preventDefault();
+
+    $('.project-list').removeClass('active')
+    $(this).addClass('active')
+
     var projectId = $(this).attr('value');
     replaceProjectContent(projectId);
 
@@ -221,6 +249,342 @@ $(function(){
     }
   });
 
+  // create project
+  $(".project-sidebar-header-row").on('click', ".project-add:not('.clicked')", function(e){
+    e.preventDefault();
+    var target = $(this).addClass('clicked');
+    $('.project-add-loading').show();
+    $('.project-add-icon').hide();
+
+    let categoryId = $('.project-sidebar-content').attr('category_id')
+    let categoryType = $('.project-sidebar-content').attr('category_type')
+    let url = '/categories/' + categoryId + '/projects?category_id=' + categoryId + '&category_type=' + categoryType
+    let data = { project: {name: '默认project'} };
+
+    $.post(url, data, function(data){
+      $('.project-sidebar-content').prepend(data)
+      addSidebarProjectCount(categoryType, categoryId, 1)
+
+      target.removeClass('clicked');
+      $('.project-add-loading').hide();
+      $('.project-add-icon').show();
+
+      let projectId = $(data).attr('value')
+      let url = 'projects/' + projectId
+      $('.project-list').removeClass('active')
+      $('#project-list-' + projectId).addClass('active')
+
+      $.get(url, function(result) {
+        $('.project-container').html(result);
+        $('.title-add').show()
+        $('.project-name').dblclick()
+        $('.project-name-input').select()
+      });
+
+    })
+  })
+
+  // edit project name
+  $('.project-container').on('dblclick', '.project-name', function() {
+    $('.project-name').show();
+    let target = $(this).hide();
+    let projectOriginName = target.text();
+    let projectNameInput = $('.project-name-input');
+    target.after(projectNameInput.show()[0]);
+    projectNameInput.focus().val('').val(projectOriginName);
+  });
+
+  // cancel edit project name, bind Esc key
+  $('.project-container').on('keydown', '.project-name-input', function(e) {
+    if(e.which == 27) {
+      e.preventDefault();
+      $('.project-name-input').hide();
+      $('.project-name').show();
+    }
+  });
+
+  // update project name, bind to enter key
+  $('.project-container').on('keydown', '.project-name-input', function(e) {
+    var target = $(this).parent();
+    if(e.which == 13) {
+      e.preventDefault();
+      var projectEditName = $(this).val();
+      //make sure input not empty
+      if(projectEditName) {
+        var url = target.attr('url');
+        let projectId = target.attr('value')
+        var data = {project: {name: projectEditName}};
+
+        $.ajax({
+          type: 'patch',
+          url: url,
+          data: data
+        }).done(function(data) {
+          $('.project-name-input').hide();
+          target.find('.project-name').text(data.name).show();
+
+          $('#project-list-' + projectId).find('.project-list-name').text(data.name)
+
+        });
+
+      } else {
+        alert('输入不能为空');
+      }
+    }
+  });
+
+  // star project
+  $('.project-sidebar').on('click', '.star-project', function(e) {
+    e.preventDefault()
+    let target = $(this)
+    let url = target.attr('url')
+    let projectId = target.attr('value')
+    let projectList = $('#project-list-' + projectId)
+    let starIcon = projectList.find('.project-star-icon')
+
+    $.ajax({
+      url: url,
+      method: 'patch'
+    }).success(function() {
+      starIcon.removeClass('d-none')
+      projectList.addClass('starred')
+      addSidebarProjectCount('starred', '0', 1)
+    })
+  })
+
+  // unstar project
+  $('.project-sidebar').on('click', '.unstar-project', function(e) {
+    e.preventDefault()
+    let target = $(this)
+    let url = target.attr('url')
+    let projectId = target.attr('value')
+    let projectList = $('#project-list-' + projectId)
+    let starIcon = projectList.find('.project-star-icon')
+
+    $.ajax({
+      url: url,
+      method: 'patch'
+    }).success(function() {
+      starIcon.addClass('d-none')
+      projectList.removeClass('starred')
+      addSidebarProjectCount('starred', '0', -1)
+    })
+  })
+
+  // delete project
+  $('.project-sidebar').on('click', '.delete-project', function(e) {
+    e.preventDefault()
+    $('#delete-project-modal').modal()
+    let target = $(this)
+    let url = target.attr('url')
+    let projectId = target.attr('value')
+    let projectList = $('#project-list-' + projectId)
+
+    $('.delete-project-confirm').on('click', function() {
+      $.ajax({
+        url: url,
+        method: 'delete'
+      }).success(function() {
+        $('#delete-project-modal').modal('hide')
+        projectList.remove()
+        $('.project-content').remove()
+        let firstProject = $('.project-sidebar .project-list')[0]
+        if (firstProject) {
+          firstProject.click()
+        }
+        let categoryType = $('.project-sidebar-content').attr('category_type')
+        let categoryId = $('.project-sidebar-content').attr('category_id')
+        // 处理删除project后category侧边栏的计数问题
+        switch (categoryType) {
+          case 'starred':
+            addSidebarProjectCount(categoryType, categoryId, -1)
+            let originalCategoryId = target.attr('category_id')
+            if (originalCategoryId) {
+              addSidebarProjectCount('custom', originalCategoryId, -1)
+            } else {
+              addSidebarProjectCount('inbox', '0', -1)
+            }
+            break
+          default:
+            addSidebarProjectCount(categoryType, categoryId, -1)
+            if (projectList.attr('class').includes('starred')) {
+              addSidebarProjectCount('starred', '0', -1)
+            }
+        }
+        // 处理完毕
+      })
+    })
+
+
+  })
+
+  // mark project done
+  $('.project-sidebar').on('click', '.done-project', function(e) {
+    e.preventDefault()
+    let target = $(this)
+    let projectId = target.attr('value')
+    let url = '/projects/' + projectId + '/done'
+    let projectList = $('#project-list-' + projectId)
+
+    $.ajax({
+      url: url,
+      method: 'patch'
+    }).success(function() {
+      projectList.remove()
+      $('.project-content').remove()
+      let firstProject = $('.project-sidebar .project-list')[0]
+      if (firstProject) {
+        firstProject.click()
+      }
+      let categoryType = $('.project-sidebar-content').attr('category_type')
+      let categoryId = $('.project-sidebar-content').attr('category_id')
+      // 处理删除project后category侧边栏的计数问题
+      switch (categoryType) {
+        case 'starred':
+          addSidebarProjectCount(categoryType, categoryId, -1)
+          addSidebarProjectCount('done', '0', 1)
+          let originalCategoryId = target.attr('category_id')
+          if (originalCategoryId) {
+            addSidebarProjectCount('custom', originalCategoryId, -1)
+          } else {
+            addSidebarProjectCount('inbox', '0', -1)
+          }
+          break
+        default:
+          addSidebarProjectCount(categoryType, categoryId, -1)
+          addSidebarProjectCount('done', '0', 1)
+      }
+      // 处理完毕
+    })
+  })
+
+  // undone project
+  $('.project-sidebar').on('click', '.undone-project', function(e) {
+    e.preventDefault()
+    let target = $(this)
+    let projectId = target.attr('value')
+    let url = '/projects/' + projectId + '/undone'
+    let projectList = $('#project-list-' + projectId)
+
+    $.ajax({
+      url: url,
+      method: 'patch'
+    }).success(function() {
+      projectList.remove()
+      $('.project-content').remove()
+      let firstProject = $('.project-sidebar .project-list')[0]
+      if (firstProject) {
+        firstProject.click()
+      }
+
+      // 处理undone project后category侧边栏的计数问题
+      addSidebarProjectCount('done', '0', -1)
+      let originalCategoryId = target.attr('category_id')
+      if (originalCategoryId) {
+        addSidebarProjectCount('custom', originalCategoryId, 1)
+      } else {
+        addSidebarProjectCount('inbox', '0', 1)
+      }
+      // 处理完毕
+    })
+  })
+
+  // create category
+  $(".category-sidebar-header-row").on('click', ".category-add:not('.clicked')", function(e){
+    e.preventDefault();
+    var target = $(this).addClass('clicked');
+    $('.category-add-loading').show();
+    $('.category-add-icon').hide();
+
+    let url = '/categories'
+    let data = { category: {name: '默认category'} };
+
+    $.post(url, data, function(data){
+      $('.custom-category-zone').append(data)
+
+      target.removeClass('clicked');
+      $('.category-add-loading').hide();
+      $('.category-add-icon').show();
+
+      var viewElement = $('.custom-category-zone .category-list').last();
+      viewElement[0].scrollIntoView();
+
+      viewElement.find('.category-name').dblclick();
+      $('.category-edit-input').select();
+    })
+  })
+
+  // edit category
+  $('.custom-category-zone').on('dblclick', '.category-name', function(e) {
+    e.stopPropagation()
+    $('.category-name').show();
+    let target = $(this).hide();
+    let categoryEditName = target.text();
+    var categoryEditInput = $('.category-edit-input');
+    target.after(categoryEditInput.show()[0]);
+    categoryEditInput.focus().val('').val(categoryEditName);
+  });
+
+  // cancel edit category, bind Esc key
+  $('.custom-category-zone').on('keydown', '.category-edit-input', function(e) {
+    if(e.which == 27) {
+      e.preventDefault();
+      $('.category-edit-input').hide();
+      $('.category-name').show();
+    }
+  });
+
+  // update category, bind to enter key
+  $('.custom-category-zone').on('keydown', '.category-edit-input', function(e) {
+    var target = $(this).parent();
+    let categoryId = target.attr('value')
+    if(e.which == 13) {
+      e.preventDefault();
+      var categoryEditName = $(this).val();
+      //make sure input not empty
+      if(categoryEditName) {
+        let url = '/categories/' + categoryId
+        var data = {category: {name: categoryEditName}};
+
+        $.ajax({
+          type: 'patch',
+          url: url,
+          data: data
+        }).done(function(data) {
+          $('.category-edit-input').hide();
+          target.find('.category-name').text(data.name).show();
+        });
+
+      } else {
+        alert('输入不能为空');
+      }
+    }
+  });
+
+  // delete category
+  $('.custom-category-zone').on('click', '.delete-category', function() {
+    let categoryList = $(this).parent()
+    let categoryId = categoryList.attr('value')
+    $('#delete-category-modal').modal()
+    $('.delete-category-confirm').on('click', function() {
+      let url = '/categories/' + categoryId
+      $.ajax({
+        method: 'delete',
+        url: url
+      }).done(function(data) {
+        $('#delete-category-modal').modal('hide')
+        categoryList.remove()
+        $('.project-sidebar-content').remove()
+        $('.project-content').remove()
+
+        $('.sidebar-inbox').click()
+        addSidebarProjectCount('inbox', '0', data.undone_projects_count)
+        addSidebarProjectCount('starred', '0', data.starred_projects_count)
+      })
+    })
+  });
+
+
 });
 
 function startTomatoTimer(todoId, minutes) {
@@ -250,71 +614,34 @@ function afterTomatoCancel() {
   $('.tomato-button').removeClass('disabled').removeClass('clicked');
 }
 
+// 给category侧边栏的某个category的project计数增加数目
+function addSidebarProjectCount(categoryType, categoryId, count) {
+  let sidebarCategory, projectCount
+  if (categoryId === '0') {
+    switch (categoryType) {
+      case 'inbox':
+        sidebarCategory = $('.sidebar-inbox .row-stat')
+        break
+      case 'starred':
+        sidebarCategory = $('.sidebar-starred .row-stat')
+        break
+      case 'done':
+        sidebarCategory = $('.sidebar-done .row-stat')
+        break
+    }
+    projectCount = parseInt(sidebarCategory.text())
+    sidebarCategory.text(projectCount + count)
+    return
+  }
+
+  sidebarCategory = $('#category-list-' + categoryId + ' .row-stat')
+  projectCount = parseInt(sidebarCategory.text())
+  sidebarCategory.text(projectCount + count)
+}
 
 
-   /*
 
-
-
-  # bind enter key for create todo
-  $('.project-container').on 'keypress', '.create-todo-input', (e) ->
-    if e.which == 13
-      e.preventDefault()
-      $(this).siblings('.create-todo-button').click()
-
-  # delete todo
-  $('.project-container').on 'click', '.delete-todo-button', ->
-    if confirm('确定要删除吗')
-      url = $(this).attr 'url'
-      todo_id = $(this).val()
-
-      $.ajax
-        url: url
-        type: 'delete'
-      .done ->
-        $('#todo-list-' + todo_id).remove()
-
-  # edit todo
-  $('.project-container').on 'click', '.edit-todo-button', ->
-    # 先删除其它的edit todo form
-    $('form.edit_todo').remove()
-    $('.todo-list').show()
-
-    url = $(this).attr 'url'
-    todo_id = $(this).val()
-    $.get url, (data) ->
-      $('#todo-list-' + todo_id).hide().after(data)
-      val = $('.update-todo-input').val()
-      $('.update-todo-input').val('').focus().val(val)
-
-  # cancel update todo button
-  $('.project-container').on 'click', '#cancel-update-todo-button', ->
-    todo_id = $(this).val()
-    $('form.edit_todo').remove()
-    $('#todo-list-' + todo_id).show()
-
-
-  # update todo
-  $('.project-container').on 'click', '#update-todo-button', ->
-    todo_id = $(this).val()
-    edit_todo_form = $('form.edit_todo')
-    url = edit_todo_form.attr 'action'
-
-    $.ajax
-      url: url
-      type: 'patch'
-      data: edit_todo_form.serialize()
-    .done (data) ->
-      edit_todo_form.remove()
-      $('#todo-list-' + todo_id).find('.todo-body').text(data['name'])
-      $('#todo-list-' + todo_id).show()
-
-  # bind enter key for update todo
-  $('.project-container').on 'keypress', '.update-todo-input', (e) ->
-    if (e.which == 13)
-      e.preventDefault()
-      $('#update-todo-button').click()
-
+/*
   # new category
   $('#new-category-button').on 'click', ->
     $(this).attr 'disabled', true
@@ -395,16 +722,7 @@ function afterTomatoCancel() {
       e.preventDefault()
       $('#update-category-button').click()
 
-  # create project
-  $('.category-zone').on 'click', '.create-project-button', ->
-    url = $(this).attr 'url'
-    category_id = $(this).val()
-    new_project_form = $(this).parent()
-    create_project_input = $(this).siblings('.create-project-input')
 
-    $.post url, new_project_form.serialize(), (data) ->
-      $('#side-project-content-' + category_id).append(data)
-      create_project_input.val('')
 
   # bind enter key for create project
   $('.category-zone').on 'keypress', '.create-project-input', (e) ->

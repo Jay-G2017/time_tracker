@@ -28,7 +28,7 @@
     }
   }
 
-  .container {
+  .container-fluid {
     padding-top: $phone-header-height;
   }
   .category-sidebar {
@@ -69,8 +69,10 @@
     flex: auto;
     padding: 0 10em;
   }
-  .container {
+  .container-fluid {
     padding-top: $tablet-header-height;
+    padding-left: 0;
+    padding-right: 0;
   }
   .category-sidebar {
     flex: 0 0 16%;
@@ -103,8 +105,10 @@
     flex: auto;
     padding: 0 18em;
   }
-  .container {
+  .container-fluid {
     padding-top: $pc-header-height;
+    padding-left: 10rem;
+    padding-right: 0;
   }
   .category-sidebar {
     flex: 0 0 15%;
@@ -120,6 +124,8 @@
   .project-container {
     height: calc(100vh - #{$pc-header-height});
     overflow: auto;
-    padding: 1em 18em;
+    padding-top: 1em;
+    padding-left: 10rem;
+    padding-right: 20rem;
   }
 }

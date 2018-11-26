@@ -38,9 +38,6 @@ body {
   position: relative;
   background-color: $bg-color-light;
   color: $dark-color;
-  a {
-    color: $dark-color;
-  }
 }
 .project-sidebar {
   position: relative;
@@ -80,4 +77,9 @@ body {
   box-shadow: none;
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+body .dropdown-item:hover {
+  background-color: $gray-color;
+  cursor: pointer;
 }

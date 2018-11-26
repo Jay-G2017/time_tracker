@@ -30,14 +30,16 @@ class CategoriesController < ApplicationController
     category.user = current_user
     category.save!
 
-    render partial: 'projects/category', locals: { category: category}
+    render partial: 'show', locals: { category: category}
   end
 
   def destroy
     category = Category.find params[:id]
+    undone_projects_count = category.undone_projects.count
+    starred_projects_count = category.starred_projects.count
     category.destroy!
 
-    render json: { success: true }
+    render json: { success: true, undone_projects_count:  undone_projects_count, starred_projects_count: starred_projects_count }
   end
 
   private

@@ -1,35 +1,58 @@
 @import "my_variables";
 
-.container {
-  box-sizing: border-box;
-  padding-left: 0;
-  padding-right: 0;
-
-  .category-sidebar {
-  }
-}
-
 .project-sidebar {
   padding: 1em 0;
 
   .project-list {
     border-bottom: 1px solid $border-color;
-    padding: 0.8em 1em;
+    padding: 0.3em 2em 0.3em 0.3em;
     text-decoration: none;
   }
 
   .project-list:hover {
     background-color: $gray-color;
+    cursor: pointer;
   }
   .project-list.active {
     background-color: $primary-color;
     color: $light-color;
+    cursor: default;
+  }
+  .project-list:not(.active) .project-list-dropdown-button {
+    display: none;
+  }
+  .project-list.starred .star-project {
+    display: none;
+  }
+  .project-list:not(.starred) .unstar-project {
+    display: none;
+  }
+  .project-list.done .done-project {
+    display: none;
+  }
+  .project-list:not(.done) .undone-project {
+    display: none;
+  }
+  .project-sidebar-content[category_type='done'] .star-project {
+    display: none;
+  }
+  .project-sidebar-content[category_type='done'] .unstar-project {
+    display: none;
+  }
+  .project-icons {
+    padding-right: 0.6em;
+    font-size: 0.8em;
+    color: $warning;
+    width: 16%;
+  }
+  .project-list-content {
+    flex: auto;
+    width: 80%;
+  }
+  .project-list-dropdown-button:hover {
+    cursor: pointer;
   }
 
-  .project-list-content {
-    flex: 0 0 86%;
-    width: 86%;
-  }
   .project-list-name {
     height: 1.8em;
     white-space: nowrap;
@@ -50,21 +73,15 @@
     font-size: 0.6rem;
   }
   .project-start-time {
-    flex: 1 0 auto;
+    flex: 0 0 auto;
   }
   .tomato-num-div {
     flex: 0 0 3em;
   }
-
-
-  .project-list-icons {
-    padding-left: 0.6em;
-    opacity: 0;
+  .delete-project:hover {
+    background-color: $danger;
+    color: $light-color;
   }
-  .project-list-icons:hover {
-    opacity: 1;
-  }
-
 
 }
 
@@ -148,7 +165,7 @@
     cursor: pointer;
   }
   .todo-delete:hover {
-    color: $error-color;
+    color: $danger;
   }
 
 }

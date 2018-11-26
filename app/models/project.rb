@@ -1,17 +1,14 @@
 class Project < ApplicationRecord
   has_many :todos, dependent: :destroy
   has_many :titles, dependent: :destroy
-  belongs_to :category
+  belongs_to :category, optional: true
   belongs_to :user
 
-  before_validation :set_user, on: :create
+  scope :created_desc, -> { order(created_at: :desc) }
+  scope :updated_desc, -> { order(updated_at: :desc) }
 
   def tomatos_count
     Tomato.where(todo_id: todo_ids).count
   end
 
-  private
-  def set_user
-    self.user = self.category.user
-  end
 end
