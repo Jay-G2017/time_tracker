@@ -22,7 +22,7 @@
     padding-right: 0.5em;
   }
 
-  .row-name {
+  .category-name {
     flex: 2 2 80%;
     white-space: nowrap;
     overflow: hidden;
@@ -33,7 +33,7 @@
     flex: 1 1 1em;
   }
 
-  .category-delete {
+  .delete-category {
     flex: 0 0 1em;
     padding-left: 0.1em;
     opacity: 0;
@@ -41,6 +41,7 @@
 
   .category-list:hover {
     background-color: $gray-color;
+    cursor: pointer;
   }
 
   .category-list.active {
@@ -48,7 +49,7 @@
     color: $light-color;
   }
 
-  .category-delete:hover {
+  .delete-category:hover {
     opacity: 1;
   }
 }

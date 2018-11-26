@@ -7,8 +7,16 @@ class User < ApplicationRecord
   has_many :categories
   has_many :projects
 
-  def pinned_projects
-    projects.where(pin: true)
+  def inbox_projects
+    projects.where(category_id: nil, done: false)
+  end
+
+  def starred_projects
+    projects.where(starred: true, done: false)
+  end
+
+  def done_projects
+    projects.where(done: true)
   end
 
   def today_tomato_size

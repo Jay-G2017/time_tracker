@@ -1,16 +1,7 @@
-- @projects.each do |project|
-  %a.project-list.flex.align-center.text-p{href: '#', value: project.id}
-    .project-list-content
-      .project-list-name= project.name
-      .project-list-description= project.description || 'no content'
-      .project-list-stat.flex
-        %span.project-start-time= china_date(project.created_at)
-        .tomato-num-div
-          %span.tomato-icon
-            %i.fas.fa-apple-alt
-          %span.tomato-num= project.tomatos_count
-    .project-list-icons
-      .project-pin
-        %i.fas.fa-thumbtack
-      .project-delete
-        %i.far.fa-trash-alt
+.category-list.flex{id: "category-list-#{category.id}", url: category_projects_path(category), value: category.id}
+  %span.category-icon
+    %i.fas.fa-folder
+  %span.category-name= category.name
+  %span.row-stat= category.undone_projects.count
+  %span.delete-category
+    %i.far.fa-trash-alt

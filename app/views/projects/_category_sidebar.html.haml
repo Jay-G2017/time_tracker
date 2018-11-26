@@ -1,0 +1,42 @@
+.category-sidebar.sidebar
+  .default-category-zone.category-zone.text-p
+    .category-list.sidebar-inbox{category_type: 'inbox', url: category_projects_path(0) + '?category_type=inbox'}
+      %span.category-icon
+        %i.fas.fa-inbox
+      %span.category-name 收集箱
+      %span.row-stat= current_user.inbox_projects.count
+      %span.placeholder.delete-category
+    .category-list.sidebar-starred{category_type: 'starred', url: category_projects_path(0) + '?category_type=starred'}
+      %span.category-icon
+        %i.fas.fa-star
+      %span.category-name 星标项目
+      %span.row-stat= current_user.starred_projects.count
+      %span.placeholder.delete-category
+    .category-list.sidebar-done{category_type: 'done', url: category_projects_path(0) + '?category_type=done'}
+      %span.category-icon
+        %i.fas.fa-check-square
+      %span.category-name 完成项目
+      %span.row-stat= current_user.done_projects.count
+      %span.placeholder.delete-category
+  .custom-category-zone.category-zone.text-p
+    - @categories.each do |category|
+      .category-list.flex{id: "category-list-#{category.id}", url: category_projects_path(category), value: category.id}
+        %span.category-icon
+          %i.fas.fa-folder
+        %span.category-name= category.name
+        %span.row-stat= category.undone_projects.count
+        %span.delete-category
+          %i.far.fa-trash-alt
+
+%input.category-edit-input.hide
+.modal.fade#delete-category-modal
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{'data-dismiss': 'modal'} &times;
+      .modal-body
+        %h6 确定删除这个分类吗?
+        %p 删除这个分类后, 这个分类下的项目会被移到收集箱中.
+      .modal-footer
+        %button.btn.btn-info{'data-dismiss': 'modal'} 关闭
+        %button.btn.btn-danger.delete-category-confirm 删除

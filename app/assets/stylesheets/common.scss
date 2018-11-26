@@ -33,25 +33,15 @@
 .align-baseline {
   align-items: baseline;
 }
+.row-reverse {
+  flex-direction: row-reverse;
+}
 
 .hide {
   display: none ;
 }
-
-.flex {
-  display: flex;
-}
-
-.flex-between {
-  display: flex;
-  justify-content: space-between;
-}
-
-.btn-mini {
-  font-size: 0.5rem;
-  height: 1rem;
-  line-height: 1rem;
-  padding: 0 0.1rem;
+.visible-hide {
+  visibility: hidden;
 }
 
 .s-rounded {
@@ -123,12 +113,6 @@ label.switcher {
   }
 }
 
-.primary-color {
-  color: $primary-color;
-}
-.error-color {
-  color: $error-color;
-}
 
 .flash-container {
   position: fixed;

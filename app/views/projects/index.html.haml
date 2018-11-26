@@ -1,16 +1,22 @@
 .header-wrapper.flex.align-center.text-p
   .category-sidebar-header-row
     .row-content.flex-end.align-center
-      .category-add
-        %i{class: 'fas fa-plus'}
-        %span 新建分类
+      .category-add.hover-border
+        %span.category-add-loading.hide
+          %i.fas.fa-spinner.fa-spin
+        %span.category-add-icon
+          %i.fas.fa-plus
+        %span.project-add-content 新建分类
   .project-sidebar-header-row
     .row-content.flex-end.align-center
       .to-category-sidebar-link.hide
         %i{class: 'fas fa-bars'}
-      .project-add
-        %i{class: 'fas fa-plus'}
-        %span 新建项目
+      .project-add.hover-border
+        %span.project-add-loading.hide
+          %i.fas.fa-spinner.fa-spin
+        %span.project-add-icon
+          %i.fas.fa-plus
+        %span.project-add-content 新建项目
   .project-container-header-row
     .row-content.flex-between.align-center
       .to-project-sidebar-link.hide
@@ -20,7 +26,7 @@
         %span
           %i{class: 'fas fa-apple-alt'}
         %span#today-tomato-num= current_user.today_tomato_size || 0
-      .title-add.hover-border
+      .title-add.hover-border.hide
         %span.title-add-loading.hide
           %i.fas.fa-spinner.fa-spin
         %span.title-add-icon
@@ -32,10 +38,8 @@
         .divider-vert
         .timer-cancel.flex-around.align-center
           %i{class: 'icon icon-cross'}
-.container.flex
-  .category-sidebar.sidebar
-    = render 'sidebar_category'
+.container-fluid.flex
+  = render 'category_sidebar'
   .project-sidebar.sidebar
-    = render 'sidebar_project'
+    = render 'project_sidebar'
   .project-container
-    = render 'project', project: @default_project
