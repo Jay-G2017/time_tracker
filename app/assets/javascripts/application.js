@@ -17,6 +17,7 @@
 //= require turbolinks
 //= require fontawesome-5.4.1
 //= require perfect-scrollbar-1.4
+//= require trix
 //= require_tree .
 
 $(function() {

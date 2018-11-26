@@ -2,7 +2,8 @@
   .project-header{url: project_path(project), value: project.id}
     .project-name= project.name
     .project-description.text-p
-      %p= project.description
+      %input{id: 'project-description', value: project.description, type: 'hidden'}
+      %trix-editor{input: 'project-description'}
   .project-body
     - project.titles.each do |title|
       .title-container{id: "title-container-#{title.id}"}
