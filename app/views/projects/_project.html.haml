@@ -1,10 +1,17 @@
 .project-content{id: "project-content-#{project.id}", value: project.id }
-  .project-header{url: project_path(project), value: project.id}
-    .project-name= project.name
-    .project-description{value: project.id}
+  .project-header.mb-5{url: project_path(project), value: project.id}
+    .project-name.mb-3= project.name
+    .project-description
       %input{id: 'project-description-input', value: project.description, type: 'hidden'}
       %trix-editor.trix-content{input: 'project-description-input'}
-      %button.btn.btn-primary.save-project-description.d-none#save-des Save
+      .save-project-des-div.my-2.d-flex.justify-content-end
+        %button.btn.btn-primary.btn-sm.save-project-des.d-none{value: project.id}
+          %span.save-project-des-loading.hide
+            %i.fas.fa-spinner.fa-spin
+          Save
+        %button.btn.btn-info.btn-sm.project-des-state{disabled: 'disabled'}
+          %span
+            %i.fas.fa-check
   .project-body
     - project.titles.each do |title|
       .title-container{id: "title-container-#{title.id}"}
@@ -31,11 +38,7 @@
                 .todo-name.text-p
                   = todo.name
                 .second-row.flex.align-center
-                  .tomato-stat.second-row-item
-                    %span 10
-                    %span 5
-                  .history-context.second-row-item
-                    %i{class: 'fas fa-align-left'}
+                  %span.badge.badge-primary 5
                   .todo-delete.second-row-item{url: title_todo_path(title, todo), value: todo.id, title_id: title.id}
                     %i.fas.fa-trash-alt
               .todo-switcher

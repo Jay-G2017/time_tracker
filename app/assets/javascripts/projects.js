@@ -586,22 +586,26 @@ $(function(){
 
   // show save button when trix-change for project description
   addEventListener("trix-change", function(event) {
-    $('.save-project-description').removeClass('d-none')
+    $('.save-project-des').removeClass('d-none')
+    $('.save-project-des-loading').hide()
+    $('.project-des-state').hide()
   })
 
   // save project description
-  $('.project-container').on('click', '.save-project-description', function() {
-    let projectId = $(this).parent().attr('value')
+  $('.project-container').on('click', '.save-project-des', function() {
+    let projectId = $(this).attr('value')
     let url = '/projects/' + projectId
     let description = $('#project-description-input').val()
     let data = { project: { description: description } }
+    $('.save-project-des-loading').show()
 
     $.ajax({
       method: 'patch',
       url: url,
       data: data
     }).done(function() {
-      $('.save-project-description').addClass('d-none')
+      $('.save-project-des').addClass('d-none')
+      $('.project-des-state').show()
     })
   })
 
