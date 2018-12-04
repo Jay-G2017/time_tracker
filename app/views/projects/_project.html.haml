@@ -38,9 +38,10 @@
                 .todo-name.text-p
                   = todo.name
                 .second-row.flex.align-center
-                  %span.badge.badge-primary 5
+                  %span.badge.badge-primary.mr-2 5
                   .todo-delete.second-row-item{url: title_todo_path(title, todo), value: todo.id, title_id: title.id}
-                    %i.fas.fa-trash-alt
+                    %span
+                      %i.fas.fa-trash-alt
               .todo-switcher
                 %label{class: 'switcher'}
                   %input{type: 'checkbox'}
@@ -49,6 +50,11 @@
                 -# = button_tag '删除', class: 'ui button delete-todo-button', url: title_todo_path(title, todo), value: todo.id
                 -# = button_tag '编辑', class: 'ui button edit-todo-button', url: edit_title_todo_path(title, todo), value: todo.id
 
+
+.title-add-div.d-flex.flex-row-reverse
+  .title-add.bg-primary
+    %span.title-add-icon
+      %i.fas.fa-plus
 %input.project-name-input.hide{type: 'text'}
 %input.title-edit-input.hide{type: 'text'}
 %input.todo-edit-input.hide{type: 'text'}

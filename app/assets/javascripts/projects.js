@@ -48,7 +48,7 @@ $(function(){
   });
 
   // add title
-  $(".project-container-header-row").on('click', ".title-add:not('.clicked')", function(e){
+  $(".project-container").on('click', ".title-add:not('.clicked')", function(e){
     e.preventDefault();
     var target = $(this).addClass('clicked');
     $('.title-add-loading').show();
@@ -124,7 +124,7 @@ $(function(){
     $('.tomato-button').addClass('disabled');
     $(this).find('.tomato-button').removeClass('disabled').addClass('clicked');
     $('.project-container-header-row .title-add').hide();
-    $('.tomato-timer').css('display', 'flex');
+    $('.tomato-timer').removeClass('hide');
     var todoId = $(this).attr('value');
     startTomatoTimer(todoId, 1);
   });
