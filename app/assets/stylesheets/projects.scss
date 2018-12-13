@@ -1,5 +1,17 @@
 @import "my_variables";
 
+#svg circle {
+  transition: stroke-dashoffset 1s linear;
+  stroke: $primary-color-light;
+  stroke-width: 4;
+  fill: transparent;
+}
+#svg #bar {
+  stroke: $danger;
+  stroke-dasharray: 50.24;
+  stroke-dashoffset: 50;
+}
+
 .project-sidebar {
   padding: 1em 0;
 
