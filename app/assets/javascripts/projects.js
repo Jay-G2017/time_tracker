@@ -123,10 +123,12 @@ $(function(){
   $('.project-container').on('click', '.tomato-start', function() {
     $('.tomato-button').addClass('disabled');
     $(this).find('.tomato-button').removeClass('disabled').addClass('clicked');
+    $(this).hide()
     $('.project-container-header-row .title-add').hide();
     $('.tomato-timer').removeClass('hide');
     var todoId = $(this).attr('value');
     startTomatoTimer(todoId, 1);
+    startTodoListTimer(todoId, 1)
   });
 
   // cancel tomato timer
@@ -618,6 +620,24 @@ function startTomatoTimer(todoId, minutes) {
   window.tt = setInterval(function(){
     showTime(finalTime, minutes, todoId);}
     , 500);
+}
+
+function startTodoListTimer(todoId, minutes) {
+  let bar = $('#todo-timer-bar-' + todoId)
+  bar.parent().show()
+  let tomatoTime = minutes * 60 * 1000
+  let finalTime = (new Date).getTime() + tomatoTime
+  window.todoTimerInterval = setInterval(function(){
+    let now = (new Date).getTime()
+    let distance = finalTime - now
+    let persentage = distance / tomatoTime
+    if(distance < 0) {
+      bar.parent().hide()
+      $('.tomato-start').show()
+      clearInterval(todoTimerInterval)
+    }
+    bar.css('stroke-dashoffset', 50.24 * persentage)
+  }, 500)
 }
 
 
