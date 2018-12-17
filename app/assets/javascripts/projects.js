@@ -48,9 +48,9 @@ $(function(){
   });
 
   // add title
-  $(".project-container").on('click', ".title-add:not('.clicked')", function(e){
+  $(".project-container").on('click', ".title-add:not('.disabled')", function(e){
     e.preventDefault();
-    var target = $(this).addClass('clicked');
+    var target = $(this).addClass('disabled');
     $('.title-add-loading').show();
     $('.title-add-icon').hide();
 
@@ -120,15 +120,13 @@ $(function(){
   });
 
   // start tomato timer
-  $('.project-container').on('click', '.tomato-start', function() {
-    $('.tomato-button').addClass('disabled');
-    $(this).find('.tomato-button').removeClass('disabled').addClass('clicked');
+  $('.project-container').on('click', ".tomato-start:not(.disabled)", function() {
     $(this).hide()
-    $('.project-container-header-row .title-add').hide();
     $('.tomato-timer').removeClass('hide');
     var todoId = $(this).attr('value');
-    startTomatoTimer(todoId, 1);
-    startTodoListTimer(todoId, 1)
+    startTomatoTimer(todoId, 25);
+    startTodoListTimer(todoId, 25)
+    disableElementsWhenTomatoStart()
   });
 
   // cancel tomato timer
@@ -161,12 +159,14 @@ $(function(){
   })
 
   // create todo
-  $('.project-container').on('click', '.todo-add', function() {
+  $('.project-container').on('click', '.todo-add:not(.disabled)', function() {
+    $(this).addClass('disabled')
     var url = $(this).attr('url');
     var titleId = $(this).attr('value');
     var data = { todo: {name: '默认名字'} };
 
     $.post(url, data, function(data) {
+      $(this).removeClass('disabled')
       $('#title-todos-container-' + titleId).append(data);
 
       var todoId = $(data).find('.todo-delete').attr('value');
@@ -624,19 +624,21 @@ function startTomatoTimer(todoId, minutes) {
 
 function startTodoListTimer(todoId, minutes) {
   let bar = $('#todo-timer-bar-' + todoId)
+  bar.css('stroke-dashoffset', 50.24 * 0.98)
   bar.parent().show()
   let tomatoTime = minutes * 60 * 1000
   let finalTime = (new Date).getTime() + tomatoTime
   window.todoTimerInterval = setInterval(function(){
     let now = (new Date).getTime()
     let distance = finalTime - now
-    let persentage = distance / tomatoTime
+    let percentage = distance / tomatoTime
     if(distance < 0) {
       bar.parent().hide()
       $('.tomato-start').show()
       clearInterval(todoTimerInterval)
     }
-    bar.css('stroke-dashoffset', 50.24 * persentage)
+    if(percentage > 0.98) { percentage = 0.98}
+    bar.css('stroke-dashoffset', 50.24 * percentage)
   }, 500)
 }
 
@@ -683,6 +685,13 @@ function addSidebarProjectCount(categoryType, categoryId, count) {
   sidebarCategory = $('#category-list-' + categoryId + ' .row-stat')
   projectCount = parseInt(sidebarCategory.text())
   sidebarCategory.text(projectCount + count)
+}
+
+function disableElementsWhenTomatoStart() {
+  $('.tomato-start').addClass('disabled')
+  $('.title-add').addClass('disabled')
+  $('.todo-add').addClass('disabled')
+
 }
 
 

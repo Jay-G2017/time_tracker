@@ -32,7 +32,7 @@
         .title-todos-container.s-rounded{id: "title-todos-container-#{title.id}"}
           - title.todos.each_with_index do |todo, index|
             .todo-list.flex.align-center{id: "todo-list-#{todo.id}"}
-              %svg.todo-timer.hide{width: "20", height: "20", viewBox: "0 0 20 20"}
+              %svg.todo-timer.hide{viewBox: "0 0 20 20"}
                 %circle{r: "8", cx: "10", cy: "10"}
                 %circle.bar{r: "8", cx: "10", cy: "10", id: "todo-timer-bar-#{todo.id}"}
               %span.tomato-start{value: todo.id}
@@ -55,7 +55,7 @@
 
 
 .title-add-div.d-flex.flex-row-reverse
-  .title-add.bg-primary
+  .title-add
     %span.title-add-icon
       %i.fas.fa-plus
 %input.project-name-input.hide{type: 'text'}
