@@ -18,7 +18,7 @@
           %i.fas.fa-plus
         %span.project-add-content 新建项目
   .project-container-header-row
-    .row-content.flex-between.align-center
+    .header-row-content.flex-between.align-center
       .to-project-sidebar-link.hide
         %span
           %i{class: 'fas fa-arrow-left'}
@@ -28,7 +28,10 @@
       .tomato-setting
         %span
           %i{class: 'fas fa-sliders-h'}
-    .tomato-timer.hide.flex-around.align-center
+    .tomato-timer-content.hide.flex-between.align-center
+      .now-doing
+        %span 正在进行：
+        %span.now-doing-content
       .timer-show
         %b 25:00
       .timer-cancel

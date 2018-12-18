@@ -121,7 +121,6 @@ $(function(){
   // start tomato timer
   $('.project-container').on('click', ".tomato-start:not(.disabled)", function() {
     $(this).hide()
-    $('.tomato-timer').removeClass('hide');
     var todoId = $(this).attr('value');
     startTomatoTimer(todoId, 25);
     startTodoListTimer(todoId, 25)
@@ -131,7 +130,9 @@ $(function(){
   // cancel tomato timer
   $('.timer-cancel').on('click', function(){
     clearInterval(tt);
-    afterTomatoCancel();
+    $('.tomato-timer-content').addClass('hide');
+    $('.header-row-content').removeClass('hide');
+    enableElementsWhenTomatoStop()
   });
 
   // delete title
@@ -615,6 +616,10 @@ $(function(){
 });
 
 function startTomatoTimer(todoId, minutes) {
+  $('.header-row-content').addClass('hide');
+  $('.tomato-timer-content').removeClass('hide');
+  let todoName = $('#todo-list-' + todoId + ' .todo-name').text()
+  $('.now-doing-content').text(todoName)
   var finalTime = (new Date).getTime() + minutes * 60 * 1000;
   window.tt = setInterval(function(){
     showTime(finalTime, minutes, todoId);}
@@ -656,9 +661,7 @@ function showTime(finalTime, minutes, todoId) {
 }
 
 function afterTomatoCancel() {
-  $('.tomato-timer').hide();
-  $('.project-container-header-row .title-add').show();
-  $('.tomato-button').removeClass('disabled').removeClass('clicked');
+
 }
 
 // 给category侧边栏的某个category的project计数增加数目
@@ -694,9 +697,22 @@ function disableElementsWhenTomatoStart() {
   $('.category-list').addClass('disabled')
   $('.project-add').addClass('disabled')
   $('.project-list').addClass('disabled')
+  $('.project-list-dropdown-button').addClass('disabled')
 
 }
 
+function enableElementsWhenTomatoStop() {
+  $('.tomato-start').show()
+  $('.todo-timer').hide()
+  $('.tomato-start').removeClass('disabled')
+  $('.title-add').removeClass('disabled')
+  $('.todo-add').removeClass('disabled')
+  $('.category-add').removeClass('disabled')
+  $('.category-list').removeClass('disabled')
+  $('.project-add').removeClass('disabled')
+  $('.project-list').removeClass('disabled')
+  $('.project-list-dropdown-button').removeClass('disabled')
+}
 
   /*
   # colapse sidebar

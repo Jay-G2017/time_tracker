@@ -1,17 +1,17 @@
 .todo-list.flex.align-center{id: "todo-list-#{todo.id}"}
+  %svg.todo-timer.hide{viewBox: "0 0 20 20"}
+    %circle{r: "8", cx: "10", cy: "10"}
+    %circle.bar{r: "8", cx: "10", cy: "10", id: "todo-timer-bar-#{todo.id}"}
   %span.tomato-start{value: todo.id}
     %i.fas.fa-play-circle
   .todo-list-content{url: title_todo_path(title, todo)}
     .todo-name.text-p
       = todo.name
     .second-row.flex.align-center
-      .tomato-stat.second-row-item
-        %span 10
-        %span 5
-      .history-context.second-row-item
-        %i{class: 'fas fa-align-left'}
-      .todo-delete.text-dark.second-row-item{url: title_todo_path(title, todo), value: todo.id, title_id: title.id}
-        %i.fas.fa-trash-alt
+      %span.badge.badge-primary.mr-2 5
+      .todo-delete.second-row-item{url: title_todo_path(title, todo), value: todo.id, title_id: title.id}
+        %span
+          %i.fas.fa-trash-alt
   .todo-switcher
     %label{class: 'switcher'}
       %input{type: 'checkbox'}
