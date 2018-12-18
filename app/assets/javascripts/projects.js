@@ -8,18 +8,17 @@ $(function(){
   */
 
   // category侧边栏导航
-  $('.category-sidebar').on('click', ".category-list:not('.active')", function(e) {
+  $('.category-sidebar').on('click', '.category-list:not(.active,.disabled)', function(e) {
     e.preventDefault()
     $('.category-list').removeClass('active')
     $(this).addClass('active')
-    $('.project-add').show()
+    $('.project-add').removeClass('disabled')
 
     $('.project-content').remove()
-    $('.title-add').hide()
 
     let categoryType = $(this).attr('category_type')
     if (['starred', 'done'].includes(categoryType)) {
-      $('.project-add').hide()
+      $('.project-add').addClass('disabled')
     }
 
     let url = $(this).attr('url')
@@ -30,7 +29,7 @@ $(function(){
   })
 
   // project侧边栏导航
-  $('.project-sidebar').on('click', '.project-list', function(e) {
+  $('.project-sidebar').on('click', '.project-list:not(.disabled, .active)', function(e) {
     e.preventDefault();
 
     $('.project-list').removeClass('active')
@@ -252,9 +251,9 @@ $(function(){
   });
 
   // create project
-  $(".project-sidebar-header-row").on('click', ".project-add:not('.clicked')", function(e){
+  $(".project-sidebar-header-row").on('click', ".project-add:not('.disabled')", function(e){
     e.preventDefault();
-    var target = $(this).addClass('clicked');
+    var target = $(this).addClass('disabled');
     $('.project-add-loading').show();
     $('.project-add-icon').hide();
 
@@ -267,7 +266,7 @@ $(function(){
       $('.project-sidebar-content').prepend(data)
       addSidebarProjectCount(categoryType, categoryId, 1)
 
-      target.removeClass('clicked');
+      target.removeClass('disabled');
       $('.project-add-loading').hide();
       $('.project-add-icon').show();
 
@@ -492,9 +491,9 @@ $(function(){
   })
 
   // create category
-  $(".category-sidebar-header-row").on('click', ".category-add:not('.clicked')", function(e){
+  $(".category-sidebar-header-row").on('click', ".category-add:not('.disabled')", function(e){
     e.preventDefault();
-    var target = $(this).addClass('clicked');
+    var target = $(this).addClass('disabled');
     $('.category-add-loading').show();
     $('.category-add-icon').hide();
 
@@ -504,7 +503,7 @@ $(function(){
     $.post(url, data, function(data){
       $('.custom-category-zone').append(data)
 
-      target.removeClass('clicked');
+      target.removeClass('disabled');
       $('.category-add-loading').hide();
       $('.category-add-icon').show();
 
@@ -517,7 +516,7 @@ $(function(){
   })
 
   // edit category
-  $('.custom-category-zone').on('dblclick', '.category-name', function(e) {
+  $('.custom-category-zone').on('dblclick', '.category-list:not(.disabled) .category-name', function(e) {
     e.stopPropagation()
     $('.category-name').show();
     let target = $(this).hide();
@@ -691,6 +690,10 @@ function disableElementsWhenTomatoStart() {
   $('.tomato-start').addClass('disabled')
   $('.title-add').addClass('disabled')
   $('.todo-add').addClass('disabled')
+  $('.category-add').addClass('disabled')
+  $('.category-list').addClass('disabled')
+  $('.project-add').addClass('disabled')
+  $('.project-list').addClass('disabled')
 
 }
 

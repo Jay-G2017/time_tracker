@@ -26,17 +26,17 @@
     text-decoration: none;
   }
 
-  .project-list:hover {
+  .project-list:not(.disabled):not(.active):hover {
     background-color: $gray-color;
     cursor: pointer;
+  }
+  .project-list.disabled {
+    color: $gray-500;
   }
   .project-list.active {
     background-color: $primary-color;
     color: $light-color;
     cursor: default;
-  }
-  .project-list:not(.active) .project-list-dropdown-button {
-    display: none;
   }
   .project-list.starred .star-project {
     display: none;

@@ -29,7 +29,7 @@ $(function() {
   let categoryType = $('.project-sidebar-content').attr('category_type')
   if (categoryType == 'starred')  {
     $('.category-list.sidebar-starred').addClass('active')
-    $('.project-add').hide()
+    $('.project-add').addClass('disabled')
   } else {
     $('.category-list.sidebar-inbox').addClass('active')
   }
