@@ -25,6 +25,11 @@
       .today-tomato
         %span 今日蕃茄🍅
         %span#today-tomato-num= current_user.today_tomato_size || 0
+      .take-break-button-group
+        %a.btn
+          %i.fas.fa-cookie-bite
+        %a.btn
+          %i.fas.fa-coffee
       .tomato-setting
         %a.btn#tomatoSettingButton
           %i{class: 'fas fa-sliders-h'}
@@ -58,4 +63,5 @@
       %select
         - (1..60).each do |minute|
           %option{value: minute, selected: minute == 15}= minute.to_s + ' 分钟'
-    %button.btn.btn-primary.btn-sm{type: 'submit'} 保存
+    .flex-around
+      %button.btn.btn-primary.btn-sm.tomato-setting-save{type: 'submit'} 保存

@@ -92,7 +92,15 @@ body .dropdown-item:hover {
 
 .tomato-setting-form-content {
   width: 14em;
+  .setting-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.2em;
+  }
   label {
-    width: 40%
+    flex: 1 0 40%;
+  }
+  .tomato-setting-save {
+    margin-top: 1em;
   }
 }
