@@ -130,7 +130,7 @@ $(function(){
   // cancel tomato timer
   $('.timer-cancel').on('click', function(){
     clearInterval(tt);
-    $('.tomato-timer-content').hide();
+    $('.tomato-timer-content').addClass('hide');
     $('.header-row-content').removeClass('hide');
     enableElementsWhenTomatoStop()
   });

@@ -33,6 +33,16 @@ $(function() {
   } else {
     $('.category-list.sidebar-inbox').addClass('active')
   }
+
+  // 激活蕃茄设置的popover
+  $('#tomatoSettingButton').popover({
+    container: 'body',
+    placement: 'left',
+    html: true,
+    content: function() {
+      return $('#tomatoSettingForm').html()
+    }
+  })
 });
 
 function replaceProjectContent(projectId) {
