@@ -89,3 +89,10 @@ body .dropdown-item:hover {
   background-color: $gray-color;
   cursor: pointer;
 }
+
+.tomato-setting-form-content {
+  width: 14em;
+  label {
+    width: 40%
+  }
+}
