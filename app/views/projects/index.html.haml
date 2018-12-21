@@ -26,20 +26,28 @@
         %span 今日蕃茄🍅
         %span#today-tomato-num= current_user.today_tomato_size || 0
       .take-break-button-group
-        %a.btn
+        %a.btn.short-break.take-break{value: 5}
           %i.fas.fa-cookie-bite
-        %a.btn
-          %i.fas.fa-coffee
+        %a.btn.long-break.take-break{value: 15}
+          <svg class="svg-inline--fa fa-coffee fa-w-20" aria-hidden="true" data-prefix="fas" data-icon="coffee" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 -40 640 512" data-fa-i2svg=""><path fill="currentColor" d="M192 384h192c53 0 96-43 96-96h32c70.6 0 128-57.4 128-128S582.6 32 512 32H120c-13.3 0-24 10.7-24 24v232c0 53 43 96 96 96zM512 96c35.3 0 64 28.7 64 64s-28.7 64-64 64h-32V96h32zm47.7 384H48.3c-47.6 0-61-64-36-64h583.3c25 0 11.8 64-35.9 64z"></path></svg>
+        %input.tomato-time-input{type: 'hidden', value: 25}
       .tomato-setting
         %a.btn#tomatoSettingButton
           %i{class: 'fas fa-sliders-h'}
-    .tomato-timer-content.hide.flex-between.align-center
+    .tomato-timer-content.timer-content.hide.flex-between.align-center
       .now-doing
         %span 正在进行：
         %span.now-doing-content
       .timer-show
         %b 25:00
-      .timer-cancel
+      .tomato-timer-cancel
+        %i{class: 'fas fa-times'}
+    .break-timer-content.timer-content.hide.flex-between.align-center
+      .take-break-sign
+        %span 休息一下...
+      .timer-show
+        %b 25:00
+      .break-timer-cancel
         %i{class: 'fas fa-times'}
 .container-fluid.flex
   = render 'category_sidebar'
@@ -55,7 +63,7 @@
           %option{value: minute, selected: minute == 25}= minute.to_s + ' 分钟'
     .setting-row
       %label 短休息时间
-      %select
+      %select.short-break-time
         - (1..60).each do |minute|
           %option{value: minute, selected: minute == 5}= minute.to_s + ' 分钟'
     .setting-row
@@ -63,5 +71,5 @@
       %select
         - (1..60).each do |minute|
           %option{value: minute, selected: minute == 15}= minute.to_s + ' 分钟'
-    .flex-around
-      %button.btn.btn-primary.btn-sm.tomato-setting-save{type: 'submit'} 保存
+    %button.btn.btn-primary.btn-sm.btn-block.tomato-setting-save{type: 'submit'} 保存
+

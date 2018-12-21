@@ -121,16 +121,18 @@ $(function(){
   // start tomato timer
   $('.project-container').on('click', ".tomato-start:not(.disabled)", function() {
     $(this).hide()
-    var todoId = $(this).attr('value');
-    startTomatoTimer(todoId, 25);
-    startTodoListTimer(todoId, 25)
+    let todoId = $(this).attr('value');
+    let minutes = $('.tomato-time-input').val()
+    showTomatoTimer(minutes, todoId)
+    showTodoListTimer(minutes, todoId)
     disableElementsWhenTomatoStart()
   });
 
   // cancel tomato timer
-  $('.timer-cancel').on('click', function(){
-    clearInterval(tt);
-    $('.tomato-timer-content').addClass('hide');
+  $('.tomato-timer-cancel').on('click', function(){
+    clearInterval(timerInterval)
+    clearInterval(todoTimerInterval)
+    $('.timer-content').addClass('hide');
     $('.header-row-content').removeClass('hide');
     enableElementsWhenTomatoStop()
   });
@@ -615,18 +617,29 @@ $(function(){
 
 });
 
-function startTomatoTimer(todoId, minutes) {
-  $('.header-row-content').addClass('hide');
+function showTomatoTimer(minutes, todoId) {
+  $('.header-row-content, .break-timer-content').addClass('hide');
   $('.tomato-timer-content').removeClass('hide');
   let todoName = $('#todo-list-' + todoId + ' .todo-name').text()
   $('.now-doing-content').text(todoName)
-  var finalTime = (new Date).getTime() + minutes * 60 * 1000;
-  window.tt = setInterval(function(){
-    showTime(finalTime, minutes, todoId);}
-    , 500);
+  let finalTime = (new Date).getTime() + minutes * 60 * 1000;
+  window.timerInterval = setInterval(function() {
+    let now = (new Date).getTime()
+    let remainedTime = finalTime - now
+    if (remainedTime >= 0) {
+      let minutes = Math.floor((remainedTime % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, 0);
+      let seconds = Math.floor((remainedTime % (1000 * 60)) / 1000).toString().padStart(2, 0);
+      $('.timer-show > b').text(minutes + ':' + seconds);
+    } else {
+      clearInterval(timerInterval)
+      $('.header-row-content').removeClass('hide')
+      $('.timer-content').addClass('hide')
+      if (callback) { callback() }
+    }
+  }, 500)
 }
 
-function startTodoListTimer(todoId, minutes) {
+function showTodoListTimer(minutes, todoId) {
   let bar = $('#todo-timer-bar-' + todoId)
   bar.css('stroke-dashoffset', 50.24 * 0.98)
   bar.parent().show()
@@ -644,20 +657,6 @@ function startTodoListTimer(todoId, minutes) {
     if(percentage > 0.98) { percentage = 0.98}
     bar.css('stroke-dashoffset', 50.24 * percentage)
   }, 500)
-}
-
-
-function showTime(finalTime, minutes, todoId) {
-  var now = (new Date).getTime();
-  var distance = finalTime - now;
-  if (distance >= 0) {
-    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, 0);
-    var seconds = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, 0);
-    $('.timer-show > b').text(minutes + ':' + seconds);
-  } else {
-    clearInterval(tt);
-    //createTomato(minutes, todoId);
-  }
 }
 
 function afterTomatoCancel() {

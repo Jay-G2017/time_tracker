@@ -43,6 +43,30 @@ $(function() {
       return $('#tomatoSettingForm').html()
     }
   })
+
+  // 保存蕃茄设置的结果
+  $('body').on('click', '.tomato-setting-save', function() {
+    let shortBreakTime = $('.short-break-time').val()
+    $('.short-break').attr('value', shortBreakTime)
+    $('#tomatoSettingButton').popover('hide')
+  })
+
+  // take a break, short break or long break
+  $('.project-container-header-row').on('click', '.take-break', function() {
+    let minutes = $(this).attr('value')
+    showBreakTimer(minutes, function() {
+      alert('finished')
+    })
+  })
+
+  // cancel break timer
+  $('.break-timer-cancel').on('click', function(){
+    clearInterval(timerInterval);
+    $('.timer-content').addClass('hide');
+    $('.header-row-content').removeClass('hide');
+    enableElementsWhenTomatoStop()
+  });
+
 });
 
 function replaceProjectContent(projectId) {
@@ -64,4 +88,26 @@ function showMessage(data, timeout=3000) {
   setTimeout(function() {
     $('.flash-container').slideUp();
   }, timeout);
+}
+
+function showBreakTimer(minutes, callback) {
+  $('.header-row-content, .tomato-timer-content').addClass('hide')
+  $('.break-timer-content').removeClass('hide')
+  $('.timer-show > b').text(minutes.padStart(2, 0) + ': 00');
+
+  let finalTime = (new Date).getTime() + minutes * 60 * 1000
+  window.timerInterval = setInterval(function() {
+    let now = (new Date).getTime()
+    let remainedTime = finalTime - now
+    if (remainedTime >= 0) {
+      let minutes = Math.floor((remainedTime % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, 0);
+      let seconds = Math.floor((remainedTime % (1000 * 60)) / 1000).toString().padStart(2, 0);
+      $('.timer-show > b').text(minutes + ':' + seconds);
+    } else {
+      clearInterval(timerInterval)
+      $('.header-row-content').removeClass('hide')
+      $('.timer-content').addClass('hide')
+      if (callback) { callback() }
+    }
+  }, 500)
 }
