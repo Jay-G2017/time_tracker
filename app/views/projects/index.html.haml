@@ -54,22 +54,25 @@
   .project-sidebar.sidebar
     = render 'project_sidebar'
   .project-container
-%form.hide#tomatoSettingForm
-  .tomato-setting-form-content
-    .setting-row
-      %label 蕃茄时间
-      %select
-        - (1..60).each do |minute|
-          %option{value: minute, selected: minute == 25}= minute.to_s + ' 分钟'
-    .setting-row
-      %label 短休息时间
-      %select.short-break-time
-        - (1..60).each do |minute|
-          %option{value: minute, selected: minute == 5}= minute.to_s + ' 分钟'
-    .setting-row
-      %label 长休息时间
-      %select
-        - (1..60).each do |minute|
-          %option{value: minute, selected: minute == 15}= minute.to_s + ' 分钟'
-    %button.btn.btn-primary.btn-sm.btn-block.tomato-setting-save{type: 'submit'} 保存
+.modal.fade#tomatoSettingModal
+  .modal-dialog
+    .modal-content
+      %form#tomatoSettingForm
+        .tomato-setting-form-content
+          .setting-row
+            %label 蕃茄时间
+            %select
+              - (1..60).each do |minute|
+                %option{value: minute, selected: minute == 25}= minute.to_s + ' 分钟'
+          .setting-row
+            %label 短休息时间
+            %select.short-break-time
+              - (1..60).each do |minute|
+                %option{value: minute, selected: minute == 5}= minute.to_s + ' 分钟'
+          .setting-row
+            %label 长休息时间
+            %select
+              - (1..60).each do |minute|
+                %option{value: minute, selected: minute == 15}= minute.to_s + ' 分钟'
+          %button.btn.btn-primary.btn-sm.btn-block.tomato-setting-save{type: 'submit'} 保存
 

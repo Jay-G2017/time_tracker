@@ -35,20 +35,18 @@ $(function() {
   }
 
   // 激活蕃茄设置的popover
-  $('#tomatoSettingButton').popover({
-    container: 'body',
-    placement: 'left',
-    html: true,
-    content: function() {
-      return $('#tomatoSettingForm').html()
-    }
+  $('#tomatoSettingButton').on('click', function() {
+    $('#tomatoSettingModal').modal({
+      keyboard: true
+    })
   })
 
   // 保存蕃茄设置的结果
-  $('body').on('click', '.tomato-setting-save', function() {
+  $('body').on('click', '.tomato-setting-save', function(e) {
+    e.preventDefault()
     let shortBreakTime = $('.short-break-time').val()
     $('.short-break').attr('value', shortBreakTime)
-    $('#tomatoSettingButton').popover('hide')
+    $('#tomatoSettingModal').modal('hide')
   })
 
   // take a break, short break or long break
