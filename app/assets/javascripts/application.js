@@ -34,18 +34,22 @@ $(function() {
     $('.category-list.sidebar-inbox').addClass('active')
   }
 
-  // 激活蕃茄设置的popover
+  // 激活蕃茄设置的modal
   $('#tomatoSettingButton').on('click', function() {
     $('#tomatoSettingModal').modal({
-      keyboard: true
     })
   })
 
   // 保存蕃茄设置的结果
   $('body').on('click', '.tomato-setting-save', function(e) {
     e.preventDefault()
-    let shortBreakTime = $('.short-break-time').val()
+    let tomatoTime = $('#tomatoTimeSelect').val()
+    $('.tomato-time-input').val(tomatoTime)
+    let shortBreakTime = $('#shortBreakTimeSelect').val()
     $('.short-break').attr('value', shortBreakTime)
+    let longBreakTime = $('#longBreakTimeSelect').val()
+    $('.long-break').attr('value', longBreakTime)
+
     $('#tomatoSettingModal').modal('hide')
   })
 

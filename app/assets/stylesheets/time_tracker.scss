@@ -90,8 +90,10 @@ body .dropdown-item:hover {
   cursor: pointer;
 }
 
+#tomatoSettingModal .modal-dialog {
+  max-width: 400px;
+}
 .tomato-setting-form-content {
-  width: 14em;
   .setting-row {
     display: flex;
     justify-content: space-between;

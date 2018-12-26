@@ -617,11 +617,12 @@ $(function(){
 
 });
 
-function showTomatoTimer(minutes, todoId) {
+function showTomatoTimer(minutes, todoId, callback) {
   $('.header-row-content, .break-timer-content').addClass('hide');
   $('.tomato-timer-content').removeClass('hide');
   let todoName = $('#todo-list-' + todoId + ' .todo-name').text()
   $('.now-doing-content').text(todoName)
+  $('.timer-show > b').text(minutes.padStart(2, 0) + ': 00');
   let finalTime = (new Date).getTime() + minutes * 60 * 1000;
   window.timerInterval = setInterval(function() {
     let now = (new Date).getTime()
