@@ -10,7 +10,13 @@
         .project-done-icon{class: project.done ? '' : 'd-none'}
           %i.fas.fa-check-circle
       .project-list-content
-        .project-list-dropdown.d-flex.row-reverse
+        .project-list-name= project.name
+        .project-list-description= project.description || 'no content'
+        .project-list-stat.flex-between
+          %span.project-start-time= china_date(project.created_at)
+          .tomato-num-div
+            %span.tomato-icon🍅
+            %span.tomato-num= project.tomatos_count
           .project-list-dropdown-button{'data-toggle': 'dropdown'}
             %i.fas.fa-ellipsis-h
           .dropdown-menu.dropdown-menu-right
@@ -20,14 +26,6 @@
             %button.dropdown-item.undone-project{value: project.id, category_id: project.category_id} mark as undone
             .dropdown-divider
             %button.dropdown-item.delete-project{value: project.id, url: project_path(project), category_id: project.category_id} 删除项目
-        .project-list-name= project.name
-        .project-list-description= project.description || 'no content'
-        .project-list-stat.flex-between
-          %span.project-start-time= china_date(project.created_at)
-          .tomato-num-div
-            %span.tomato-icon
-              %i.fas.fa-apple-alt
-            %span.tomato-num= project.tomatos_count
 
 .modal.fade#delete-project-modal
   .modal-dialog

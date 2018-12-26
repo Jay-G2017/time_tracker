@@ -1,8 +1,17 @@
 .project-content{id: "project-content-#{project.id}", value: project.id }
-  .project-header{url: project_path(project), value: project.id}
-    .project-name= project.name
-    .project-description.text-p
-      %p= project.description
+  .project-header.mb-5{url: project_path(project), value: project.id}
+    .project-name.mb-3= project.name
+    .project-description
+      %input{id: 'project-description-input', value: project.description, type: 'hidden'}
+      %trix-editor.trix-content{input: 'project-description-input'}
+      .save-project-des-div.my-2.d-flex.justify-content-end
+        %button.btn.btn-primary.btn-sm.save-project-des.d-none{value: project.id}
+          %span.save-project-des-loading.hide
+            %i.fas.fa-spinner.fa-spin
+          Save
+        %button.btn.btn-info.btn-sm.project-des-state{disabled: 'disabled'}
+          %span
+            %i.fas.fa-check
   .project-body
     - project.titles.each do |title|
       .title-container{id: "title-container-#{title.id}"}
@@ -23,19 +32,19 @@
         .title-todos-container.s-rounded{id: "title-todos-container-#{title.id}"}
           - title.todos.each_with_index do |todo, index|
             .todo-list.flex.align-center{id: "todo-list-#{todo.id}"}
+              %svg.todo-timer.hide{viewBox: "0 0 20 20"}
+                %circle{r: "8", cx: "10", cy: "10"}
+                %circle.bar{r: "8", cx: "10", cy: "10", id: "todo-timer-bar-#{todo.id}"}
               %span.tomato-start{value: todo.id}
                 %i.fas.fa-play-circle
               .todo-list-content{url: title_todo_path(title, todo)}
                 .todo-name.text-p
                   = todo.name
                 .second-row.flex.align-center
-                  .tomato-stat.second-row-item
-                    %span 10
-                    %span 5
-                  .history-context.second-row-item
-                    %i{class: 'fas fa-align-left'}
+                  %span.badge.badge-primary.mr-2 5
                   .todo-delete.second-row-item{url: title_todo_path(title, todo), value: todo.id, title_id: title.id}
-                    %i.fas.fa-trash-alt
+                    %span
+                      %i.fas.fa-trash-alt
               .todo-switcher
                 %label{class: 'switcher'}
                   %input{type: 'checkbox'}
@@ -44,6 +53,11 @@
                 -# = button_tag '删除', class: 'ui button delete-todo-button', url: title_todo_path(title, todo), value: todo.id
                 -# = button_tag '编辑', class: 'ui button edit-todo-button', url: edit_title_todo_path(title, todo), value: todo.id
 
+
+.title-add-div.d-flex.flex-row-reverse
+  .title-add
+    %span.title-add-icon
+      %i.fas.fa-plus
 %input.project-name-input.hide{type: 'text'}
 %input.title-edit-input.hide{type: 'text'}
 %input.todo-edit-input.hide{type: 'text'}

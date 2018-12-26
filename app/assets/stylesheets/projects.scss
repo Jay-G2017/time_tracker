@@ -1,5 +1,22 @@
 @import "my_variables";
 
+.todo-timer {
+  height: 1.4em;
+  width: 1.4em;
+}
+.todo-timer circle {
+  stroke: $primary-color-light;
+  stroke-width: 4;
+  fill: transparent;
+}
+.todo-timer .bar {
+  stroke: $danger;
+  stroke-dasharray: 50.24;
+  stroke-dashoffset: 50.24;
+  transform-origin: center;
+  transform: rotate(270deg);
+}
+
 .project-sidebar {
   padding: 1em 0;
 
@@ -9,17 +26,17 @@
     text-decoration: none;
   }
 
-  .project-list:hover {
+  .project-list:not(.disabled):not(.active):hover {
     background-color: $gray-color;
     cursor: pointer;
+  }
+  .project-list.disabled {
+    color: $gray-500;
   }
   .project-list.active {
     background-color: $primary-color;
     color: $light-color;
     cursor: default;
-  }
-  .project-list:not(.active) .project-list-dropdown-button {
-    display: none;
   }
   .project-list.starred .star-project {
     display: none;
@@ -86,10 +103,31 @@
 }
 
 .project-container {
+  padding-bottom: 3rem;
   flex: 1 1 auto;
   border-left: 1px solid $border-color-dark;
   .project-head {
     padding: 0.5em;
+  }
+
+  .title-add {
+    position: fixed;
+    bottom: 1.2rem;
+    width: 2em;
+    height: 2em;
+    box-shadow: 0 4px 20px 0 rgba(0,0,0,.14), 0 7px 10px -5px rgba(244,67,54,.4);
+    color: #fff;
+    background-color: $primary-color;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 50%;
+  }
+  .title-add.disabled {
+    background-color: $gray-500;
+  }
+  .title-add:not(.disabled):hover {
+    cursor: pointer;
   }
 }
 
@@ -100,11 +138,17 @@
     font-weight: bold;
   }
 
-  .title-button-group:hover {
+  .toggle-title-todos:hover {
     cursor: pointer;
   }
   .title-button-group span {
     margin-left: 1em;
+  }
+  .todo-add:not(.disabled):hover {
+    cursor: pointer;
+  }
+  .todo-add.disabled {
+    color: $gray-500;
   }
 }
 
@@ -135,7 +179,6 @@
 }
 
 .title-todos-container {
-  padding: 0 0.5em;
   background: $light-color;
 }
 
@@ -144,9 +187,17 @@
   padding: 0.5em 0;
 
   .tomato-start {
-    flex: 0 0 2.5em;
+    font-size: 1.4em;
+    color: $success-color;
+  }
+  .tomato-start:not(.disabled):hover {
+    cursor: pointer;
+  }
+  .tomato-start.disabled {
+    color: $gray-500;
   }
   .todo-list-content {
+    margin-left: 0.6em;
     flex: auto;
   }
   .todo-switcher {
