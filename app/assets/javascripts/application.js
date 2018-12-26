@@ -57,7 +57,12 @@ $(function() {
   $('.project-container-header-row').on('click', '.take-break', function() {
     let minutes = $(this).attr('value')
     showBreakTimer(minutes, function() {
-      alert('finished')
+      Swal({
+        title: '休息结束',
+        text: '选择一个任务开始吧',
+        position: 'top'
+      })
+
     })
   })
 

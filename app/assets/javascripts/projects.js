@@ -123,7 +123,14 @@ $(function(){
     $(this).hide()
     let todoId = $(this).attr('value');
     let minutes = $('.tomato-time-input').val()
-    showTomatoTimer(minutes, todoId)
+    showTomatoTimer(minutes, todoId, function() {
+      Swal({
+        type: 'success',
+        title: '完成了一个蕃茄',
+        text: '写一些心得吧, 方便回顾',
+        position: 'top'
+      })
+    })
     showTodoListTimer(minutes, todoId)
     disableElementsWhenTomatoStart()
   });
@@ -635,6 +642,7 @@ function showTomatoTimer(minutes, todoId, callback) {
       clearInterval(timerInterval)
       $('.header-row-content').removeClass('hide')
       $('.timer-content').addClass('hide')
+      enableElementsWhenTomatoStop()
       if (callback) { callback() }
     }
   }, 500)
