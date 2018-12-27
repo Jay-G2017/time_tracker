@@ -39,9 +39,12 @@
     opacity: 0;
   }
 
-  .category-list:hover {
+  .category-list:not(.disabled):not(.active):hover {
     background-color: $gray-color;
     cursor: pointer;
+  }
+  .category-list.disabled {
+    color: $gray-500;
   }
 
   .category-list.active {

@@ -17,6 +17,7 @@
 //= require turbolinks
 //= require fontawesome-5.4.1
 //= require perfect-scrollbar-1.4
+//= require trix
 //= require_tree .
 
 $(function() {
@@ -28,10 +29,51 @@ $(function() {
   let categoryType = $('.project-sidebar-content').attr('category_type')
   if (categoryType == 'starred')  {
     $('.category-list.sidebar-starred').addClass('active')
-    $('.project-add').hide()
+    $('.project-add').addClass('disabled')
   } else {
     $('.category-list.sidebar-inbox').addClass('active')
   }
+
+  // 激活蕃茄设置的modal
+  $('#tomatoSettingButton').on('click', function() {
+    $('#tomatoSettingModal').modal({
+    })
+  })
+
+  // 保存蕃茄设置的结果
+  $('body').on('click', '.tomato-setting-save', function(e) {
+    e.preventDefault()
+    let tomatoTime = $('#tomatoTimeSelect').val()
+    $('.tomato-time-input').val(tomatoTime)
+    let shortBreakTime = $('#shortBreakTimeSelect').val()
+    $('.short-break').attr('value', shortBreakTime)
+    let longBreakTime = $('#longBreakTimeSelect').val()
+    $('.long-break').attr('value', longBreakTime)
+
+    $('#tomatoSettingModal').modal('hide')
+  })
+
+  // take a break, short break or long break
+  $('.project-container-header-row').on('click', '.take-break', function() {
+    let minutes = $(this).attr('value')
+    showBreakTimer(minutes, function() {
+      Swal({
+        title: '休息结束',
+        text: '选择一个任务开始吧',
+        position: 'top'
+      })
+
+    })
+  })
+
+  // cancel break timer
+  $('.break-timer-cancel').on('click', function(){
+    clearInterval(timerInterval);
+    $('.timer-content').addClass('hide');
+    $('.header-row-content').removeClass('hide');
+    enableElementsWhenTomatoStop()
+  });
+
 });
 
 function replaceProjectContent(projectId) {
@@ -53,4 +95,26 @@ function showMessage(data, timeout=3000) {
   setTimeout(function() {
     $('.flash-container').slideUp();
   }, timeout);
+}
+
+function showBreakTimer(minutes, callback) {
+  $('.header-row-content, .tomato-timer-content').addClass('hide')
+  $('.break-timer-content').removeClass('hide')
+  $('.timer-show > b').text(minutes.padStart(2, 0) + ': 00');
+
+  let finalTime = (new Date).getTime() + minutes * 60 * 1000
+  window.timerInterval = setInterval(function() {
+    let now = (new Date).getTime()
+    let remainedTime = finalTime - now
+    if (remainedTime >= 0) {
+      let minutes = Math.floor((remainedTime % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, 0);
+      let seconds = Math.floor((remainedTime % (1000 * 60)) / 1000).toString().padStart(2, 0);
+      $('.timer-show > b').text(minutes + ':' + seconds);
+    } else {
+      clearInterval(timerInterval)
+      $('.header-row-content').removeClass('hide')
+      $('.timer-content').addClass('hide')
+      if (callback) { callback() }
+    }
+  }, 500)
 }

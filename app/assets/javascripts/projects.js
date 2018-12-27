@@ -8,18 +8,17 @@ $(function(){
   */
 
   // category侧边栏导航
-  $('.category-sidebar').on('click', ".category-list:not('.active')", function(e) {
+  $('.category-sidebar').on('click', '.category-list:not(.active,.disabled)', function(e) {
     e.preventDefault()
     $('.category-list').removeClass('active')
     $(this).addClass('active')
-    $('.project-add').show()
+    $('.project-add').removeClass('disabled')
 
     $('.project-content').remove()
-    $('.title-add').hide()
 
     let categoryType = $(this).attr('category_type')
     if (['starred', 'done'].includes(categoryType)) {
-      $('.project-add').hide()
+      $('.project-add').addClass('disabled')
     }
 
     let url = $(this).attr('url')
@@ -30,7 +29,7 @@ $(function(){
   })
 
   // project侧边栏导航
-  $('.project-sidebar').on('click', '.project-list', function(e) {
+  $('.project-sidebar').on('click', '.project-list:not(.disabled, .active)', function(e) {
     e.preventDefault();
 
     $('.project-list').removeClass('active')
@@ -48,9 +47,9 @@ $(function(){
   });
 
   // add title
-  $(".project-container-header-row").on('click', ".title-add:not('.clicked')", function(e){
+  $(".project-container").on('click', ".title-add:not('.disabled')", function(e){
     e.preventDefault();
-    var target = $(this).addClass('clicked');
+    var target = $(this).addClass('disabled');
     $('.title-add-loading').show();
     $('.title-add-icon').hide();
 
@@ -120,19 +119,27 @@ $(function(){
   });
 
   // start tomato timer
-  $('.project-container').on('click', '.tomato-start', function() {
-    $('.tomato-button').addClass('disabled');
-    $(this).find('.tomato-button').removeClass('disabled').addClass('clicked');
-    $('.project-container-header-row .title-add').hide();
-    $('.tomato-timer').css('display', 'flex');
-    var todoId = $(this).attr('value');
-    startTomatoTimer(todoId, 1);
+  $('.project-container').on('click', ".tomato-start:not(.disabled)", function() {
+    $(this).hide()
+    let todoId = $(this).attr('value');
+    let minutes = $('.tomato-time-input').val()
+    showTomatoTimer(minutes, todoId, function() {
+      $('#tomatoFinishModal').modal()
+    })
+    showTodoListTimer(minutes, todoId)
+    disableElementsWhenTomatoStart()
   });
 
   // cancel tomato timer
-  $('.timer-cancel').on('click', function(){
-    clearInterval(tt);
-    afterTomatoCancel();
+  $('.tomato-timer-cancel').on('click', function(){
+    if(confirm('你确认要取消当前的蕃茄吗？')) {
+      clearInterval(timerInterval)
+      clearInterval(todoTimerInterval)
+      $('.timer-content').addClass('hide');
+      $('.header-row-content').removeClass('hide');
+      enableElementsWhenTomatoStop()
+    }
+
   });
 
   // delete title
@@ -159,12 +166,14 @@ $(function(){
   })
 
   // create todo
-  $('.project-container').on('click', '.todo-add', function() {
+  $('.project-container').on('click', '.todo-add:not(.disabled)', function() {
+    $(this).addClass('disabled')
     var url = $(this).attr('url');
     var titleId = $(this).attr('value');
     var data = { todo: {name: '默认名字'} };
 
     $.post(url, data, function(data) {
+      $(this).removeClass('disabled')
       $('#title-todos-container-' + titleId).append(data);
 
       var todoId = $(data).find('.todo-delete').attr('value');
@@ -250,9 +259,9 @@ $(function(){
   });
 
   // create project
-  $(".project-sidebar-header-row").on('click', ".project-add:not('.clicked')", function(e){
+  $(".project-sidebar-header-row").on('click', ".project-add:not('.disabled')", function(e){
     e.preventDefault();
-    var target = $(this).addClass('clicked');
+    var target = $(this).addClass('disabled');
     $('.project-add-loading').show();
     $('.project-add-icon').hide();
 
@@ -265,7 +274,7 @@ $(function(){
       $('.project-sidebar-content').prepend(data)
       addSidebarProjectCount(categoryType, categoryId, 1)
 
-      target.removeClass('clicked');
+      target.removeClass('disabled');
       $('.project-add-loading').hide();
       $('.project-add-icon').show();
 
@@ -490,9 +499,9 @@ $(function(){
   })
 
   // create category
-  $(".category-sidebar-header-row").on('click', ".category-add:not('.clicked')", function(e){
+  $(".category-sidebar-header-row").on('click', ".category-add:not('.disabled')", function(e){
     e.preventDefault();
-    var target = $(this).addClass('clicked');
+    var target = $(this).addClass('disabled');
     $('.category-add-loading').show();
     $('.category-add-icon').hide();
 
@@ -502,7 +511,7 @@ $(function(){
     $.post(url, data, function(data){
       $('.custom-category-zone').append(data)
 
-      target.removeClass('clicked');
+      target.removeClass('disabled');
       $('.category-add-loading').hide();
       $('.category-add-icon').show();
 
@@ -515,7 +524,7 @@ $(function(){
   })
 
   // edit category
-  $('.custom-category-zone').on('dblclick', '.category-name', function(e) {
+  $('.custom-category-zone').on('dblclick', '.category-list:not(.disabled) .category-name', function(e) {
     e.stopPropagation()
     $('.category-name').show();
     let target = $(this).hide();
@@ -584,34 +593,81 @@ $(function(){
     })
   });
 
+  // show save button when trix-change for project description
+  addEventListener("trix-change", function(event) {
+    $('.save-project-des').removeClass('d-none')
+    $('.save-project-des-loading').hide()
+    $('.project-des-state').hide()
+  })
+
+  // save project description
+  $('.project-container').on('click', '.save-project-des', function() {
+    let projectId = $(this).attr('value')
+    let url = '/projects/' + projectId
+    let description = $('#project-description-input').val()
+    let data = { project: { description: description } }
+    $('.save-project-des-loading').show()
+
+    $.ajax({
+      method: 'patch',
+      url: url,
+      data: data
+    }).done(function() {
+      $('.save-project-des').addClass('d-none')
+      $('.project-des-state').show()
+    })
+  })
+
+
 
 });
 
-function startTomatoTimer(todoId, minutes) {
-  var finalTime = (new Date).getTime() + minutes * 60 * 1000;
-  window.tt = setInterval(function(){
-    showTime(finalTime, minutes, todoId);}
-    , 500);
+function showTomatoTimer(minutes, todoId, callback) {
+  $('.header-row-content, .break-timer-content').addClass('hide');
+  $('.tomato-timer-content').removeClass('hide');
+  let todoName = $('#todo-list-' + todoId + ' .todo-name').text()
+  $('.now-doing-content').text(todoName)
+  $('.timer-show > b').text(minutes.padStart(2, 0) + ': 00');
+  let finalTime = (new Date).getTime() + minutes * 60 * 1000;
+  window.timerInterval = setInterval(function() {
+    let now = (new Date).getTime()
+    let remainedTime = finalTime - now
+    if (remainedTime >= 0) {
+      let minutes = Math.floor((remainedTime % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, 0);
+      let seconds = Math.floor((remainedTime % (1000 * 60)) / 1000).toString().padStart(2, 0);
+      $('.timer-show > b').text(minutes + ':' + seconds);
+    } else {
+      clearInterval(timerInterval)
+      $('.header-row-content').removeClass('hide')
+      $('.timer-content').addClass('hide')
+      enableElementsWhenTomatoStop()
+      if (callback) { callback() }
+    }
+  }, 500)
 }
 
-
-function showTime(finalTime, minutes, todoId) {
-  var now = (new Date).getTime();
-  var distance = finalTime - now;
-  if (distance >= 0) {
-    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, 0);
-    var seconds = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, 0);
-    $('.timer-show > b').text(minutes + ':' + seconds);
-  } else {
-    clearInterval(tt);
-    //createTomato(minutes, todoId);
-  }
+function showTodoListTimer(minutes, todoId) {
+  let bar = $('#todo-timer-bar-' + todoId)
+  bar.css('stroke-dashoffset', 50.24 * 0.98)
+  bar.parent().show()
+  let tomatoTime = minutes * 60 * 1000
+  let finalTime = (new Date).getTime() + tomatoTime
+  window.todoTimerInterval = setInterval(function(){
+    let now = (new Date).getTime()
+    let distance = finalTime - now
+    let percentage = distance / tomatoTime
+    if(distance < 0) {
+      bar.parent().hide()
+      $('.tomato-start').show()
+      clearInterval(todoTimerInterval)
+    }
+    if(percentage > 0.98) { percentage = 0.98}
+    bar.css('stroke-dashoffset', 50.24 * percentage)
+  }, 500)
 }
 
 function afterTomatoCancel() {
-  $('.tomato-timer').hide();
-  $('.project-container-header-row .title-add').show();
-  $('.tomato-button').removeClass('disabled').removeClass('clicked');
+
 }
 
 // 给category侧边栏的某个category的project计数增加数目
@@ -639,155 +695,30 @@ function addSidebarProjectCount(categoryType, categoryId, count) {
   sidebarCategory.text(projectCount + count)
 }
 
+function disableElementsWhenTomatoStart() {
+  $('.tomato-start').addClass('disabled')
+  $('.title-add').addClass('disabled')
+  $('.todo-add').addClass('disabled')
+  $('.category-add').addClass('disabled')
+  $('.category-list').addClass('disabled')
+  $('.project-add').addClass('disabled')
+  $('.project-list').addClass('disabled')
+  $('.project-list-dropdown-button').addClass('disabled')
 
+}
 
-/*
-  # new category
-  $('#new-category-button').on 'click', ->
-    $(this).attr 'disabled', true
-    url = $(this).attr 'url'
-    $.get url, (data) ->
-      $('.category-zone').append(data)
-      $('#create-category-input').focus()
-
-  # create category
-  $('.category-zone').on 'click', '#create-category-button', (e) ->
-    e.preventDefault()
-    new_category_form = $('form#new_category')
-    url = new_category_form.attr 'action'
-    $.post url, new_category_form.serialize(), (data) ->
-      new_category_form.remove()
-      $('#new-category-button').attr 'disabled', false
-      $('.category-zone').append(data)
-
-  # cancel create category
-  $('.category-zone').on 'click', '#cancel-create-category-button', ->
-    $('form#new_category').remove()
-    $('#new-category-button').attr 'disabled', false
-
-  # edit category
-  $('.category-zone').on 'click', '.edit-category-button', ->
-    # 移掉其它的编辑框
-    $('form.edit_category').remove()
-    $('.category-content').show()
-
-    category_id = $(this).val()
-    category_content = $('#category-content-' + category_id)
-    url = $(this).attr 'url'
-    $.get url, (data) ->
-      category_content.hide().after(data)
-      # 下面两段代码是让他自动激活, 并且光标移到最后
-      val = $('#update-category-input').val()
-      $('#update-category-input').focus().val('').val(val)
-
-  # cancel update category
-  $('.category-zone').on 'click', '#cancel-update-category-button', ->
-    $('form.edit_category').parent().remove()
-    $('.category-content').show()
-
-  # update category
-  $('.category-zone').on 'click', '#update-category-button', ->
-    edit_category_form = $('form.edit_category')
-    url = edit_category_form.attr 'action'
-    category_id = $(this).val()
-    $.ajax
-      type: 'patch'
-      url: url
-      data: edit_category_form.serialize()
-     .done (data) ->
-       edit_category_form.parent().remove()
-       $('#category-content-' + category_id).find('.category-body').text(data.name)
-       $('#category-content-' + category_id).show()
-
-  # delete category
-  $('.category-zone').on 'click', '.delete-category-button', ->
-    if confirm('确定删除吗?')
-      url = $(this).attr 'url'
-      category_id = $(this).val()
-      $.ajax
-        url: url
-        type: 'delete'
-      .done ->
-        $('#category-container-' + category_id).remove()
-
-  # bind enter key for create category
-  $('.category-zone').on 'keypress', '#create-category-input', (e) ->
-    if e.which == 13
-      e.preventDefault()
-      $('#create-category-button').click()
-
-  # bind enter key for update category
-  $('.category-zone').on 'keypress', '#update-category-input', (e) ->
-    if e.which == 13
-      e.preventDefault()
-      $('#update-category-button').click()
-
-
-
-  # bind enter key for create project
-  $('.category-zone').on 'keypress', '.create-project-input', (e) ->
-    if e.which == 13
-      e.preventDefault()
-      $(this).siblings('.create-project-button').click()
-
-  # delete project
-  $('.category-zone').on 'click', '.delete-project-button', ->
-    if confirm('确定要删除吗')
-      url = $(this).attr 'url'
-      project_id = $(this).val()
-
-      $.ajax
-        url: url
-        type: 'delete'
-      .done ->
-        $('#project-list-' + project_id).remove()
-
-  # edit project
-  $('.category-zone').on 'click', '.edit-project-button', ->
-    # 先删除其它的edit project form
-    $('form.edit_project').remove()
-    $('.project-list').show()
-
-    url = $(this).attr 'url'
-    project_id = $(this).val()
-    $.get url, (data) ->
-      $('#project-list-' + project_id).hide().after(data)
-      val = $('.update-project-input').val()
-      $('.update-project-input').val('').focus().val(val)
-
-  # cancel update project button
-  $('.category-zone').on 'click', '#cancel-update-project-button', ->
-    project_id = $(this).val()
-    $('form.edit_project').remove()
-    $('#project-list-' + project_id).show()
-
-  # update project
-  $('.category-zone').on 'click', '#update-project-button', ->
-    project_id = $(this).val()
-    edit_project_form = $('form.edit_project')
-    url = edit_project_form.attr 'action'
-
-    $.ajax
-      url: url
-      type: 'patch'
-      data: edit_project_form.serialize()
-    .done (data) ->
-      edit_project_form.remove()
-      $('#project-list-' + project_id).find('.project-name').text(data['name'])
-      $('#project-list-' + project_id).show()
-
-  # bind enter key for update project
-  $('.category-zone').on 'keypress', '.update-project-input', (e) ->
-    if (e.which == 13)
-      e.preventDefault()
-      $('#update-project-button').click()
-
-  */
-
-
-
-
-
+function enableElementsWhenTomatoStop() {
+  $('.tomato-start').show()
+  $('.todo-timer').hide()
+  $('.tomato-start').removeClass('disabled')
+  $('.title-add').removeClass('disabled')
+  $('.todo-add').removeClass('disabled')
+  $('.category-add').removeClass('disabled')
+  $('.category-list').removeClass('disabled')
+  $('.project-add').removeClass('disabled')
+  $('.project-list').removeClass('disabled')
+  $('.project-list-dropdown-button').removeClass('disabled')
+}
 
   /*
   # colapse sidebar
