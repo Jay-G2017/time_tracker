@@ -123,6 +123,8 @@ $(function(){
     $(this).hide()
     let todoId = $(this).attr('value');
     let minutes = $('.tomato-time-input').val()
+    $('form #todoIdInput').val(todoId)
+    $('form #tomatoMinutesInput').val(minutes)
     showTomatoTimer(minutes, todoId, function() {
       $('#tomatoFinishModal').modal()
     })
@@ -215,7 +217,8 @@ $(function(){
       var todoEditName = $(this).val();
       //make sure input not empty
       if(todoEditName) {
-        var url = target.attr('url');
+        var todoId = target.attr('value')
+        var url = '/todos/' + todoId
         var data = {todo: {name: todoEditName}};
 
         $.ajax({
@@ -618,6 +621,21 @@ $(function(){
     })
   })
 
+  // toggle todo
+  $('.project-container').on('click', '.toggle-todo', function() {
+    let isDone = $(this).prop('checked')
+    let id = $(this).val()
+    let url = '/todos/' + id
+    $.ajax({
+      method: 'patch',
+      url: url,
+      data: {todo: { done: isDone}}
+    }).success(function() {
+      $('#todo-check-icon-' + id).toggle()
+      $('#tomato-start-' + id).toggle()
+    })
+  })
+
 
 
 });
@@ -719,44 +737,4 @@ function enableElementsWhenTomatoStop() {
   $('.project-list').removeClass('disabled')
   $('.project-list-dropdown-button').removeClass('disabled')
 }
-
-  /*
-  # colapse sidebar
-  $('.to-category-sidebar-link').on 'click', ->
-    $('.project-sidebar, .project-sidebar-header-row').hide()
-    $('.category-sidebar, .category-sidebar-header-row').show()
-
-  $('.to-project-sidebar-link').on 'click', ->
-    $('.project-sidebar, .project-sidebar-header-row').show()
-    $('.project-container, .project-container-header-row').hide()
-  */
-
-/*
-*/
-
-
-/*
-createTomato = (minutes, todoId) ->
-  url = 'todos/' + todoId + '/tomatoes?minutes=' + minutes
-  $.post url, (data) ->
-    afterTomatoDone()
-
-afterTomatoDone = ->
-  todayTomato = parseInt($('#today-tomato-num').text(), 10) + 1
-  $('#today-tomato-num').text(todayTomato)
-
-  $('.tomato-timer-header-row').hide()
-  $('.project-container-header-row').show()
-
-  $('.tomato-button').removeClass('disabled').removeClass('clicked')
-
-  # todoTotalTomato = $('#todo-'+ data['id'] + '-total-tomato')
-  # todoTotalTomatoNum = parseInt(todoTotalTomato.text(), 10) + 1
-  # todoTotalTomato.text(todoTotalTomatoNum)
-
-  # todoTodayTomato = $('#todo-'+ data['id'] + '-today-tomato')
-  # todoTodayTomatoNum = parseInt(todoTodayTomato.text(), 10) + 1
-  # todoTodayTomato.text(todoTodayTomatoNum)
-  */
-
 

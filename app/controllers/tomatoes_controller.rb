@@ -8,6 +8,6 @@ class TomatoesController < ApplicationController
 
   private
   def tomato_params
-    params.permit(:minutes)
+    params.permit(:minutes, :content)
   end
 end

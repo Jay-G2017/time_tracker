@@ -74,6 +74,29 @@ $(function() {
     enableElementsWhenTomatoStop()
   });
 
+  // save tomato
+  $('#saveTomatoButton').on('click', function(e) {
+    e.preventDefault()
+    let form = $('#tomatoFinishForm')
+    let data = form.serialize()
+    let todoId = $('form #todoIdInput').val()
+    let url = '/todos/' + todoId + '/tomatoes'
+    $.post(url, data, function() {
+      // add today tomato count
+      let todayTomato = $('#todayTomatoNum')
+      let num = todayTomato.text()
+      num = parseInt(num, 10) + 1
+      todayTomato.text(num)
+      // add todo tomato count
+      let todoCount = $('#todo-' + todoId + '-tomato-count')
+      let count = todoCount.text()
+      count = parseInt(count, 10) + 1
+      todoCount.text(count)
+    }).always(function() {
+      $('#tomatoFinishModal').modal('hide')
+    })
+  })
+
 });
 
 function replaceProjectContent(projectId) {

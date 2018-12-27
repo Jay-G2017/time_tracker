@@ -35,19 +35,21 @@
               %svg.todo-timer.hide{viewBox: "0 0 20 20"}
                 %circle{r: "8", cx: "10", cy: "10"}
                 %circle.bar{r: "8", cx: "10", cy: "10", id: "todo-timer-bar-#{todo.id}"}
-              %span.tomato-start{value: todo.id}
+              %span.tomato-start{id: "tomato-start-#{todo.id}", value: todo.id, class: todo.done ? 'hide' : ''}
                 %i.fas.fa-play-circle
-              .todo-list-content{url: title_todo_path(title, todo)}
+              %span{id: "todo-check-icon-#{todo.id}", class: todo.done ? '' : 'hide'}
+                %i.fas.fa-check
+              .todo-list-content{value: todo.id}
                 .todo-name.text-p
                   = todo.name
                 .second-row.flex.align-center
-                  %span.badge.badge-primary.mr-2 5
+                  %span.badge.badge-primary.mr-2{id: "todo-#{todo.id}-tomato-count"}= todo.tomatoes.count
                   .todo-delete.second-row-item{url: title_todo_path(title, todo), value: todo.id, title_id: title.id}
                     %span
                       %i.fas.fa-trash-alt
               .todo-switcher
                 %label{class: 'switcher'}
-                  %input{type: 'checkbox'}
+                  %input.toggle-todo{type: 'checkbox', value: todo.id, checked: todo.done}
                   %span{class: 'slider-my'}
               -# .button-group.flex
                 -# = button_tag '删除', class: 'ui button delete-todo-button', url: title_todo_path(title, todo), value: todo.id
