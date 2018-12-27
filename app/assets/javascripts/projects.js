@@ -124,12 +124,7 @@ $(function(){
     let todoId = $(this).attr('value');
     let minutes = $('.tomato-time-input').val()
     showTomatoTimer(minutes, todoId, function() {
-      Swal({
-        type: 'success',
-        title: '完成了一个蕃茄',
-        text: '写一些心得吧, 方便回顾',
-        position: 'top'
-      })
+      $('#tomatoFinishModal').modal()
     })
     showTodoListTimer(minutes, todoId)
     disableElementsWhenTomatoStart()
@@ -137,11 +132,14 @@ $(function(){
 
   // cancel tomato timer
   $('.tomato-timer-cancel').on('click', function(){
-    clearInterval(timerInterval)
-    clearInterval(todoTimerInterval)
-    $('.timer-content').addClass('hide');
-    $('.header-row-content').removeClass('hide');
-    enableElementsWhenTomatoStop()
+    if(confirm('你确认要取消当前的蕃茄吗？')) {
+      clearInterval(timerInterval)
+      clearInterval(todoTimerInterval)
+      $('.timer-content').addClass('hide');
+      $('.header-row-content').removeClass('hide');
+      enableElementsWhenTomatoStop()
+    }
+
   });
 
   // delete title

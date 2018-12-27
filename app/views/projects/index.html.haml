@@ -80,4 +80,19 @@
                 - (1..60).each do |minute|
                   %option{value: minute, selected: minute == 15}= minute.to_s + ' 分钟'
             %button.btn.btn-primary.btn-sm.btn-block.tomato-setting-save{type: 'submit'} 保存
+.modal.fade#tomatoFinishModal
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %h5.modal-title 你完成了一个蕃茄
+        %button.close{'data-dismiss': 'modal'}
+          %span &times;
+      .modal-body
+        %form#tomatoFinishForm
+          %textarea{placeholder: '记录下本次蕃茄完成的内容，方便回顾。'}
+          .form-group
+            %input{type: 'checkbox', 'checked': true}
+            %label 保存蕃茄后直接进入休息.
+          %button.btn.btn-primary.btn-sm.btn-block{type: 'submit'} 保存蕃茄
+
 
