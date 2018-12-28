@@ -90,15 +90,16 @@
           %span &times;
       .modal-body
         %form#tomatoFinishForm
-          %textarea{name: 'content', placeholder: '记录下本次蕃茄完成的内容，方便回顾。'}
+          .flex-around
+            %textarea.tomato-text{name: 'content', placeholder: '记录一下本次完成的内容吧，方便回顾。'}
           .form-group
             %input{type: 'checkbox', 'checked': true}
             %label 保存蕃茄后直接进入休息.
-          .form-group
+            %br
             %input{type: 'checkbox', 'checked': false}
             %label 标记任务为已完成.
           %input#todoIdInput{type: 'hidden'}
           %input#tomatoMinutesInput{type: 'hidden', name: 'minutes'}
-          %button.btn.btn-primary.btn-sm.btn-block#saveTomatoButton{type: 'submit'} 保存蕃茄
+          %button.btn.btn-primary.btn-block#saveTomatoButton{type: 'submit'} 保存蕃茄
 
 

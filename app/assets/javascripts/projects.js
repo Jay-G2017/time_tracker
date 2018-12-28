@@ -126,7 +126,7 @@ $(function(){
     $('form #todoIdInput').val(todoId)
     $('form #tomatoMinutesInput').val(minutes)
     showTomatoTimer(minutes, todoId, function() {
-      $('#tomatoFinishModal').modal()
+      $('#tomatoFinishModal').modal({backdrop: 'static'})
     })
     showTodoListTimer(minutes, todoId)
     disableElementsWhenTomatoStart()
@@ -679,7 +679,6 @@ function showTodoListTimer(minutes, todoId) {
     let percentage = distance / tomatoTime
     if(distance < 0) {
       bar.parent().hide()
-      $('.tomato-start').show()
       clearInterval(todoTimerInterval)
     }
     if(percentage > 0.98) { percentage = 0.98}
