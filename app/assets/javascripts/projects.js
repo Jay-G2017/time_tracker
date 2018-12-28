@@ -631,8 +631,11 @@ $(function(){
       url: url,
       data: {todo: { done: isDone}}
     }).success(function() {
-      $('#todo-check-icon-' + id).toggle()
-      $('#tomato-start-' + id).toggle()
+      if(isDone) {
+        doneTodo(id)
+      } else {
+        undoneTodo(id)
+      }
     })
   })
 
@@ -715,6 +718,7 @@ function addSidebarProjectCount(categoryType, categoryId, count) {
 
 function disableElementsWhenTomatoStart() {
   $('.tomato-start').addClass('disabled')
+  $('.toggle-todo').attr('disabled', true)
   $('.title-add').addClass('disabled')
   $('.todo-add').addClass('disabled')
   $('.category-add').addClass('disabled')
@@ -726,9 +730,10 @@ function disableElementsWhenTomatoStart() {
 }
 
 function enableElementsWhenTomatoStop() {
-  $('.tomato-start').show()
+  $('.tomato-start:not(.done)').show()
   $('.todo-timer').hide()
   $('.tomato-start').removeClass('disabled')
+  $('.toggle-todo').attr('disabled', false)
   $('.title-add').removeClass('disabled')
   $('.todo-add').removeClass('disabled')
   $('.category-add').removeClass('disabled')
@@ -736,5 +741,15 @@ function enableElementsWhenTomatoStop() {
   $('.project-add').removeClass('disabled')
   $('.project-list').removeClass('disabled')
   $('.project-list-dropdown-button').removeClass('disabled')
+}
+
+function doneTodo(id) {
+  $('#todo-check-icon-' + id).show()
+  $('#tomato-start-' + id).addClass('done').hide()
+}
+
+function undoneTodo(id) {
+  $('#todo-check-icon-' + id).hide()
+  $('#tomato-start-' + id).removeClass('done').show()
 }
 

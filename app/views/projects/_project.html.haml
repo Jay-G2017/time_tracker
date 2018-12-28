@@ -35,7 +35,7 @@
               %svg.todo-timer.hide{viewBox: "0 0 20 20"}
                 %circle{r: "8", cx: "10", cy: "10"}
                 %circle.bar{r: "8", cx: "10", cy: "10", id: "todo-timer-bar-#{todo.id}"}
-              %span.tomato-start{id: "tomato-start-#{todo.id}", value: todo.id, class: todo.done ? 'hide' : ''}
+              %span.tomato-start{id: "tomato-start-#{todo.id}", value: todo.id, class: todo.done ? 'hide done' : ''}
                 %i.fas.fa-play-circle
               %span{id: "todo-check-icon-#{todo.id}", class: todo.done ? '' : 'hide'}
                 %i.fas.fa-check
