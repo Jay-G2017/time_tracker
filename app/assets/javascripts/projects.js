@@ -122,7 +122,7 @@ $(function(){
   $('.project-container').on('click', ".tomato-start:not(.disabled)", function() {
     $(this).hide()
     let todoId = $(this).attr('value');
-    let minutes = $('.tomato-time-input').val()
+    let minutes = $('#tomatoTimeInput').val()
     $('form #todoIdInput').val(todoId)
     $('form #tomatoMinutesInput').val(minutes)
     showTomatoTimer(minutes, todoId, function() {
