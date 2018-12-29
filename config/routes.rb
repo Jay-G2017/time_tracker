@@ -21,10 +21,10 @@ Rails.application.routes.draw do
   end
 
   resources :titles, only: [] do
-    resources :todos
+    resources :todos, except: [:update]
   end
 
-  resources :todos, only: [] do
+  resources :todos, only: [:update] do
     resources :tomatoes, only: [:create]
   end
 

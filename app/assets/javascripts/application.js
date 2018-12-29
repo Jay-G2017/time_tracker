@@ -44,7 +44,7 @@ $(function() {
   $('body').on('click', '.tomato-setting-save', function(e) {
     e.preventDefault()
     let tomatoTime = $('#tomatoTimeSelect').val()
-    $('.tomato-time-input').val(tomatoTime)
+    $('#tomatoTimeInput').val(tomatoTime)
     let shortBreakTime = $('#shortBreakTimeSelect').val()
     $('.short-break').attr('value', shortBreakTime)
     let longBreakTime = $('#longBreakTimeSelect').val()
@@ -57,12 +57,15 @@ $(function() {
   $('.project-container-header-row').on('click', '.take-break', function() {
     let minutes = $(this).attr('value')
     showBreakTimer(minutes, function() {
-      Swal({
-        title: '休息结束',
-        text: '选择一个任务开始吧',
-        position: 'top'
-      })
-
+      let lastTodoId = $('#todoIdInput').val()
+      if (lastTodoId) {
+        lastTodoName = $('#todo-list-' + lastTodoId).find('.todo-name').text()
+        $('#lastTodoName').text(lastTodoName)
+        $('#lastTodoIdInput').val(lastTodoId)
+        $('#continueLastTodoModal').modal()
+      } else {
+        $('#breakFinishModal').modal()
+      }
     })
   })
 
@@ -73,6 +76,44 @@ $(function() {
     $('.header-row-content').removeClass('hide');
     enableElementsWhenTomatoStop()
   });
+
+  // save tomato
+  $('#saveTomatoButton').on('click', function(e) {
+    e.preventDefault()
+    let form = $('#tomatoFinishForm')
+    let data = form.serialize()
+    let todoId = $('form #todoIdInput').val()
+    let url = '/todos/' + todoId + '/tomatoes'
+    $.post(url, data, function() {
+      // add today tomato count
+      let todayTomato = $('#todayTomatoNum')
+      let num = todayTomato.text()
+      num = parseInt(num, 10) + 1
+      todayTomato.text(num)
+      // add todo tomato count
+      let todoCount = $('#todo-' + todoId + '-tomato-count')
+      let count = todoCount.text()
+      count = parseInt(count, 10) + 1
+      todoCount.text(count)
+      if($('#takeBreakAfterTomato').prop('checked')) {
+        $('.short-break').click()
+      }
+    }).always(function() {
+      $('#tomatoFinishModal').modal('hide')
+    })
+  })
+
+  // continue last todo
+  $('#continueLastTodo').on('click', function() {
+    let todoId = $('#lastTodoIdInput').val()
+    let minutes = $('#tomatoTimeInput').val()
+    showTomatoTimer(minutes, todoId, function() {
+      $('#tomatoFinishModal').modal({backdrop: 'static'})
+    })
+    showTodoListTimer(minutes, todoId)
+    disableElementsWhenTomatoStart()
+    $('#continueLastTodoModal').modal('hide')
+  })
 
 });
 

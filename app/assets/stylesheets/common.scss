@@ -76,7 +76,7 @@
 label.switcher {
   display: inline-block;
   height: 1em;
-  width: 2em;
+  width: 1.8em;
   position: relative;
   input {
     width: 0;
@@ -91,7 +91,7 @@ label.switcher {
     right: 0;
     border-radius: 1em;
     background-color: $gray-color-light;
-    transition: 0.3s;
+    transition: 0.2s;
   }
   span.slider-my::before {
     content: '';
@@ -103,13 +103,16 @@ label.switcher {
     border-radius: 50%;
     background-color: white;
     box-shadow: 0 0.1em 0.1em rgba(0,0,0,0.5), 0 0 0.1em rgba(100,100,100,0.5);
-    transition: 0.3s;
+    transition: 0.2s;
   }
   input:checked + span.slider-my::before {
-    transform: translateX(1em);
+    transform: translateX(0.8em);
   }
   input:checked + span.slider-my {
     background-color: $primary-color;
+  }
+  input[disabled='disabled']:checked + span.slider-my {
+    background-color: $gray-500;
   }
 }
 

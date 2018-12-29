@@ -19,14 +19,13 @@ class User < ApplicationRecord
     projects.where(done: true)
   end
 
+  def today_tomatoes
+    todo_ids = Todo.where(project_id: project_ids).pluck(:id)
+    Tomato.today.where(todo_id: todo_ids)
+  end
+
   def today_tomato_size
-    num = 0
-    projects.each do |project|
-      project.todos.each do |todo|
-        num += todo.today_tomatoes.size
-      end
-    end
-    num
+    today_tomatoes.count
   end
 
 end
