@@ -115,6 +115,12 @@ $(function() {
     $('#continueLastTodoModal').modal('hide')
   })
 
+  // 关闭tomatoFinishModal后，把输入框和勾选框置为初始
+  $('#tomatoFinishModal').on('hidden.bs.modal', function() {
+    $('.tomato-text').val('')
+    $('#doneTodoAfterTomato').prop('checked', false)
+  })
+
 });
 
 function replaceProjectContent(projectId) {

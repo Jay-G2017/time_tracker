@@ -120,7 +120,13 @@ $(function(){
 
   // start tomato timer
   $('.project-container').on('click', ".tomato-start:not(.disabled)", function() {
-    $(this).hide()
+    if(typeof timerInterval !== 'undefined') {
+      if(confirm('正在休息中，确认开始任务吗?')) {
+        clearInterval(timerInterval)
+      }else{
+        return
+      }
+    }
     let todoId = $(this).attr('value');
     let minutes = $('#tomatoTimeInput').val()
     $('form #todoIdInput').val(todoId)
@@ -668,6 +674,7 @@ function showTomatoTimer(minutes, todoId, callback) {
 }
 
 function showTodoListTimer(minutes, todoId) {
+  $('#tomato-start-' + todoId).hide()
   let bar = $('#todo-timer-bar-' + todoId)
   bar.css('stroke-dashoffset', 50.24 * 0.98)
   bar.parent().show()
