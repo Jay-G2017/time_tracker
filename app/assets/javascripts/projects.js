@@ -120,7 +120,13 @@ $(function(){
 
   // start tomato timer
   $('.project-container').on('click', ".tomato-start:not(.disabled)", function() {
-    $(this).hide()
+    if( isTakingBreak == true ) {
+      if(confirm('正在休息中，确认开始任务吗?')) {
+        clearInterval(timerInterval)
+      }else{
+        return
+      }
+    }
     let todoId = $(this).attr('value');
     let minutes = $('#tomatoTimeInput').val()
     $('form #todoIdInput').val(todoId)
@@ -650,14 +656,17 @@ function showTomatoTimer(minutes, todoId, callback) {
   $('.now-doing-content').text(todoName)
   $('.timer-show > b').text(minutes.padStart(2, 0) + ': 00');
   let finalTime = (new Date).getTime() + minutes * 60 * 1000;
+  let middleAlert = false
   window.timerInterval = setInterval(function() {
     let now = (new Date).getTime()
     let remainedTime = finalTime - now
+    if (remainedTime < minutes * 60 * 1000 / 2 && middleAlert == false) { $('#timeInMiddleAudio')[0].play(); middleAlert = true }
     if (remainedTime >= 0) {
       let minutes = Math.floor((remainedTime % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, 0);
       let seconds = Math.floor((remainedTime % (1000 * 60)) / 1000).toString().padStart(2, 0);
       $('.timer-show > b').text(minutes + ':' + seconds);
     } else {
+      $('#timeFinishAudio')[0].play()
       clearInterval(timerInterval)
       $('.header-row-content').removeClass('hide')
       $('.timer-content').addClass('hide')
@@ -668,6 +677,7 @@ function showTomatoTimer(minutes, todoId, callback) {
 }
 
 function showTodoListTimer(minutes, todoId) {
+  $('#tomato-start-' + todoId).hide()
   let bar = $('#todo-timer-bar-' + todoId)
   bar.css('stroke-dashoffset', 50.24 * 0.98)
   bar.parent().show()
