@@ -126,6 +126,19 @@ $(function() {
     $('#doneTodoAfterTomato').prop('checked', false)
   })
 
+  // today tomato timeline 今日蕃茄时间线
+  $('.today-tomato').on('click', function() {
+    $('#todayTomatoTimelineModal').modal()
+    let url = '/today_tomatoes'
+    $.get(url, function(data) {
+      data.forEach(function(tomato) {
+        let tmpl = $.templates('#todayTomatoTimelineBlockTemplate')
+        let timelineHtml = tmpl.render(tomato)
+        $('.today-tomato-timeline-container').append(timelineHtml)
+      })
+    })
+  })
+
 });
 
 function replaceProjectContent(projectId) {

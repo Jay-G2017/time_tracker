@@ -117,3 +117,20 @@ body .dropdown-item:hover {
     min-height: 8rem;
   }
 }
+
+#todayTomatoTimelineModal {
+  .modal-body {
+    background-color: #eaf0f5;
+  }
+
+  .timeline-content {
+    padding: 0.5em;
+    margin: 0.5em;
+    background-color: white;
+    border-radius: 3px;
+    h2 {
+      font-size: 20px;
+    }
+  }
+
+}

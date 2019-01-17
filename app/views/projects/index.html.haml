@@ -130,4 +130,21 @@
         .flex-around.form-group
           %h6 选择一个任务开始吧!
         %button.btn.btn-primary.btn-block OK
-
+.modal.fade#todayTomatoTimelineModal
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %h5.modal-title 今日完成的蕃茄
+        %button.close{'data-dismiss': 'modal'}
+          %span &times;
+      .modal-body
+        .today-tomato-timeline-container
+%script{ id: 'todayTomatoTimelineBlockTemplate', type: 'text/x-jsrender' }
+  .timeline-block
+    .timeline-logo
+    .timeline-content
+      %h2 {{:todo_name}}
+      %p {{:content}}
+      .flex
+        %span {{:created_at}}
+        %span {{:minutes}}
