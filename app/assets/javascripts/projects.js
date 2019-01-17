@@ -656,14 +656,17 @@ function showTomatoTimer(minutes, todoId, callback) {
   $('.now-doing-content').text(todoName)
   $('.timer-show > b').text(minutes.padStart(2, 0) + ': 00');
   let finalTime = (new Date).getTime() + minutes * 60 * 1000;
+  let middleAlert = false
   window.timerInterval = setInterval(function() {
     let now = (new Date).getTime()
     let remainedTime = finalTime - now
+    if (remainedTime < minutes * 60 * 1000 / 2 && middleAlert == false) { $('#timeInMiddleAudio')[0].play(); middleAlert = true }
     if (remainedTime >= 0) {
       let minutes = Math.floor((remainedTime % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, 0);
       let seconds = Math.floor((remainedTime % (1000 * 60)) / 1000).toString().padStart(2, 0);
       $('.timer-show > b').text(minutes + ':' + seconds);
     } else {
+      $('#timeFinishAudio')[0].play()
       clearInterval(timerInterval)
       $('.header-row-content').removeClass('hide')
       $('.timer-content').addClass('hide')

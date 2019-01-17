@@ -55,6 +55,7 @@ $(function() {
 
   // take a break, short break or long break
   $('.project-container-header-row').on('click', '.take-break', function() {
+    let target = $(this)
     let minutes = $(this).attr('value')
     showBreakTimer(minutes, function() {
       let lastTodoId = $('#todoIdInput').val()
@@ -71,6 +72,7 @@ $(function() {
 
   // cancel break timer
   $('.break-timer-cancel').on('click', function(){
+    $('#takeBreakAudio')[0].load()
     clearInterval(timerInterval);
     $('.timer-content').addClass('hide');
     $('.header-row-content').removeClass('hide');
@@ -145,6 +147,7 @@ function showMessage(data, timeout=3000) {
 }
 
 function showBreakTimer(minutes, callback) {
+  $('#takeBreakAudio')[0].play()
   $('.header-row-content, .tomato-timer-content').addClass('hide')
   $('.break-timer-content').removeClass('hide')
   $('.timer-show > b').text(minutes.padStart(2, 0) + ': 00');
@@ -158,6 +161,7 @@ function showBreakTimer(minutes, callback) {
       let seconds = Math.floor((remainedTime % (1000 * 60)) / 1000).toString().padStart(2, 0);
       $('.timer-show > b').text(minutes + ':' + seconds);
     } else {
+      $('#timeFinishAudio')[0].play()
       clearInterval(timerInterval)
       $('.header-row-content').removeClass('hide')
       $('.timer-content').addClass('hide')
