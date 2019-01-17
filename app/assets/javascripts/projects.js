@@ -120,7 +120,7 @@ $(function(){
 
   // start tomato timer
   $('.project-container').on('click', ".tomato-start:not(.disabled)", function() {
-    if(typeof timerInterval !== 'undefined') {
+    if( isTakingBreak == true ) {
       if(confirm('正在休息中，确认开始任务吗?')) {
         clearInterval(timerInterval)
       }else{

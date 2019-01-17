@@ -21,6 +21,8 @@
 //= require_tree .
 
 $(function() {
+  window.isTakingBreak = false
+
   $('.flash-close').on('click', function() {
     $('.flash-container').hide();
   })
@@ -74,6 +76,7 @@ $(function() {
   $('.break-timer-cancel').on('click', function(){
     $('#takeBreakAudio')[0].load()
     clearInterval(timerInterval);
+    isTakingBreak = false
     $('.timer-content').addClass('hide');
     $('.header-row-content').removeClass('hide');
     enableElementsWhenTomatoStop()
@@ -147,6 +150,7 @@ function showMessage(data, timeout=3000) {
 }
 
 function showBreakTimer(minutes, callback) {
+  isTakingBreak = true
   $('#takeBreakAudio')[0].play()
   $('.header-row-content, .tomato-timer-content').addClass('hide')
   $('.break-timer-content').removeClass('hide')
@@ -163,6 +167,7 @@ function showBreakTimer(minutes, callback) {
     } else {
       $('#timeFinishAudio')[0].play()
       clearInterval(timerInterval)
+      isTakingBreak = false
       $('.header-row-content').removeClass('hide')
       $('.timer-content').addClass('hide')
       if (callback) { callback() }
