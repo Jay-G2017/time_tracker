@@ -106,3 +106,14 @@ body .dropdown-item:hover {
     margin-top: 1em;
   }
 }
+
+#tomatoFinishForm {
+  .tomato-text {
+    flex: 1 1 auto;
+    border-radius: 0.2em;
+    border: 1px solid $gray-500;
+    padding: 0.6em;
+    margin-bottom: 1rem;
+    min-height: 8rem;
+  }
+}

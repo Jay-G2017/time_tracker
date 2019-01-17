@@ -21,6 +21,8 @@
 //= require_tree .
 
 $(function() {
+  window.isTakingBreak = false
+
   $('.flash-close').on('click', function() {
     $('.flash-container').hide();
   })
@@ -44,7 +46,7 @@ $(function() {
   $('body').on('click', '.tomato-setting-save', function(e) {
     e.preventDefault()
     let tomatoTime = $('#tomatoTimeSelect').val()
-    $('.tomato-time-input').val(tomatoTime)
+    $('#tomatoTimeInput').val(tomatoTime)
     let shortBreakTime = $('#shortBreakTimeSelect').val()
     $('.short-break').attr('value', shortBreakTime)
     let longBreakTime = $('#longBreakTimeSelect').val()
@@ -55,24 +57,74 @@ $(function() {
 
   // take a break, short break or long break
   $('.project-container-header-row').on('click', '.take-break', function() {
+    let target = $(this)
     let minutes = $(this).attr('value')
     showBreakTimer(minutes, function() {
-      Swal({
-        title: '休息结束',
-        text: '选择一个任务开始吧',
-        position: 'top'
-      })
-
+      let lastTodoId = $('#todoIdInput').val()
+      if (lastTodoId) {
+        lastTodoName = $('#todo-list-' + lastTodoId).find('.todo-name').text()
+        $('#lastTodoName').text(lastTodoName)
+        $('#lastTodoIdInput').val(lastTodoId)
+        $('#continueLastTodoModal').modal()
+      } else {
+        $('#breakFinishModal').modal()
+      }
     })
   })
 
   // cancel break timer
   $('.break-timer-cancel').on('click', function(){
+    $('#takeBreakAudio')[0].load()
     clearInterval(timerInterval);
+    isTakingBreak = false
     $('.timer-content').addClass('hide');
     $('.header-row-content').removeClass('hide');
     enableElementsWhenTomatoStop()
   });
+
+  // save tomato
+  $('#saveTomatoButton').on('click', function(e) {
+    e.preventDefault()
+    let form = $('#tomatoFinishForm')
+    let data = form.serialize()
+    let todoId = $('form #todoIdInput').val()
+    let url = '/todos/' + todoId + '/tomatoes'
+    $.post(url, data, function() {
+      // add today tomato count
+      let todayTomato = $('#todayTomatoNum')
+      let num = todayTomato.text()
+      num = parseInt(num, 10) + 1
+      todayTomato.text(num)
+      // add todo tomato count
+      let todoCount = $('#todo-' + todoId + '-tomato-count')
+      let count = todoCount.text()
+      count = parseInt(count, 10) + 1
+      todoCount.text(count)
+      if($('#takeBreakAfterTomato').prop('checked')) {
+        $('.short-break').click()
+      }
+    }).always(function() {
+      $('#tomatoFinishModal').modal('hide')
+    })
+  })
+
+  // continue last todo
+  $('#continueLastTodo').on('click', function() {
+    let todoId = $('#lastTodoIdInput').val()
+    let minutes = $('#tomatoTimeInput').val()
+    showTomatoTimer(minutes, todoId, function() {
+      $('#tomatoFinishModal').modal({backdrop: 'static'})
+    })
+    showTodoListTimer(minutes, todoId)
+    disableElementsWhenTomatoStart()
+    $('#continueLastTodoModal').modal('hide')
+  })
+
+  // 关闭tomatoFinishModal后，把输入框和勾选框置为初始
+  $('#tomatoFinishModal').on('hidden.bs.modal', function() {
+    $('.tomato-text').val('')
+    $('#doneTodoAfterTomato').prop('checked', false)
+  })
 
 });
 
@@ -98,6 +150,8 @@ function showMessage(data, timeout=3000) {
 }
 
 function showBreakTimer(minutes, callback) {
+  isTakingBreak = true
+  $('#takeBreakAudio')[0].play()
   $('.header-row-content, .tomato-timer-content').addClass('hide')
   $('.break-timer-content').removeClass('hide')
   $('.timer-show > b').text(minutes.padStart(2, 0) + ': 00');
@@ -111,7 +165,9 @@ function showBreakTimer(minutes, callback) {
       let seconds = Math.floor((remainedTime % (1000 * 60)) / 1000).toString().padStart(2, 0);
       $('.timer-show > b').text(minutes + ':' + seconds);
     } else {
+      $('#timeFinishAudio')[0].play()
       clearInterval(timerInterval)
+      isTakingBreak = false
       $('.header-row-content').removeClass('hide')
       $('.timer-content').addClass('hide')
       if (callback) { callback() }

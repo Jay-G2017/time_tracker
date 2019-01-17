@@ -120,11 +120,19 @@ $(function(){
 
   // start tomato timer
   $('.project-container').on('click', ".tomato-start:not(.disabled)", function() {
-    $(this).hide()
+    if( isTakingBreak == true ) {
+      if(confirm('正在休息中，确认开始任务吗?')) {
+        clearInterval(timerInterval)
+      }else{
+        return
+      }
+    }
     let todoId = $(this).attr('value');
-    let minutes = $('.tomato-time-input').val()
+    let minutes = $('#tomatoTimeInput').val()
+    $('form #todoIdInput').val(todoId)
+    $('form #tomatoMinutesInput').val(minutes)
     showTomatoTimer(minutes, todoId, function() {
-      $('#tomatoFinishModal').modal()
+      $('#tomatoFinishModal').modal({backdrop: 'static'})
     })
     showTodoListTimer(minutes, todoId)
     disableElementsWhenTomatoStart()
@@ -215,7 +223,8 @@ $(function(){
       var todoEditName = $(this).val();
       //make sure input not empty
       if(todoEditName) {
-        var url = target.attr('url');
+        var todoId = target.attr('value')
+        var url = '/todos/' + todoId
         var data = {todo: {name: todoEditName}};
 
         $.ajax({
@@ -618,6 +627,24 @@ $(function(){
     })
   })
 
+  // toggle todo
+  $('.project-container').on('click', '.toggle-todo', function() {
+    let isDone = $(this).prop('checked')
+    let id = $(this).val()
+    let url = '/todos/' + id
+    $.ajax({
+      method: 'patch',
+      url: url,
+      data: {todo: { done: isDone}}
+    }).success(function() {
+      if(isDone) {
+        doneTodo(id)
+      } else {
+        undoneTodo(id)
+      }
+    })
+  })
+
 
 
 });
@@ -629,14 +656,17 @@ function showTomatoTimer(minutes, todoId, callback) {
   $('.now-doing-content').text(todoName)
   $('.timer-show > b').text(minutes.padStart(2, 0) + ': 00');
   let finalTime = (new Date).getTime() + minutes * 60 * 1000;
+  let middleAlert = false
   window.timerInterval = setInterval(function() {
     let now = (new Date).getTime()
     let remainedTime = finalTime - now
+    if (remainedTime < minutes * 60 * 1000 / 2 && middleAlert == false) { $('#timeInMiddleAudio')[0].play(); middleAlert = true }
     if (remainedTime >= 0) {
       let minutes = Math.floor((remainedTime % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, 0);
       let seconds = Math.floor((remainedTime % (1000 * 60)) / 1000).toString().padStart(2, 0);
       $('.timer-show > b').text(minutes + ':' + seconds);
     } else {
+      $('#timeFinishAudio')[0].play()
       clearInterval(timerInterval)
       $('.header-row-content').removeClass('hide')
       $('.timer-content').addClass('hide')
@@ -647,6 +677,7 @@ function showTomatoTimer(minutes, todoId, callback) {
 }
 
 function showTodoListTimer(minutes, todoId) {
+  $('#tomato-start-' + todoId).hide()
   let bar = $('#todo-timer-bar-' + todoId)
   bar.css('stroke-dashoffset', 50.24 * 0.98)
   bar.parent().show()
@@ -658,7 +689,6 @@ function showTodoListTimer(minutes, todoId) {
     let percentage = distance / tomatoTime
     if(distance < 0) {
       bar.parent().hide()
-      $('.tomato-start').show()
       clearInterval(todoTimerInterval)
     }
     if(percentage > 0.98) { percentage = 0.98}
@@ -697,6 +727,7 @@ function addSidebarProjectCount(categoryType, categoryId, count) {
 
 function disableElementsWhenTomatoStart() {
   $('.tomato-start').addClass('disabled')
+  $('.toggle-todo').attr('disabled', true)
   $('.title-add').addClass('disabled')
   $('.todo-add').addClass('disabled')
   $('.category-add').addClass('disabled')
@@ -708,9 +739,10 @@ function disableElementsWhenTomatoStart() {
 }
 
 function enableElementsWhenTomatoStop() {
-  $('.tomato-start').show()
+  $('.tomato-start:not(.done)').show()
   $('.todo-timer').hide()
   $('.tomato-start').removeClass('disabled')
+  $('.toggle-todo').attr('disabled', false)
   $('.title-add').removeClass('disabled')
   $('.todo-add').removeClass('disabled')
   $('.category-add').removeClass('disabled')
@@ -720,43 +752,13 @@ function enableElementsWhenTomatoStop() {
   $('.project-list-dropdown-button').removeClass('disabled')
 }
 
-  /*
-  # colapse sidebar
-  $('.to-category-sidebar-link').on 'click', ->
-    $('.project-sidebar, .project-sidebar-header-row').hide()
-    $('.category-sidebar, .category-sidebar-header-row').show()
+function doneTodo(id) {
+  $('#todo-check-icon-' + id).show()
+  $('#tomato-start-' + id).addClass('done').hide()
+}
 
-  $('.to-project-sidebar-link').on 'click', ->
-    $('.project-sidebar, .project-sidebar-header-row').show()
-    $('.project-container, .project-container-header-row').hide()
-  */
-
-/*
-*/
-
-
-/*
-createTomato = (minutes, todoId) ->
-  url = 'todos/' + todoId + '/tomatoes?minutes=' + minutes
-  $.post url, (data) ->
-    afterTomatoDone()
-
-afterTomatoDone = ->
-  todayTomato = parseInt($('#today-tomato-num').text(), 10) + 1
-  $('#today-tomato-num').text(todayTomato)
-
-  $('.tomato-timer-header-row').hide()
-  $('.project-container-header-row').show()
-
-  $('.tomato-button').removeClass('disabled').removeClass('clicked')
-
-  # todoTotalTomato = $('#todo-'+ data['id'] + '-total-tomato')
-  # todoTotalTomatoNum = parseInt(todoTotalTomato.text(), 10) + 1
-  # todoTotalTomato.text(todoTotalTomatoNum)
-
-  # todoTodayTomato = $('#todo-'+ data['id'] + '-today-tomato')
-  # todoTodayTomatoNum = parseInt(todoTodayTomato.text(), 10) + 1
-  # todoTodayTomato.text(todoTodayTomatoNum)
-  */
-
+function undoneTodo(id) {
+  $('#todo-check-icon-' + id).hide()
+  $('#tomato-start-' + id).removeClass('done').show()
+}
 
