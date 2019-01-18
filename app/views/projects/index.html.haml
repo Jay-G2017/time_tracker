@@ -153,3 +153,27 @@
       .flex
         %span.tomato-finish-time {{:created_at}}分
         %span.tomato-minutes {{:minutes}}分钟
+
+.modal.fade#todoTomatoesTimelineModal
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %h5.modal-title 该任务下的蕃茄
+        %button.close{'data-dismiss': 'modal'}
+          %span &times;
+      .modal-body
+        .flex-around
+          %span#todoTomatoesTimelineLoading.hide
+            %i.fas.fa-spinner.fa-spin
+        .todo-tomatoes-timeline-container
+%script{ id: 'todoTomatoesTimelineBlockTemplate', type: 'text/x-jsrender' }
+  .timeline-block.flex
+    .timeline-logo.flex-around.align-center
+      %span.timeline-logo-sun
+        %i.fas.fa-image
+    .timeline-content
+      %h2 {{:todo_name}}
+      %pre {{:content}}
+      .flex
+        %span.tomato-finish-time {{:created_at}}分
+        %span.tomato-minutes {{:minutes}}分钟

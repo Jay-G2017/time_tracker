@@ -645,7 +645,26 @@ $(function(){
     })
   })
 
+  // todo tomatoes timeline 每个todo上展示蕃茄时间线
+  $('.project-container').on('click', '.todo-tomatoes-timeline', function() {
+    $('#todoTomatoesTimelineLoading').show()
+    $('#todoTomatoesTimelineModal').modal()
+    let todoId = $(this).attr('value')
+    let url = '/todos/' + todoId + '/tomatoes_timeline'
+    $.get(url, function(data) {
+      data.forEach(function(tomato) {
+        let tmpl = $.templates('#todoTomatoesTimelineBlockTemplate')
+        let timelineHtml = tmpl.render(tomato)
+        $('.todo-tomatoes-timeline-container').append(timelineHtml)
+      })
+      $('#todoTomatoesTimelineLoading').hide()
+    })
+  })
 
+  // 关闭todo tomato modal后，把内容清空
+  $('#todoTomatoesTimelineModal').on('hidden.bs.modal', function() {
+    $('.todo-tomatoes-timeline-container').empty()
+  })
 
 });
 

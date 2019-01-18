@@ -27,6 +27,9 @@ Rails.application.routes.draw do
 
   resources :todos, only: [:update] do
     resources :tomatoes, only: [:create]
+    member do
+      get 'tomatoes_timeline'
+    end
   end
 
   resources :categories do

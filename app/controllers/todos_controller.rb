@@ -23,6 +23,18 @@ class TodosController < ApplicationController
     render json: { success: true }
   end
 
+  def tomatoes_timeline
+    todo = Todo.find params[:id]
+    tomatoes = todo.tomatoes
+    result = []
+    tomatoes.each do |tomato|
+      result << { id: tomato.id, content: tomato.content, todo_name: tomato.todo.name,
+                  minutes: tomato.minutes, created_at: tomato.created_at.strftime('%H:%M') }
+    end
+
+    render json: result
+  end
+
   private
   def todo_params
     params.require(:todo).permit(:name, :done)
