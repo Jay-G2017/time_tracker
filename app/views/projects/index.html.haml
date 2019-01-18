@@ -22,10 +22,10 @@
       .to-project-sidebar-link.hide
         %span
           %i{class: 'fas fa-arrow-left'}
-      .today-tomato
+      .today-tomatoes
         %span 今日蕃茄🍅
-        - today_num = current_user.today_tomato_size
-        %span#todayTomatoNum= today_num
+        - today_num = current_user.today_tomatoes_size
+        %span#todayTomatoesNum= today_num
       .take-break-button-group
         %a.btn.short-break.take-break{value: 5}
           %i.fas.fa-cookie-bite
@@ -130,7 +130,7 @@
         .flex-around.form-group
           %h6 选择一个任务开始吧!
         %button.btn.btn-primary.btn-block OK
-.modal.fade#todayTomatoTimelineModal
+.modal.fade#todayTomatoesTimelineModal
   .modal-dialog
     .modal-content
       .modal-header
@@ -138,13 +138,18 @@
         %button.close{'data-dismiss': 'modal'}
           %span &times;
       .modal-body
-        .today-tomato-timeline-container
-%script{ id: 'todayTomatoTimelineBlockTemplate', type: 'text/x-jsrender' }
-  .timeline-block
-    .timeline-logo
+        .flex-around
+          %span#todayTomatoesTimelineLoading.hide
+            %i.fas.fa-spinner.fa-spin
+        .today-tomatoes-timeline-container
+%script{ id: 'todayTomatoesTimelineBlockTemplate', type: 'text/x-jsrender' }
+  .timeline-block.flex
+    .timeline-logo.flex-around.align-center
+      %span.timeline-logo-sun
+        %i.fas.fa-image
     .timeline-content
       %h2 {{:todo_name}}
-      %p {{:content}}
+      %pre {{:content}}
       .flex
-        %span {{:created_at}}
-        %span {{:minutes}}
+        %span.tomato-finish-time {{:created_at}}分
+        %span.tomato-minutes {{:minutes}}分钟
