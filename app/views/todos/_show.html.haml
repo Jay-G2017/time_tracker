@@ -2,7 +2,7 @@
   %svg.todo-timer.hide{viewBox: "0 0 20 20"}
     %circle{r: "8", cx: "10", cy: "10"}
     %circle.bar{r: "8", cx: "10", cy: "10", id: "todo-timer-bar-#{todo.id}"}
-  %span.tomato-start{value: todo.id}
+  %span.tomato-start{value: todo.id, id: "tomato-start-#{todo.id}"}
     %i.fas.fa-play-circle
   .todo-list-content{value: todo.id}
     .todo-name.text-p
