@@ -4,7 +4,7 @@
     %circle.bar{r: "8", cx: "10", cy: "10", id: "todo-timer-bar-#{todo.id}"}
   %span.tomato-start{value: todo.id}
     %i.fas.fa-play-circle
-  .todo-list-content{url: title_todo_path(title, todo)}
+  .todo-list-content{value: todo.id}
     .todo-name.text-p
       = todo.name
     .second-row.flex.align-center

@@ -117,3 +117,71 @@ body .dropdown-item:hover {
     min-height: 8rem;
   }
 }
+
+#todayTomatoesTimelineModal * {
+  box-sizing: border-box;
+}
+#todayTomatoesTimelineModal {
+  .modal-body {
+    background-color: $timeline-bg-color;
+  }
+
+  .today-tomatoes-timeline-container {
+    position: relative;
+    border: 1px solid transparent;
+  }
+  .today-tomatoes-timeline-container:before {
+    content: '';
+    position: absolute;
+    left: 1.2em;
+    top: 0;
+    height: 100%;
+    width: 0.2em;
+    margin-left: -0.1em;
+    background-color: $timeline-vertical-line-color;
+  }
+  .timeline-block {
+    margin: 1em auto;
+  }
+  .timeline-logo {
+    flex: none;
+    width: 2.4em;
+    height: 2.4em;
+    border-radius: 50%;
+    border: 0.2em solid white;
+    background-color: $success-color;
+    margin-right: 20px;
+    z-index: 1;
+    .timeline-logo-sun {
+      color: white;
+    }
+  }
+  .timeline-content {
+    flex: auto;
+    position: relative;
+    padding: 0.5em;
+    background-color: white;
+    border-radius: 3px;
+    box-shadow: 0 2px 1px $box-shadow-color;
+    h2 {
+      font-size: 16px;
+    }
+    pre {
+      white-space: pre-wrap;
+    }
+    .tomato-finish-time {
+      margin-right: 2em;
+    }
+  }
+  .timeline-content:before {
+    content: '';
+    position: absolute;
+    right: 100%;
+    height: 0;
+    width: 0;
+    top: calc(1.2em - 0.5em);
+    border: 0.5em solid transparent;
+    border-right: 0.5em solid white;
+  }
+
+}
