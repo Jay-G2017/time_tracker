@@ -175,13 +175,14 @@ $(function(){
 
   // create todo
   $('.project-container').on('click', '.todo-add:not(.disabled)', function() {
-    $(this).addClass('disabled')
+    var target = $(this)
+    target.addClass('disabled')
     var url = $(this).attr('url');
     var titleId = $(this).attr('value');
     var data = { todo: {name: '默认名字'} };
 
     $.post(url, data, function(data) {
-      $(this).removeClass('disabled')
+      target.removeClass('disabled')
       $('#title-todos-container-' + titleId).append(data);
 
       var todoId = $(data).find('.todo-delete').attr('value');
