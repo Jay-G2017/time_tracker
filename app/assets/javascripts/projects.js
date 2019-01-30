@@ -175,13 +175,14 @@ $(function(){
 
   // create todo
   $('.project-container').on('click', '.todo-add:not(.disabled)', function() {
-    $(this).addClass('disabled')
+    var target = $(this)
+    target.addClass('disabled')
     var url = $(this).attr('url');
     var titleId = $(this).attr('value');
     var data = { todo: {name: '默认名字'} };
 
     $.post(url, data, function(data) {
-      $(this).removeClass('disabled')
+      target.removeClass('disabled')
       $('#title-todos-container-' + titleId).append(data);
 
       var todoId = $(data).find('.todo-delete').attr('value');
@@ -645,7 +646,26 @@ $(function(){
     })
   })
 
+  // todo tomatoes timeline 每个todo上展示蕃茄时间线
+  $('.project-container').on('click', '.todo-tomatoes-timeline', function() {
+    $('#todoTomatoesTimelineLoading').show()
+    $('#todoTomatoesTimelineModal').modal()
+    let todoId = $(this).attr('value')
+    let url = '/todos/' + todoId + '/tomatoes_timeline'
+    $.get(url, function(data) {
+      data.forEach(function(tomato) {
+        let tmpl = $.templates('#todoTomatoesTimelineBlockTemplate')
+        let timelineHtml = tmpl.render(tomato)
+        $('.todo-tomatoes-timeline-container').append(timelineHtml)
+      })
+      $('#todoTomatoesTimelineLoading').hide()
+    })
+  })
 
+  // 关闭todo tomato modal后，把内容清空
+  $('#todoTomatoesTimelineModal').on('hidden.bs.modal', function() {
+    $('.todo-tomatoes-timeline-container').empty()
+  })
 
 });
 

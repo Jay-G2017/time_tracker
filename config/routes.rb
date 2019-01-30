@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get 'log_in', to: 'sessions#new', as: 'log_in'
   get 'log_out', to: 'sessions#destroy', as: 'log_out'
   get 'time_tracker', to: 'projects#first_load'
+  get 'today_tomatoes', to: 'tomatoes#today_tomatoes'
 
   resources :users
   resources :sessions
@@ -26,6 +27,9 @@ Rails.application.routes.draw do
 
   resources :todos, only: [:update] do
     resources :tomatoes, only: [:create]
+    member do
+      get 'tomatoes_timeline'
+    end
   end
 
   resources :categories do

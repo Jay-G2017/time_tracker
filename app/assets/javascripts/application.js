@@ -91,10 +91,10 @@ $(function() {
     let url = '/todos/' + todoId + '/tomatoes'
     $.post(url, data, function() {
       // add today tomato count
-      let todayTomato = $('#todayTomatoNum')
-      let num = todayTomato.text()
+      let todayTomatoes = $('#todayTomatoesNum')
+      let num = todayTomatoes.text()
       num = parseInt(num, 10) + 1
-      todayTomato.text(num)
+      todayTomatoes.text(num)
       // add todo tomato count
       let todoCount = $('#todo-' + todoId + '-tomato-count')
       let count = todoCount.text()
@@ -124,6 +124,26 @@ $(function() {
   $('#tomatoFinishModal').on('hidden.bs.modal', function() {
     $('.tomato-text').val('')
     $('#doneTodoAfterTomato').prop('checked', false)
+  })
+
+  // today tomato timeline 今日蕃茄时间线
+  $('.today-tomatoes').on('click', function() {
+    $('#todayTomatoesTimelineLoading').show()
+    $('#todayTomatoesTimelineModal').modal()
+    let url = '/today_tomatoes'
+    $.get(url, function(data) {
+      data.forEach(function(tomato) {
+        let tmpl = $.templates('#todayTomatoesTimelineBlockTemplate')
+        let timelineHtml = tmpl.render(tomato)
+        $('.today-tomatoes-timeline-container').append(timelineHtml)
+      })
+      $('#todayTomatoesTimelineLoading').hide()
+    })
+  })
+
+  // 关闭today tomato modal后，把内容清空
+  $('#todayTomatoesTimelineModal').on('hidden.bs.modal', function() {
+    $('.today-tomatoes-timeline-container').empty()
   })
 
 });

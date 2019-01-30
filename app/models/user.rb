@@ -24,7 +24,7 @@ class User < ApplicationRecord
     Tomato.today.where(todo_id: todo_ids)
   end
 
-  def today_tomato_size
+  def today_tomatoes_size
     today_tomatoes.count
   end
 

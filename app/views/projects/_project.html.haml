@@ -43,7 +43,7 @@
                 .todo-name.text-p
                   = todo.name
                 .second-row.flex.align-center
-                  %span.badge.badge-primary.mr-2{id: "todo-#{todo.id}-tomato-count"}= todo.tomatoes.count
+                  %span.badge.badge-primary.mr-2.todo-tomatoes-timeline{id: "todo-#{todo.id}-tomato-count", value: todo.id}= todo.tomatoes.count
                   .todo-delete.second-row-item{url: title_todo_path(title, todo), value: todo.id, title_id: title.id}
                     %span
                       %i.fas.fa-trash-alt
