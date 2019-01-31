@@ -1,15 +1,10 @@
 Rails.application.routes.draw do
+  devise_for :users
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root 'welcome#index'
 
-  get 'sign_up', to: 'users#new', as: 'sign_up'
-  get 'log_in', to: 'sessions#new', as: 'log_in'
-  get 'log_out', to: 'sessions#destroy', as: 'log_out'
   get 'time_tracker', to: 'projects#first_load'
   get 'today_tomatoes', to: 'tomatoes#today_tomatoes'
-
-  resources :users
-  resources :sessions
 
   resources :projects, only: [:show, :edit, :update, :destroy] do
     resources :titles

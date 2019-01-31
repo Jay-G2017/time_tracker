@@ -13,6 +13,8 @@ gem 'mysql2', '>= 0.4.4', '< 0.6.0'
 gem 'unicorn'
 gem 'unicorn-worker-killer'
 
+gem 'devise'
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
