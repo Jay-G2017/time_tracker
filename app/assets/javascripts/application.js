@@ -23,6 +23,10 @@
 $(function() {
   window.isTakingBreak = false
 
+  $.ajaxSetup({
+    statusCode: { 401: function() { window.location.href = '/users/sign_in' } }
+  })
+
   $('.flash-close').on('click', function() {
     $('.flash-container').hide();
   })

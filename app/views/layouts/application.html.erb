@@ -7,27 +7,12 @@
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
   </head>
 
   <body>
-    <% flash.each do |name, msg| %>
-      <%= content_tag :div, msg, :id => "flash#{name}" %>
-    <% end %>
-
-    <div class='header'>
-      <div class='left-zone'>
-        <%= link_to 'Home', root_url %>
-      </div>
-      <div class='right-zone'>
-        <% if current_user %>
-          Logged in with <%= current_user.email %>
-          <%= link_to 'Log out', log_out_path %>
-        <% else %>
-          <%= link_to 'Log in', log_in_path %>
-          <%= link_to 'Sign up', sign_up_path %>
-        <% end %>
-      </div>
-    </div>
+    <%= render 'shared/home_flashes' %>
+    <%= render 'shared/home_navbar' %>
 
     <%= yield %>
   </body>
