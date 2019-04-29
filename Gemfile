@@ -47,6 +47,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 
 gem 'grape'
 gem 'grape-active_model_serializers'
+gem 'rack-cors'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
