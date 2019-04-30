@@ -22,8 +22,8 @@ module TimeTracker
 
     config.middleware.insert_before 0, Rack::Cors do
       allow do
-        origins '*'
-        resource '*', :headers => :any, :methods => [:get, :post, :patch, :put, :options, :delete]
+        origins /localhost:300\d\z/
+        resource '/api/*', :headers => :any, :methods => [:get, :post, :patch, :put, :options, :delete]
       end
     end
   end
