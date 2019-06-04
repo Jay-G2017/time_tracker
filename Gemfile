@@ -70,6 +70,9 @@ group :development do
   gem 'capistrano-rvm', require: false
   gem 'capistrano-git-copy', '1.2.0', require: false
   gem 'capistrano-sidekiq', github: 'seuros/capistrano-sidekiq'
+
+  gem 'grape-swagger'
+  gem 'grape-swagger-rails'
 end
 
 group :test do
