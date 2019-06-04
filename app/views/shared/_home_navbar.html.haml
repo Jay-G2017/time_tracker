@@ -1,0 +1,8 @@
+.home-navbar.flex-between
+  .logo-div
+  .login-div.flex
+    - if current_user
+      %a.btn.btn-link{href: '/users/sign_out', 'data-method': 'delete'} 登出
+    - else
+      %a.btn.btn-link{href: '/users/sign_in'} 登录
+      %a.btn.btn-link{href: '/users/sign_up'} 注册
