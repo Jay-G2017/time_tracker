@@ -4,5 +4,6 @@ module V1
     mount V1::Projects
     mount V1::Todos
     mount V1::Titles
+    mount V1::Categories
   end
 end
