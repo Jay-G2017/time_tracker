@@ -12,9 +12,19 @@ module TimeTracker
     config.load_defaults 5.2
     config.time_zone = 'Asia/Shanghai'
 
+    config.paths.add 'app/api', glob: '**/*.rb'
+    config.autoload_paths += Dir["#{Rails.root}/app/api/*"]
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
+
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins /localhost:300\d\z/
+        resource '/api/*', :headers => :any, :methods => [:get, :post, :patch, :put, :options, :delete]
+      end
+    end
   end
 end
