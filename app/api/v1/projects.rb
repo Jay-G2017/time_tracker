@@ -10,6 +10,19 @@ module V1
 
         render project, include: 'titles.todos'
       end
+
+      desc '创建一个todo'
+      params do
+        requires :id, type: Integer, desc: 'project id'
+        requires :name, type: String, desc: 'todo name'
+      end
+      post ":id/todos" do
+        project = Project.find params[:id]
+        project.todos.create!(name: params[:name])
+
+        result = {success: true}
+        render result
+      end
     end
 
   end

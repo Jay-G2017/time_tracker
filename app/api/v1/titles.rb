@@ -9,9 +9,10 @@ module V1
 
       post ":id/todos" do
         title = Title.find params[:id]
-        title.todos.create!(name: params[:name])
-
+        todo = title.todos.build(name: params[:name])
         project = title.project
+        todo.project = project
+        todo.save
 
         render project, include: 'titles.todos'
       end
