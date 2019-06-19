@@ -9,9 +9,8 @@ module V1
         todo = Todo.find params[:id]
         todo.destroy!
 
-        project = todo.project
-
-        render project, include: 'titles.todos'
+        result = {success: true}
+        render result
       end
     end
 
