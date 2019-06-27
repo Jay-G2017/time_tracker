@@ -1,5 +1,5 @@
-server "time_tracker", roles: [:app], :primary => true
-set :deploy_to, "/var/www/time_tracker_beta/"
+server "tomato_aws_asia_deploy", roles: [:app], :primary => true
+set :deploy_to, "/var/www/ttnote_beta/"
 set :rails_env, 'development'
 set :branch, 'beta'
 set :bundle_without, '""'
