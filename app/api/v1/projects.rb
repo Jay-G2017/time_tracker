@@ -11,14 +11,23 @@ module V1
         render project, include: 'titles.todos'
       end
 
-      desc '创建一个todo'
+      desc '创建一个todo, 参数title_id可不传, 如果不传就建在project下'
       params do
         requires :id, type: Integer, desc: 'project id'
         requires :name, type: String, desc: 'todo name'
+        optional :title_id, type: String, desc: 'title id'
       end
       post ":id/todos" do
         project = Project.find params[:id]
-        project.todos.create!(name: params[:name])
+        title_id = params[:title_id]
+        title = project.titles.where(id: title_id).first
+        if title.present?
+          todo = title.todos.build(name: params[:name])
+          todo.project = project
+          todo.save!
+        else
+          project.todos.create!(name: params[:name])
+        end
 
         result = {success: true}
         render result

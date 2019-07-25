@@ -8,7 +8,7 @@ module V2
       get ":id" do
         project = Project.find params[:id]
 
-        render project, include: 'todos'
+        render project, include: 'todos,titles.todos'
       end
 
     end
