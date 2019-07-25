@@ -5,7 +5,8 @@ set :application, "time_tracker"
 set :repo_url, "git@github.com:Jay-G2017/time_tracker.git"
 
 set :rvm_ruby_version, '2.4.1'
-set :rvm_custom_path, '/usr/share/rvm'
+set :rvm_type, :user
+# set :rvm_custom_path, '/usr/share/rvm'
 
 append :linked_files, 'config/database.yml', 'config/secrets.yml'
 append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache'
@@ -13,19 +14,19 @@ append :linked_dirs, 'log', 'tmp/pids', 'tmp/cache'
 namespace :deploy do
   task :start do
     on roles(:app) do
-      execute %{source /etc/profile.d/rvm.sh && cd #{current_path} && if [ ! -f #{fetch(:pid_file)} ]; then UNICORN_WORKER_NUM=#{fetch(:unicorn_worker_num)} RAILS_ENV=#{fetch(:rails_env)} APP_PORT=#{fetch(:listen_port)} SERVER_STAGE=#{fetch(:server_stage)} bundle exec unicorn -c #{fetch(:unicorn_config_file)} -D; fi}
+      execute %{source /home/deploy/.rvm/scripts/rvm && cd #{current_path} && if [ ! -f #{fetch(:pid_file)} ]; then UNICORN_WORKER_NUM=#{fetch(:unicorn_worker_num)} RAILS_ENV=#{fetch(:rails_env)} APP_PORT=#{fetch(:listen_port)} SERVER_STAGE=#{fetch(:server_stage)} bundle exec unicorn -c #{fetch(:unicorn_config_file)} -D; fi}
     end
   end
 
   task :stop do
     on roles(:app) do
-      execute %{source /etc/profile.d/rvm.sh && cd #{current_path} && if [ -f #{fetch(:pid_file)} ] && kill -0 `cat #{fetch(:pid_file)}`> /dev/null 2>&1; then kill -QUIT `cat #{fetch(:pid_file)}`; else rm #{fetch(:pid_file)} || exit 0; fi}
+      execute %{source /home/deploy/.rvm/scripts/rvm && cd #{current_path} && if [ -f #{fetch(:pid_file)} ] && kill -0 `cat #{fetch(:pid_file)}`> /dev/null 2>&1; then kill -QUIT `cat #{fetch(:pid_file)}`; else rm #{fetch(:pid_file)} || exit 0; fi}
     end
   end
 
   task :restart do
     on roles(:app) do
-      execute %{source /etc/profile.d/rvm.sh && cd #{current_path} && if [ -f #{fetch(:pid_file)} ] && kill -0 `cat #{fetch(:pid_file)}`> /dev/null 2>&1; then kill -HUP `cat #{fetch(:pid_file)}`; else rm #{fetch(:pid_file)} || source ~/.nvm/nvm.sh && SKIP_DATA_LOAD=false UNICORN_WORKER_NUM=#{fetch(:unicorn_worker_num)} RAILS_ENV=#{fetch(:env)} APP_PORT=#{fetch(:listen_port)} SERVER_STAGE=#{fetch(:server_stage)} bundle exec unicorn -c #{fetch(:unicorn_config_file)} -D; fi}
+      execute %{source /home/deploy/.rvm/scripts/rvm && cd #{current_path} && if [ -f #{fetch(:pid_file)} ] && kill -0 `cat #{fetch(:pid_file)}`> /dev/null 2>&1; then kill -HUP `cat #{fetch(:pid_file)}`; else rm #{fetch(:pid_file)} || source ~/.nvm/nvm.sh && SKIP_DATA_LOAD=false UNICORN_WORKER_NUM=#{fetch(:unicorn_worker_num)} RAILS_ENV=#{fetch(:env)} APP_PORT=#{fetch(:listen_port)} SERVER_STAGE=#{fetch(:server_stage)} bundle exec unicorn -c #{fetch(:unicorn_config_file)} -D; fi}
     end
   end
 end
