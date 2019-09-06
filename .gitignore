@@ -29,3 +29,6 @@
 /config/database.yml
 db/schema.rb
 
+/config/secrets.yml
+/.generators
+/.idea
